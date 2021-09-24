@@ -1,0 +1,68 @@
+<AuDataTable @content={{@content}} @isLoading={{@isLoading}} @noDataMessage="No data" @class="container-flex--contain" as |table|>
+  <table.content as |c dataTable|>
+    <c.header>
+      <AuDataTableThSortable @field="code" @label="Code" />
+      <AuDataTableThSortable @field="image" @label="Afbeelding" />
+      <AuDataTableThSortable @field="description" @label="Betekenis" />
+      <AuDataTableThSortable @field="category" @label="Category" />
+    </c.header>
+    {{#if c.body}}
+      {{#if dataTable.isLoading}}
+        <tr><td colspan="100%" class="is-loading-data">Loading...</td></tr>
+      {{else}}
+        {{#if @content}}
+          {{#each @content as |row|}}
+            <tr role="button" {{on "click" (fn this.selectRow row.uri)}}>
+              <td>
+                {{row.label}}
+              </td>
+              <td style='display: flex; align-items: center'>
+                {{#each row.images as |image|}}
+                  <img src={{image}} style="height: 40px; margin: 10px"/>
+                {{/each}}
+              </td>
+              <td>
+                {{#each row.definitions as |definition|}}
+                  {{definition}} 
+                {{/each}}
+              </td>
+              <td>
+                {{#each row.clasiffications as |clasiffication|}}
+                  {{clasiffication}} 
+                {{/each}}
+              </td>
+            </tr>
+            {{#if (eq this.selected row.uri)}}
+              <tr display=''>
+                <td colspan="4">
+                  <p>Selecteer mobiliteitsmaatregel</p>
+                  <ul>
+                    <li>
+                      <AuControlRadio @label="De stratnaam in ondergeschikt aan de stratnaam, die een hoofdweg is." @name="ja-nee" @value="1" @identifier="1" />
+                    </li>
+                    <li>
+                      <AuControlRadio @label="De stratnaam in ondergeschikt aan de stratnaam, die een hoofdweg is." @name="ja-nee" @value="2" @identifier="2" />
+                    </li>
+                    <li>
+                      <AuControlRadio @label="Voeg bord in zonder maatregel (stel zelf je maatregel op)" @name="ja-nee" @value="3" @identifier="3" />
+                    </li>
+                  </ul>
+                  <AuButtonGroup>
+                    <AuButton>
+                      Voeg in
+                    </AuButton>
+                    <AuButton @skin="secondary">
+                      Annuleer
+                    </AuButton>
+                  </AuButtonGroup>
+                </td>
+              </tr>
+            {{/if}}
+          {{/each}}
+        {{else}}
+          <tr><td colspan="100%" class="no-data-message"><p>{{noDataMessage}}</p></td></tr>
+        {{/if}}
+      {{/if}}
+    {{/if}}
+  </table.content>
+</AuDataTable>

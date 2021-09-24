@@ -1,0 +1,13 @@
+<div class="modal-dialog__content">
+  <p class="u-spacer--tiny">
+    Execute roadsign-regulation
+    <br>
+    <strong>Do you want to add a traffic sign regulation?</strong>
+  </p>
+</div>
+<div class="modal-dialog__footer">
+  <WuButtonGroup>
+    <WuButton @label="Yes" @size="small" @isNarrow={{true}} @commandLocation="below" @onClick={{this.toggleModal}} />
+  </WuButtonGroup>
+</div>
+<RoadsignsModal @modalOpen={{this.modalOpen}} @closeModal={{this.toggleModal}}/>
