@@ -7,7 +7,9 @@
 </div>
 <div class="modal-dialog__footer">
   <AuButtonGroup>
-    <AuButton @label="Yes" @size="small" @isNarrow={{true}} @commandLocation="below" @onClick={{this.toggleModal}} />
+    <AuButton {{on "click" this.toggleModal}}>
+      Yes
+    </AuButton>
   </AuButtonGroup>
 </div>
 <RoadsignsModal @modalOpen={{this.modalOpen}} @closeModal={{this.toggleModal}}/>
