@@ -5,7 +5,7 @@ import { task } from 'ember-concurrency';
 import fetchRoadsignsData from '../utils/fetchData';
 
 export default class RoadsignRegulationCard extends Component {
-  @tracked typeOptions = [];
+  @tracked typeOptions = ['Road Sign', 'Traffic Ligth', 'Traffic Sign'];
   @tracked typeSelected = '';
 
   @tracked categoryOptions = [];
@@ -19,43 +19,21 @@ export default class RoadsignRegulationCard extends Component {
   }
 
   @action
-  select() {
-    console.log('select');
+  selectType(value) {
+    this.typeSelected = value;
+  }
+
+  @action
+  selectCategory(value) {
+    this.categorySelected = value;
   }
 
   @task
   *fetchData() {
-    this.tableData = yield fetchRoadsignsData();
-    // this.tableData = [
-    //   {
-    //     id: 1,
-    //     code: 'B1',
-    //     image: 'photo',
-    //     description: 'blah blah',
-    //     category: 'abc',
-    //   },
-    //   {
-    //     id: 2,
-    //     code: 'B1 + M1',
-    //     image: 'photo',
-    //     description: 'blah blah',
-    //     category: 'abc',
-    //   },
-    //   {
-    //     id: 3,
-    //     code: 'E9a-rolstoel',
-    //     image: 'photo',
-    //     description: 'blah blah',
-    //     category: 'abc',
-    //   },
-    //   {
-    //     id: 4,
-    //     code: 'E9a',
-    //     image: 'photo',
-    //     description: 'blah blah',
-    //     category: 'abc',
-    //   },
-    // ];
-    // yield;
+    const { signs, classifications } = yield fetchRoadsignsData();
+    console.log(classifications)
+    this.tableData = signs;
+    this.categoryOptions = classifications;
+
   }
 }

@@ -15,7 +15,7 @@
           @searchEnabled={{true}}
           @selected={{this.typeSelected}}
           @allowClear={{true}}
-          @onChange={{this.select}}
+          @onChange={{this.selectType}}
           as |option|>
           {{option.currentVersion.title}}
         </PowerSelect>
@@ -39,9 +39,9 @@
           @searchEnabled={{true}}
           @selected={{this.categorySelected}}
           @allowClear={{true}}
-          @onChange={{this.select}}
+          @onChange={{this.selectCategory}}
           as |option|>
-          {{option.currentVersion.title}}
+          {{option.name}}
         </PowerSelect>
       </div>
     </div>

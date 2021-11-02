@@ -1,32 +1,45 @@
-const query = `
+const signsQuery = `
   PREFIX ex: <http://example.org#>
+  PREFIX lblodMobilitiet: <http://data.lblod.info/vocabularies/mobiliteit/>
+  PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
   PREFIX sh: <http://www.w3.org/ns/shacl#>
   PREFIX oslo: <http://data.vlaanderen.be/ns#>
   PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
   PREFIX org: <http://www.w3.org/ns/org#>
   PREFIX mobiliteit: <https://data.vlaanderen.be/ns/mobiliteit#>
   SELECT * WHERE {
-    ?uri a ex:TrafficMeasureTemplate.
-    ?conceptUri a ex:Concept;
-    ex:label ?label;
-    ex:template ?uri;
-    ex:relation ?relationUri.
-    ?relationUri a ex:MustUseRelation ;
-    ex:signConcept ?signUri.
+    ?uri a ext:Template.
+    ?conceptUri a lblodMobilitiet:TrafficMeasureConcept;
+    skos:prefLabel ?label;
+    ext:template ?uri;
+    ext:relation ?relationUri.
+    ?relationUri a ext:MustUseRelation ;
+    ext:concept ?signUri.
     ?signUri skos:definition ?definition;
       org:classification ?classification;
       mobiliteit:grafischeWeergave ?image.
     ?classification skos:prefLabel ?classificationLabel.
-  }
+  } LIMIT 10
+`;
+
+const classificationsQuery = `
+  PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+  PREFIX mobiliteit: <https://data.vlaanderen.be/ns/mobiliteit#>
+    SELECT * WHERE {
+      ?classificationUri a mobiliteit:Verkeersbordcategorie;
+        skos:prefLabel ?classificationLabel.
+    }
 `;
 
 export default async function fetchData() {
-  const queryResult = await executeQuery(query);
-  const data = parseData(queryResult);
-  return data;
+  const signsQueryResult = await executeQuery(signsQuery);
+  const signs = parseSignsData(signsQueryResult);
+  const classificationsQueryResult = await executeQuery(classificationsQuery);
+  const classifications = parseClassificationsData(classificationsQueryResult);
+  return { signs, classifications };
 }
 
-function parseData(queryResult) {
+function parseSignsData(queryResult) {
   const bindings = queryResult.results.bindings;
   const data = {};
   for (let binding of bindings) {
@@ -64,6 +77,14 @@ function parseData(queryResult) {
     dataArray.push(data[key]);
   }
   return dataArray;
+}
+
+function parseClassificationsData(queryResult) {
+  const bindings = queryResult.results.bindings;
+  return bindings.map((binding) => ({
+    id: binding.classificationUri.value,
+    name: binding.classificationLabel.value,
+  }));
 }
 
 async function executeQuery(query) {
