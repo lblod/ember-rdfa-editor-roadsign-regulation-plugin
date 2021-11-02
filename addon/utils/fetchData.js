@@ -1,26 +1,33 @@
-const signsQuery = `
-  PREFIX ex: <http://example.org#>
-  PREFIX lblodMobilitiet: <http://data.lblod.info/vocabularies/mobiliteit/>
-  PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
-  PREFIX sh: <http://www.w3.org/ns/shacl#>
-  PREFIX oslo: <http://data.vlaanderen.be/ns#>
-  PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-  PREFIX org: <http://www.w3.org/ns/org#>
-  PREFIX mobiliteit: <https://data.vlaanderen.be/ns/mobiliteit#>
-  SELECT * WHERE {
-    ?uri a ext:Template.
-    ?conceptUri a lblodMobilitiet:TrafficMeasureConcept;
-    skos:prefLabel ?label;
-    ext:template ?uri;
-    ext:relation ?relationUri.
-    ?relationUri a ext:MustUseRelation ;
-    ext:concept ?signUri.
-    ?signUri skos:definition ?definition;
-      org:classification ?classification;
-      mobiliteit:grafischeWeergave ?image.
-    ?classification skos:prefLabel ?classificationLabel.
-  } LIMIT 10
+function generateSignsQuery(type, code, betekenis, category) {
+  return `
+    PREFIX ex: <http://example.org#>
+    PREFIX lblodMobilitiet: <http://data.lblod.info/vocabularies/mobiliteit/>
+    PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
+    PREFIX sh: <http://www.w3.org/ns/shacl#>
+    PREFIX oslo: <http://data.vlaanderen.be/ns#>
+    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+    PREFIX org: <http://www.w3.org/ns/org#>
+    PREFIX mobiliteit: <https://data.vlaanderen.be/ns/mobiliteit#>
+    SELECT * WHERE {
+      ?uri a ext:Template.
+      ?conceptUri a lblodMobilitiet:TrafficMeasureConcept;
+      skos:prefLabel ?label;
+      ext:template ?uri;
+      ext:relation ?relationUri.
+      ?relationUri a ext:MustUseRelation ;
+      ext:concept ?signUri.
+      ?signUri a ?signType;
+        skos:definition ?definition;
+        org:classification ?classification;
+        mobiliteit:grafischeWeergave ?image.
+      ?classification skos:prefLabel ?classificationLabel.
+      ${type ? `FILTER(?signType = ${type})` : ''}
+      ${code ? `FILTER( REGEX(?label, ${code}))` : ''}
+      ${betekenis ? `FILTER( REGEX(?label, ${code}))` : ''}
+      ${category ? `FILTER(?classificationLabel = ${category})` : ''}
+    } LIMIT 10
 `;
+}
 
 const classificationsQuery = `
   PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -32,11 +39,18 @@ const classificationsQuery = `
 `;
 
 export default async function fetchData() {
-  const signsQueryResult = await executeQuery(signsQuery);
+  const signsQueryResult = await executeQuery(generateSignsQuery());
   const signs = parseSignsData(signsQueryResult);
   const classificationsQueryResult = await executeQuery(classificationsQuery);
   const classifications = parseClassificationsData(classificationsQueryResult);
   return { signs, classifications };
+}
+
+export async function fetchSigns(type, code, betekenis, category) {
+  const query = generateSignsQuery(type, code, betekenis, category);
+  const queryResult = await executeQuery(query);
+  const signs = parseSignsData(queryResult);
+  return signs;
 }
 
 function parseSignsData(queryResult) {
