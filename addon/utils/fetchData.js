@@ -9,22 +9,23 @@ function generateSignsQuery(type, code, betekenis, category) {
     PREFIX org: <http://www.w3.org/ns/org#>
     PREFIX mobiliteit: <https://data.vlaanderen.be/ns/mobiliteit#>
     SELECT * WHERE {
-      ?uri a ext:Template.
+      ?uri a ext:Template;
+        ext:value ?templateValue.
       ?conceptUri a lblodMobilitiet:TrafficMeasureConcept;
       skos:prefLabel ?label;
       ext:template ?uri;
       ext:relation ?relationUri.
       ?relationUri a ext:MustUseRelation ;
       ext:concept ?signUri.
-      ?signUri a ?signType;
+      ?signUri a ${type ? `<${type}>` : '?signType'};
         skos:definition ?definition;
-        org:classification ?classification;
+        org:classification ${category ? `<${category}>` : '?classification'};
         mobiliteit:grafischeWeergave ?image.
-      ?classification skos:prefLabel ?classificationLabel.
-      ${type ? `FILTER(?signType = ${type})` : ''}
-      ${code ? `FILTER( REGEX(?label, ${code}))` : ''}
-      ${betekenis ? `FILTER( REGEX(?label, ${code}))` : ''}
-      ${category ? `FILTER(?classificationLabel = ${category})` : ''}
+      ${
+        category ? `<${category}>` : '?classification'
+      } skos:prefLabel ?classificationLabel.
+      ${code ? `FILTER( REGEX(?label, "${code}"))` : ''}
+      ${betekenis ? `FILTER( REGEX(?definition, "${betekenis}"))` : ''}
     } LIMIT 10
 `;
 }
@@ -62,6 +63,7 @@ function parseSignsData(queryResult) {
       data[uri] = {
         uri: uri,
         label: binding.label.value,
+        templateValue: binding.templateValue.value,
         signs: [],
         clasiffications: [],
         images: [],
@@ -96,8 +98,8 @@ function parseSignsData(queryResult) {
 function parseClassificationsData(queryResult) {
   const bindings = queryResult.results.bindings;
   return bindings.map((binding) => ({
-    id: binding.classificationUri.value,
-    name: binding.classificationLabel.value,
+    value: binding.classificationUri.value,
+    label: binding.classificationLabel.value,
   }));
 }
 

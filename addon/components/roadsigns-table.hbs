@@ -48,7 +48,7 @@
                     </li>
                   </ul>
                   <AuButtonGroup>
-                    <AuButton>
+                    <AuButton {{on 'click' (fn @insert row.templateValue)}}>
                       Voeg in
                     </AuButton>
                     <AuButton @skin="secondary">

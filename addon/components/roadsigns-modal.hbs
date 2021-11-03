@@ -17,16 +17,16 @@
           @allowClear={{true}}
           @onChange={{this.selectType}}
           as |option|>
-          {{option.currentVersion.title}}
+          {{option.label}}
         </PowerSelect>
       </div>
       <div>
         <AuLabel for="input-block">Filter op code</AuLabel>
-        <AuInput id="input-block" @width="block" @icon="search"/>
+        <AuInput id="input-block" @width="block" @icon="search" {{on 'change' this.changeCode}}/>
       </div>
       <div>
         <AuLabel for="input-block">Filter op betekenis</AuLabel>
-        <AuInput id="input-block" @width="block" @icon="search"/>
+        <AuInput id="input-block" @width="block" @icon="search" {{on 'change' this.changeDescription}}/>
       </div>
       <div>
         <AuLabel>
@@ -41,10 +41,10 @@
           @allowClear={{true}}
           @onChange={{this.selectCategory}}
           as |option|>
-          {{option.name}}
+          {{option.label}}
         </PowerSelect>
       </div>
     </div>
-    <RoadsignsTable @content={{this.tableData}} @isLoading={{his.fetchData.isRunning}} />
+    <RoadsignsTable @content={{this.tableData}} @isLoading={{this.fetchData.isRunning}} @insert={{this.insertHtml}} />
   </Modal.Body>
 </AuModal>
