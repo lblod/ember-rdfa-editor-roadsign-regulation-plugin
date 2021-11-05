@@ -1,9 +1,16 @@
 @import "ember-rdfa-editor";
-@import "appuniversum/s-colors.scss";
+//@import "appuniversum/s-colors.scss";
 @import "appuniversum/s-global";
 @import "appuniversum/s-utilities";
 @import "ember-appuniversum";
 @import "g-reset";
+
+$say-primary-200                 : $au-blue-200;
+$say-primary-300                 : $au-blue-300;
+$say-primary-600                 : $au-blue-600;
+$say-primary-700                 : $au-blue-700;
+$say-primary-800                 : $au-blue-800;
+$say-primary-900                 : $au-blue-900;
 
 .au-c-rdfa-editor {
   width: 50%;
@@ -77,7 +84,7 @@
   position: relative;
   z-index: 1;
   padding: 2rem;
-  box-shadow: 0 1px 3px rgba($say-neutral-900, .1), 0 4px 20px rgba($say-neutral-900, .035), 0 1px 1px rgba($say-neutral-900, .025);
+  box-shadow: 0 1px 3px rgba($say-primary-900, .1), 0 4px 20px rgba($say-primary-900, .035), 0 1px 1px rgba($say-primary-900, .025);
 }
 
 // Fix scroll

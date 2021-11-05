@@ -1,14 +1,12 @@
-import Service from '@ember/service';
-
 /**
  * Entry point for RoadsignRegulation
  *
  * @module editor-roadsign-regulation-plugin
- * @class RdfaEditorRoadsignRegulationPlugin
+ * @class RoadSignRegulationPlugin
  * @constructor
  * @extends EmberService
  */
-export default class RdfaEditorRoadsignRegulationPlugin extends Service {
+export default class RoadSignRegulationPlugin {
   /**
    * Handles the incoming events from the editor dispatcher.  Responsible for generating hint cards.
    *
@@ -24,7 +22,10 @@ export default class RdfaEditorRoadsignRegulationPlugin extends Service {
    * @public
    */
   controller;
-  name = 'standard-template-plugin';
+
+  get name() {
+    return 'roadsign-regulation-plugin';
+  }
 
   initialize(controller) {
     this.controller = controller;
@@ -33,7 +34,7 @@ export default class RdfaEditorRoadsignRegulationPlugin extends Service {
       identifier: 'roadsign-regulation-plugin/card',
       desiredLocation: 'sidebar',
     });
-    controller.on('modelWritten', this.modelWrittenHandler);
+    controller.onEvent('modelWritten', this.modelWrittenHandler);
   }
 
   modelWrittenHandler(event) {
