@@ -105,7 +105,7 @@ function parseClassificationsData(queryResult) {
 
 async function executeQuery(query) {
   const encodedQuery = encodeURIComponent(query.trim());
-  const endpoint = `http://localhost:8002/sparql`;
+  const endpoint = `http://localhost:4502/sparql`;
   const response = await fetch(endpoint, {
     method: 'POST',
     mode: 'cors',

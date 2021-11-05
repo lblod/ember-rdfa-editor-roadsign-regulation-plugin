@@ -1,7 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import fetchRoadsignsData, { fetchSigns } from '../utils/fetchData';
 
 export default class RoadsignRegulationCard extends Component {
@@ -78,6 +78,6 @@ export default class RoadsignRegulationCard extends Component {
 
   @action
   insertHtml(html) {
-    console.log(html);
+    this.args.controller.executeCommand('insert-html', html);
   }
 }
