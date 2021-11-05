@@ -19,10 +19,10 @@ export default class RoadsignRegulationCard extends Component {
       value: 'https://data.vlaanderen.be/ns/mobiliteit#Verkeersbordconcept',
     },
   ];
-  @tracked typeSelected = '';
+  @tracked typeSelected;
 
   @tracked categoryOptions = [];
-  @tracked categorySelected = {};
+  @tracked categorySelected;
 
   @tracked codeFilter = '';
   @tracked descriptionFilter = '';
