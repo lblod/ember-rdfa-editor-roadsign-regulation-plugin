@@ -68,10 +68,10 @@ export default class RoadsignRegulationCard extends Component {
   @task
   *refetchSigns() {
     const signs = yield fetchSigns(
-      this.typeSelected.value,
+      this.typeSelected ? this.typeSelected.value : undefined,
       this.codeFilter,
       this.descriptionFilter,
-      this.categorySelected.value
+      this.categorySelected ? this.categorySelected.value : undefined
     );
     this.tableData = signs;
   }
