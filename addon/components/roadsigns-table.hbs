@@ -16,15 +16,15 @@
               <td>
                 {{row.label}}
               </td>
-              <td style='display: flex; align-items: center'>
-                {{#each row.images as |image|}}
-                  <img src={{image}} style="height: 40px; margin: 10px"/>
-                {{/each}}
+              <td>
+                <div style='display: flex; align-items: center'>
+                  {{#each row.images as |image|}}
+                    <img src={{image}} style="height: 40px; margin: 10px"/>
+                  {{/each}}
+                </div>
               </td>
               <td>
-                {{#each row.definitions as |definition|}}
-                  {{definition}} 
-                {{/each}}
+                {{limit-text row.templateValue}}
               </td>
               <td>
                 {{#each row.clasiffications as |clasiffication|}}
@@ -35,18 +35,7 @@
             {{#if (eq this.selected row.uri)}}
               <tr display=''>
                 <td colspan="4">
-                  <p>Selecteer mobiliteitsmaatregel</p>
-                  <ul>
-                    <li>
-                      <AuControlRadio @label="De stratnaam in ondergeschikt aan de stratnaam, die een hoofdweg is." @name="ja-nee" @value="1" @identifier="1" />
-                    </li>
-                    <li>
-                      <AuControlRadio @label="De stratnaam in ondergeschikt aan de stratnaam, die een hoofdweg is." @name="ja-nee" @value="2" @identifier="2" />
-                    </li>
-                    <li>
-                      <AuControlRadio @label="Voeg bord in zonder maatregel (stel zelf je maatregel op)" @name="ja-nee" @value="3" @identifier="3" />
-                    </li>
-                  </ul>
+                  <p style="margin: 20px">{{row.templateValue}}</p>
                   <AuButtonGroup>
                     <AuButton {{on 'click' (fn @insert row.templateValue)}}>
                       Voeg in
