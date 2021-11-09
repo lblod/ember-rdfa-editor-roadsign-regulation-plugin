@@ -54,6 +54,11 @@
       {{/if}}
     {{/if}}
     <div class="au-c-pagination au-u-margin-top">
+      {{#if @hasPreviousPage}}
+        <div class="au-c-pagination__list-item">
+          <button class="au-c-link" {{on 'click' @goToPreviousPage}}><AuIcon @icon="nav-left" @alignment="left" /> Vorige pagina</button>
+        </div>
+      {{/if}}
       <p>
         <span class="au-u-hidden-visually">Publicaties</span>
         <strong>
@@ -62,18 +67,11 @@
         van
         {{@count}}
       </p>
-      <ul class="au-c-pagination__list">
-        {{#if @hasPreviousPage}}
-        <li class="au-c-pagination__list-item">
-          <button {{on 'click' @goToPreviousPage}}><AuIcon @icon="nav-left" @alignment="left" /> Vorige pagina</button>
-        </li>
-        {{/if}}
-        {{#if @hasNextPage}}
-        <li class="au-c-pagination__list-item">
-          <button {{on 'click' @goToNextPage}}>Volgende pagina <AuIcon @icon="nav-right" @alignment="right" /></button>
-        </li>
-        {{/if}}
-      </ul>
+      {{#if @hasNextPage}}
+        <div class="au-c-pagination__list-item">
+          <button class="au-c-link" {{on 'click' @goToNextPage}}>Volgende pagina <AuIcon @icon="nav-right" @alignment="right" /></button>
+        </div>
+      {{/if}}
     </div>
   </table.content>
 </AuDataTable>
