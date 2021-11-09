@@ -4,6 +4,8 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
 import fetchRoadsignsData, { fetchSigns } from '../utils/fetchData';
 
+const PAGE_SIZE = 10;
+
 export default class RoadsignRegulationCard extends Component {
   @tracked typeOptions = [
     {
@@ -28,6 +30,11 @@ export default class RoadsignRegulationCard extends Component {
   @tracked descriptionFilter = '';
 
   @tracked tableData = [];
+  @tracked count;
+  @tracked pageStart = 0;
+  @tracked pageEnd = 9;
+  @tracked hasNextPage = true;
+  @tracked hasPreviousPage = false;
 
   constructor() {
     super(...arguments);
@@ -60,24 +67,54 @@ export default class RoadsignRegulationCard extends Component {
 
   @task
   *fetchData() {
-    const { signs, classifications } = yield fetchRoadsignsData();
+    const { signs, classifications, count } = yield fetchRoadsignsData();
     this.tableData = signs;
     this.categoryOptions = classifications;
+    this.count = count;
   }
 
   @task
   *refetchSigns() {
-    const signs = yield fetchSigns(
+    const {signs, count} = yield fetchSigns(
       this.typeSelected ? this.typeSelected.value : undefined,
       this.codeFilter,
       this.descriptionFilter,
-      this.categorySelected ? this.categorySelected.value : undefined
+      this.categorySelected ? this.categorySelected.value : undefined,
+      this.pageStart
     );
     this.tableData = signs;
+    this.count = count;
   }
 
   @action
   insertHtml(html) {
     this.args.controller.executeCommand('insert-html', html);
+  }
+
+  @action
+  goToPreviousPage() {
+    this.pageStart = this.pageStart - PAGE_SIZE;
+    this.pageEnd = this.pageStart + (PAGE_SIZE - 1);
+    if (this.pageStart === 0) {
+      this.hasPreviousPage = false;
+    } else {
+      this.hasPreviousPage = true;
+    }
+    this.hasNextPage = true;
+    this.refetchSigns.perform();
+  }
+
+  @action
+  goToNextPage() {
+    this.pageStart = this.pageStart + PAGE_SIZE;
+    if (this.pageStart + (PAGE_SIZE - 1) >= this.count) {
+      this.hasNextPage = false;
+      this.pageEnd = this.count;
+    } else {
+      this.pageEnd = this.pageStart + (PAGE_SIZE - 1);
+      this.hasNextPage = true;
+    }
+    this.hasPreviousPage = true;
+    this.refetchSigns.perform();
   }
 }
