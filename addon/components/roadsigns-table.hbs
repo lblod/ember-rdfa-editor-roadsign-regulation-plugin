@@ -1,4 +1,4 @@
-<AuDataTable @content={{@content}} @isLoading={{@isLoading}} @noDataMessage="No data" @class="container-flex--contain" as |table|>
+<AuDataTable @isLoading={{@isLoading}} @noDataMessage="No data" @class="container-flex--contain" as |table|>
   <table.content as |c dataTable|>
     <c.header>
       <AuDataTableThSortable @field="code" @label="Code" />
@@ -7,7 +7,7 @@
       <AuDataTableThSortable @field="category" @label="Category" />
     </c.header>
     {{#if c.body}}
-      {{#if dataTable.isLoading}}
+      {{#if @isLoading}}
         <tr><td colspan="100%" class="is-loading-data">Loading...</td></tr>
       {{else}}
         {{#if @content}}
@@ -53,5 +53,25 @@
         {{/if}}
       {{/if}}
     {{/if}}
+    <div class="au-c-pagination au-u-margin-top">
+      {{#if @hasPreviousPage}}
+        <div class="au-c-pagination__list-item">
+          <button class="au-c-link" {{on 'click' @goToPreviousPage}}><AuIcon @icon="nav-left" @alignment="left" /> Vorige pagina</button>
+        </div>
+      {{/if}}
+      <p>
+        <span class="au-u-hidden-visually">Publicaties</span>
+        <strong>
+          {{@pageStart}} - {{@pageEnd}}
+        </strong>
+        van
+        {{@count}}
+      </p>
+      {{#if @hasNextPage}}
+        <div class="au-c-pagination__list-item">
+          <button class="au-c-link" {{on 'click' @goToNextPage}}>Volgende pagina <AuIcon @icon="nav-right" @alignment="right" /></button>
+        </div>
+      {{/if}}
+    </div>
   </table.content>
 </AuDataTable>
