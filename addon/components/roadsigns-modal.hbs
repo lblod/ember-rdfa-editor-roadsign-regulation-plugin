@@ -45,6 +45,6 @@
         </PowerSelect>
       </div>
     </div>
-    <RoadsignsTable @content={{this.tableData}} @isLoading={{this.fetchData.isRunning}} @insert={{this.insertHtml}} />
+    <RoadsignsTable @content={{this.tableData}} @isLoading={{or this.fetchData.isRunning this.refetchSigns.isRunning}} @insert={{this.insertHtml}} />
   </Modal.Body>
 </AuModal>

@@ -7,7 +7,7 @@
       <AuDataTableThSortable @field="category" @label="Category" />
     </c.header>
     {{#if c.body}}
-      {{#if dataTable.isLoading}}
+      {{#if @isLoading}}
         <tr><td colspan="100%" class="is-loading-data">Loading...</td></tr>
       {{else}}
         {{#if @content}}
