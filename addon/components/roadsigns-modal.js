@@ -45,31 +45,21 @@ export default class RoadsignRegulationCard extends Component {
   @action
   selectType(value) {
     this.typeSelected = value;
-    this.refetchSigns.perform();
   }
 
   @action
   changeCode(e) {
     this.codeFilter = e.target.value;
-    this.debounceSearch.perform();
   }
 
   @action
   changeDescription(e) {
     this.descriptionFilter = e.target.value;
-    this.debounceSearch.perform();
   }
 
   @action
   selectCategory(value) {
     this.categorySelected = value;
-    this.refetchSigns.perform();
-  }
-
-  @restartableTask
-  *debounceSearch() {
-    yield timeout(500);
-    yield this.refetchSigns.perform();
   }
 
   @task
