@@ -3,6 +3,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
 import fetchRoadsignsData, { fetchSigns } from '../utils/fetchData';
+import { v4 as uuid } from 'uuid';
 
 export default class RoadsignRegulationCard extends Component {
   @tracked typeOptions = [
@@ -78,6 +79,21 @@ export default class RoadsignRegulationCard extends Component {
 
   @action
   insertHtml(html) {
-    this.args.controller.executeCommand('insert-html', html);
+    const wrappedHtml = `
+      <div property="eli:has_part" typeof="besluit:Artikel" resource="http://data.lblod.info/artikels/${uuid()}">
+        <div property="eli:number" datatype="xsd:string">Artikel <span class="mark-highlight-manual">nummer</span></div>
+        <span style="display:none;" property="eli:language" resource="http://publications.europa.eu/resource/authority/language/NLD" typeof="skos:Concept">&nbsp;</span>
+        <div property="prov:value" datatype="xsd:string">
+          <span class="mark-highlight-manual">Voer inhoud in</span>
+        </div>
+        <div property="mobiliteit:heeftVerkeersmaatregel" typeof="mobiliteit:Mobiliteitsmaatregel" resource="http://data.lblod.info/mobiliteitsmaatregel/${uuid()}">
+          <div property="dct:description">
+            ${html}
+          </div>
+        </div>
+      </div>
+    `;
+    this.args.controller.executeCommand('insert-html', wrappedHtml);
+    this.args.closeModal();
   }
 }
