@@ -2,7 +2,6 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { task, restartableTask } from 'ember-concurrency-decorators';
-import { timeout } from 'ember-concurrency';
 import fetchRoadsignsData, { fetchSigns } from '../utils/fetchData';
 
 const PAGE_SIZE = 10;

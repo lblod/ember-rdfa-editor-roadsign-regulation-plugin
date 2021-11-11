@@ -1,10 +1,10 @@
 <AuDataTable @isLoading={{@isLoading}} @noDataMessage="No data" @class="container-flex--contain" as |table|>
   <table.content as |c dataTable|>
     <c.header>
-      <AuDataTableThSortable @field="code" @label="Code" />
-      <AuDataTableThSortable @field="image" @label="Afbeelding" />
-      <AuDataTableThSortable @field="description" @label="Betekenis" />
-      <AuDataTableThSortable @field="category" @label="Category" />
+      <th class="u-c-data-table__header-title">Code</th>
+      <th class="u-c-data-table__header-title">Afbeelding</th>
+      <th class="u-c-data-table__header-title">Template</th>
+      <th class="u-c-data-table__header-title">Category</th>
     </c.header>
     {{#if c.body}}
       {{#if @isLoading}}
