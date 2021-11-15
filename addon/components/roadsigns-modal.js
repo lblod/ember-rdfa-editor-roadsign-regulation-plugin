@@ -32,7 +32,7 @@ export default class RoadsignRegulationCard extends Component {
   @tracked tableData = [];
   @tracked count;
   @tracked pageStart = 0;
-  @tracked pageEnd = 9;
+  @tracked pageEnd = PAGE_SIZE - 1;
   @tracked hasNextPage = true;
   @tracked hasPreviousPage = false;
 
@@ -67,6 +67,10 @@ export default class RoadsignRegulationCard extends Component {
     this.tableData = signs;
     this.categoryOptions = classifications;
     this.count = count;
+    if (count < this.pageEnd) {
+      this.pageEnd = count;
+      this.hasNextPage = false;
+    }
   }
 
   @restartableTask
@@ -80,6 +84,10 @@ export default class RoadsignRegulationCard extends Component {
     );
     this.tableData = signs;
     this.count = count;
+    if (count < this.pageEnd) {
+      this.pageEnd = count;
+      this.hasNextPage = false;
+    }
   }
 
   @action
@@ -111,6 +119,14 @@ export default class RoadsignRegulationCard extends Component {
       this.hasNextPage = true;
     }
     this.hasPreviousPage = true;
+    this.refetchSigns.perform();
+  }
+  @action
+  search() {
+    this.pageStart = 0;
+    this.pageEnd = PAGE_SIZE - 1;
+    this.hasNextPage = true;
+    this.hasPreviousPage = false;
     this.refetchSigns.perform();
   }
 }
