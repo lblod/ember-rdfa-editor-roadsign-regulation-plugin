@@ -36,7 +36,7 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
   `;
   const countQuery = `
     ${prefixes}
-    SELECT COUNT(?uri) as ?count WHERE {
+    SELECT (COUNT(?uri) as ?count) WHERE {
       ${insideQuery}
     }
   `;
