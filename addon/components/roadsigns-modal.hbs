@@ -1,6 +1,6 @@
-<AuModal 
-@modalTitle="Modal title" 
-@modalOpen={{@modalOpen}} 
+<AuModal
+@modalTitle="Mobiliteitsmaatregel toevoegen"
+@modalOpen={{@modalOpen}}
 @closeModal={{@closeModal}} as |Modal| >
   <Modal.Body>
     <div style='display: flex; width: 100%; justify-content: space-between; margin-bottom: 10px; align-items: flex-end'>
@@ -46,10 +46,10 @@
         </AuButton>
       </div>
     </div>
-    <RoadsignsTable 
-      @content={{this.tableData}} 
-      @isLoading={{or this.fetchData.isRunning this.refetchSigns.isRunning}} 
-      @insert={{this.insertHtml}} 
+    <RoadsignsTable
+      @content={{this.tableData}}
+      @isLoading={{or this.fetchData.isRunning this.refetchSigns.isRunning}}
+      @insert={{this.insertHtml}}
       @count={{this.count}}
       @pageStart={{this.pageStart}}
       @pageEnd={{this.pageEnd}}
