@@ -1,7 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency-decorators';
+import { task, restartableTask } from 'ember-concurrency-decorators';
 import fetchRoadsignsData, { fetchSigns } from '../utils/fetchData';
 
 const PAGE_SIZE = 10;
@@ -44,25 +44,21 @@ export default class RoadsignRegulationCard extends Component {
   @action
   selectType(value) {
     this.typeSelected = value;
-    this.refetchSigns.perform();
   }
 
   @action
   changeCode(e) {
     this.codeFilter = e.target.value;
-    this.refetchSigns.perform();
   }
 
   @action
   changeDescription(e) {
     this.descriptionFilter = e.target.value;
-    this.refetchSigns.perform();
   }
 
   @action
   selectCategory(value) {
     this.categorySelected = value;
-    this.refetchSigns.perform();
   }
 
   @task
@@ -73,9 +69,9 @@ export default class RoadsignRegulationCard extends Component {
     this.count = count;
   }
 
-  @task
+  @restartableTask
   *refetchSigns() {
-    const {signs, count} = yield fetchSigns(
+    const { signs, count } = yield fetchSigns(
       this.typeSelected ? this.typeSelected.value : undefined,
       this.codeFilter,
       this.descriptionFilter,

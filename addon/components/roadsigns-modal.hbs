@@ -3,7 +3,7 @@
 @modalOpen={{@modalOpen}} 
 @closeModal={{@closeModal}} as |Modal| >
   <Modal.Body>
-    <div style='display: flex; width: 100%; justify-content: space-between; margin-bottom: 10px'>
+    <div style='display: flex; width: 100%; justify-content: space-between; margin-bottom: 10px; align-items: flex-end'>
       <div>
         <AuLabel>
           Filter op type
@@ -22,11 +22,7 @@
       </div>
       <div>
         <AuLabel for="input-block">Filter op code</AuLabel>
-        <AuInput id="input-block" @width="block" @icon="search" {{on 'change' this.changeCode}}/>
-      </div>
-      <div>
-        <AuLabel for="input-block">Filter op betekenis</AuLabel>
-        <AuInput id="input-block" @width="block" @icon="search" {{on 'change' this.changeDescription}}/>
+        <AuInput id="input-block" @width="block" @icon="search" {{on 'keydown' this.changeCode}}/>
       </div>
       <div>
         <AuLabel>
@@ -43,6 +39,11 @@
           as |option|>
           {{option.label}}
         </PowerSelect>
+      </div>
+      <div>
+        <AuButton {{on 'click' (perform this.refetchSigns)}}>
+          Search
+        </AuButton>
       </div>
     </div>
     <RoadsignsTable 
