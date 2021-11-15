@@ -52,14 +52,14 @@ const classificationsQuery = `
     }
 `;
 
-export default async function fetchData() {
-  const { signs, count } = await fetchSigns();
-  const classificationsQueryResult = await executeQuery(classificationsQuery);
+export default async function fetchData(endpoint) {
+  const { signs, count } = await fetchSigns(endpoint);
+  const classificationsQueryResult = await executeQuery(endpoint, classificationsQuery);
   const classifications = parseClassificationsData(classificationsQueryResult);
   return { signs, classifications, count };
 }
 
-export async function fetchSigns(type, code, betekenis, category, pageStart) {
+export async function fetchSigns(endpoint, type, code, betekenis, category, pageStart) {
   const { selectQuery, countQuery } = generateSignsQuery(
     type,
     code,
@@ -67,9 +67,9 @@ export async function fetchSigns(type, code, betekenis, category, pageStart) {
     category,
     pageStart
   );
-  const queryResult = await executeQuery(selectQuery);
+  const queryResult = await executeQuery(endpoint, selectQuery);
   const signs = parseSignsData(queryResult);
-  const countResult = await executeQuery(countQuery);
+  const countResult = await executeQuery(endpoint, countQuery);
   const count = Number(countResult.results.bindings[0].count.value);
   return { signs, count };
 }
@@ -123,9 +123,8 @@ function parseClassificationsData(queryResult) {
   }));
 }
 
-async function executeQuery(query) {
+async  function executeQuery(endpoint, query) {
   const encodedQuery = encodeURIComponent(query.trim());
-  const endpoint = `http://localhost:4502/sparql`;
   const response = await fetch(endpoint, {
     method: 'POST',
     mode: 'cors',
