@@ -1,12 +1,15 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency-decorators';
+import { task, restartableTask } from 'ember-concurrency-decorators';
 import fetchRoadsignsData, { fetchSigns } from '../utils/fetchData';
+import { getOwner } from '@ember/application';
 
 const PAGE_SIZE = 10;
 
 export default class RoadsignRegulationCard extends Component {
+  endpoint;
+
   @tracked typeOptions = [
     {
       label: 'Road Sign',
@@ -32,50 +35,55 @@ export default class RoadsignRegulationCard extends Component {
   @tracked tableData = [];
   @tracked count;
   @tracked pageStart = 0;
-  @tracked pageEnd = 9;
+  @tracked pageEnd = PAGE_SIZE - 1;
   @tracked hasNextPage = true;
   @tracked hasPreviousPage = false;
 
   constructor() {
     super(...arguments);
+    const config = getOwner(this).resolveRegistration('config:environment');
+    this.endpoint = config.roadsignRegulationPlugin.endpoint;
     this.fetchData.perform();
   }
 
   @action
   selectType(value) {
     this.typeSelected = value;
-    this.refetchSigns.perform();
   }
 
   @action
   changeCode(e) {
     this.codeFilter = e.target.value;
-    this.refetchSigns.perform();
   }
 
   @action
   changeDescription(e) {
     this.descriptionFilter = e.target.value;
-    this.refetchSigns.perform();
   }
 
   @action
   selectCategory(value) {
     this.categorySelected = value;
-    this.refetchSigns.perform();
   }
 
   @task
   *fetchData() {
-    const { signs, classifications, count } = yield fetchRoadsignsData();
+    const { signs, classifications, count } = yield fetchRoadsignsData(
+      this.endpoint
+    );
     this.tableData = signs;
     this.categoryOptions = classifications;
     this.count = count;
+    if (count < this.pageEnd) {
+      this.pageEnd = count;
+      this.hasNextPage = false;
+    }
   }
 
-  @task
+  @restartableTask
   *refetchSigns() {
-    const {signs, count} = yield fetchSigns(
+    const { signs, count } = yield fetchSigns(
+      this.endpoint,
       this.typeSelected ? this.typeSelected.value : undefined,
       this.codeFilter,
       this.descriptionFilter,
@@ -84,6 +92,10 @@ export default class RoadsignRegulationCard extends Component {
     );
     this.tableData = signs;
     this.count = count;
+    if (count < this.pageEnd) {
+      this.pageEnd = count;
+      this.hasNextPage = false;
+    }
   }
 
   @action
@@ -115,6 +127,14 @@ export default class RoadsignRegulationCard extends Component {
       this.hasNextPage = true;
     }
     this.hasPreviousPage = true;
+    this.refetchSigns.perform();
+  }
+  @action
+  search() {
+    this.pageStart = 0;
+    this.pageEnd = PAGE_SIZE - 1;
+    this.hasNextPage = true;
+    this.hasPreviousPage = false;
     this.refetchSigns.perform();
   }
 }
