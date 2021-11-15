@@ -1,5 +1,5 @@
-function generateSignsQuery(type, code, betekenis, category) {
-  return `
+function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
+  const prefixes = `
     PREFIX ex: <http://example.org#>
     PREFIX lblodMobilitiet: <http://data.lblod.info/vocabularies/mobiliteit/>
     PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
@@ -8,26 +8,39 @@ function generateSignsQuery(type, code, betekenis, category) {
     PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
     PREFIX org: <http://www.w3.org/ns/org#>
     PREFIX mobiliteit: <https://data.vlaanderen.be/ns/mobiliteit#>
+  `;
+  const insideQuery = `
+    ?uri a ext:Template;
+    ext:value ?templateValue.
+    ?conceptUri a lblodMobilitiet:TrafficMeasureConcept;
+    skos:prefLabel ?label;
+    ext:template ?uri;
+    ext:relation ?relationUri.
+    ?relationUri a ext:MustUseRelation ;
+    ext:concept ?signUri.
+    ?signUri a ${type ? `<${type}>` : '?signType'};
+      skos:definition ?definition;
+      org:classification ${category ? `<${category}>` : '?classification'};
+      mobiliteit:grafischeWeergave ?image.
+    ${
+      category ? `<${category}>` : '?classification'
+    } skos:prefLabel ?classificationLabel.
+    ${code ? `FILTER( REGEX(?label, "${code}"))` : ''}
+    ${betekenis ? `FILTER( REGEX(?definition, "${betekenis}"))` : ''}
+  `;
+  const selectQuery = `
+    ${prefixes}
     SELECT * WHERE {
-      ?uri a ext:Template;
-        ext:value ?templateValue.
-      ?conceptUri a lblodMobilitiet:TrafficMeasureConcept;
-      skos:prefLabel ?label;
-      ext:template ?uri;
-      ext:relation ?relationUri.
-      ?relationUri a ext:MustUseRelation ;
-      ext:concept ?signUri.
-      ?signUri a ${type ? `<${type}>` : '?signType'};
-        skos:definition ?definition;
-        org:classification ${category ? `<${category}>` : '?classification'};
-        mobiliteit:grafischeWeergave ?image.
-      ${
-        category ? `<${category}>` : '?classification'
-      } skos:prefLabel ?classificationLabel.
-      ${code ? `FILTER( REGEX(?label, "${code}"))` : ''}
-      ${betekenis ? `FILTER( REGEX(?definition, "${betekenis}"))` : ''}
-    } LIMIT 10
-`;
+      ${insideQuery}
+    } LIMIT 10 OFFSET ${pageStart}
+  `;
+  const countQuery = `
+    ${prefixes}
+    SELECT (COUNT(?uri) as ?count) WHERE {
+      ${insideQuery}
+    }
+  `;
+  return { selectQuery, countQuery };
 }
 
 const classificationsQuery = `
@@ -39,19 +52,36 @@ const classificationsQuery = `
     }
 `;
 
-export default async function fetchData() {
-  const signsQueryResult = await executeQuery(generateSignsQuery());
-  const signs = parseSignsData(signsQueryResult);
-  const classificationsQueryResult = await executeQuery(classificationsQuery);
+export default async function fetchData(endpoint) {
+  const { signs, count } = await fetchSigns(endpoint);
+  const classificationsQueryResult = await executeQuery(
+    endpoint,
+    classificationsQuery
+  );
   const classifications = parseClassificationsData(classificationsQueryResult);
-  return { signs, classifications };
+  return { signs, classifications, count };
 }
 
-export async function fetchSigns(type, code, betekenis, category) {
-  const query = generateSignsQuery(type, code, betekenis, category);
-  const queryResult = await executeQuery(query);
+export async function fetchSigns(
+  endpoint,
+  type,
+  code,
+  betekenis,
+  category,
+  pageStart
+) {
+  const { selectQuery, countQuery } = generateSignsQuery(
+    type,
+    code,
+    betekenis,
+    category,
+    pageStart
+  );
+  const queryResult = await executeQuery(endpoint, selectQuery);
   const signs = parseSignsData(queryResult);
-  return signs;
+  const countResult = await executeQuery(endpoint, countQuery);
+  const count = Number(countResult.results.bindings[0].count.value);
+  return { signs, count };
 }
 
 function parseSignsData(queryResult) {
@@ -103,9 +133,8 @@ function parseClassificationsData(queryResult) {
   }));
 }
 
-async function executeQuery(query) {
+async function executeQuery(endpoint, query) {
   const encodedQuery = encodeURIComponent(query.trim());
-  const endpoint = `http://localhost:4502/sparql`;
   const response = await fetch(endpoint, {
     method: 'POST',
     mode: 'cors',
@@ -115,12 +144,11 @@ async function executeQuery(query) {
     },
     body: `query=${encodedQuery}`,
   });
-  console.log(response);
   if (response.ok) {
     return response.json();
   } else {
     throw new Error(
-      `Request to Vlaamse Codex was unsuccessful: [${response.status}] ${response.statusText}`
+      `Request to MOW backend was unsuccessful: [${response.status}] ${response.statusText}`
     );
   }
 }

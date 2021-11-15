@@ -1,9 +1,9 @@
-<AuModal 
-@modalTitle="Modal title" 
-@modalOpen={{@modalOpen}} 
+<AuModal
+@modalTitle="Mobiliteitsmaatregel toevoegen"
+@modalOpen={{@modalOpen}}
 @closeModal={{@closeModal}} as |Modal| >
   <Modal.Body>
-    <div style='display: flex; width: 100%; justify-content: space-between; margin-bottom: 10px'>
+    <div style='display: flex; width: 100%; justify-content: space-between; margin-bottom: 10px; align-items: flex-end'>
       <div>
         <AuLabel>
           Filter op type
@@ -22,11 +22,7 @@
       </div>
       <div>
         <AuLabel for="input-block">Filter op code</AuLabel>
-        <AuInput id="input-block" @width="block" @icon="search" {{on 'change' this.changeCode}}/>
-      </div>
-      <div>
-        <AuLabel for="input-block">Filter op betekenis</AuLabel>
-        <AuInput id="input-block" @width="block" @icon="search" {{on 'change' this.changeDescription}}/>
+        <AuInput id="input-block" @width="block" @icon="search" {{on 'keydown' this.changeCode}}/>
       </div>
       <div>
         <AuLabel>
@@ -44,7 +40,23 @@
           {{option.label}}
         </PowerSelect>
       </div>
+      <div>
+        <AuButton {{on 'click' this.search}}>
+          Search
+        </AuButton>
+      </div>
     </div>
-    <RoadsignsTable @content={{this.tableData}} @isLoading={{this.fetchData.isRunning}} @insert={{this.insertHtml}} />
+    <RoadsignsTable
+      @content={{this.tableData}}
+      @isLoading={{or this.fetchData.isRunning this.refetchSigns.isRunning}}
+      @insert={{this.insertHtml}}
+      @count={{this.count}}
+      @pageStart={{this.pageStart}}
+      @pageEnd={{this.pageEnd}}
+      @hasPreviousPage={{this.hasPreviousPage}}
+      @hasNextPage={{this.hasNextPage}}
+      @goToPreviousPage={{this.goToPreviousPage}}
+      @goToNextPage={{this.goToNextPage}}
+    />
   </Modal.Body>
 </AuModal>
