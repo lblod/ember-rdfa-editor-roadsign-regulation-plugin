@@ -1,7 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency-decorators';
+import { task, restartableTask } from 'ember-concurrency-decorators';
 import fetchRoadsignsData, { fetchSigns } from '../utils/fetchData';
 import { getOwner } from '@ember/application';
 
@@ -35,7 +35,7 @@ export default class RoadsignRegulationCard extends Component {
   @tracked tableData = [];
   @tracked count;
   @tracked pageStart = 0;
-  @tracked pageEnd = 9;
+  @tracked pageEnd = PAGE_SIZE - 1;
   @tracked hasNextPage = true;
   @tracked hasPreviousPage = false;
 
@@ -49,25 +49,21 @@ export default class RoadsignRegulationCard extends Component {
   @action
   selectType(value) {
     this.typeSelected = value;
-    this.refetchSigns.perform();
   }
 
   @action
   changeCode(e) {
     this.codeFilter = e.target.value;
-    this.refetchSigns.perform();
   }
 
   @action
   changeDescription(e) {
     this.descriptionFilter = e.target.value;
-    this.refetchSigns.perform();
   }
 
   @action
   selectCategory(value) {
     this.categorySelected = value;
-    this.refetchSigns.perform();
   }
 
   @task
@@ -76,11 +72,15 @@ export default class RoadsignRegulationCard extends Component {
     this.tableData = signs;
     this.categoryOptions = classifications;
     this.count = count;
+    if (count < this.pageEnd) {
+      this.pageEnd = count;
+      this.hasNextPage = false;
+    }
   }
 
-  @task
+  @restartableTask
   *refetchSigns() {
-    const {signs, count} = yield fetchSigns(
+    const { signs, count } = yield fetchSigns(
       this.endpoint,
       this.typeSelected ? this.typeSelected.value : undefined,
       this.codeFilter,
@@ -90,6 +90,10 @@ export default class RoadsignRegulationCard extends Component {
     );
     this.tableData = signs;
     this.count = count;
+    if (count < this.pageEnd) {
+      this.pageEnd = count;
+      this.hasNextPage = false;
+    }
   }
 
   @action
@@ -121,6 +125,14 @@ export default class RoadsignRegulationCard extends Component {
       this.hasNextPage = true;
     }
     this.hasPreviousPage = true;
+    this.refetchSigns.perform();
+  }
+  @action
+  search() {
+    this.pageStart = 0;
+    this.pageEnd = PAGE_SIZE - 1;
+    this.hasNextPage = true;
+    this.hasPreviousPage = false;
     this.refetchSigns.perform();
   }
 }

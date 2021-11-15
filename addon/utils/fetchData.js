@@ -134,12 +134,11 @@ async  function executeQuery(endpoint, query) {
     },
     body: `query=${encodedQuery}`,
   });
-  console.log(response);
   if (response.ok) {
     return response.json();
   } else {
     throw new Error(
-      `Request to Vlaamse Codex was unsuccessful: [${response.status}] ${response.statusText}`
+      `Request to MOW backend was unsuccessful: [${response.status}] ${response.statusText}`
     );
   }
 }
