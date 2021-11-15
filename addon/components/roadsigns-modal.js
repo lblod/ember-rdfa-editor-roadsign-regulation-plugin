@@ -3,10 +3,13 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
 import fetchRoadsignsData, { fetchSigns } from '../utils/fetchData';
+import { getOwner } from '@ember/application';
 
 const PAGE_SIZE = 10;
 
 export default class RoadsignRegulationCard extends Component {
+  endpoint;
+
   @tracked typeOptions = [
     {
       label: 'Road Sign',
@@ -38,6 +41,8 @@ export default class RoadsignRegulationCard extends Component {
 
   constructor() {
     super(...arguments);
+    const config = getOwner(this).resolveRegistration('config:environment');
+    this.endpoint = config.roadsignRegulationPlugin.endpoint;
     this.fetchData.perform();
   }
 
@@ -67,7 +72,7 @@ export default class RoadsignRegulationCard extends Component {
 
   @task
   *fetchData() {
-    const { signs, classifications, count } = yield fetchRoadsignsData();
+    const { signs, classifications, count } = yield fetchRoadsignsData(this.endpoint);
     this.tableData = signs;
     this.categoryOptions = classifications;
     this.count = count;
@@ -76,6 +81,7 @@ export default class RoadsignRegulationCard extends Component {
   @task
   *refetchSigns() {
     const {signs, count} = yield fetchSigns(
+      this.endpoint,
       this.typeSelected ? this.typeSelected.value : undefined,
       this.codeFilter,
       this.descriptionFilter,

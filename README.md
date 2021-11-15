@@ -18,6 +18,8 @@ A plugin that fetches data from the mow regulation and roadsign registry.
 
 ```
 
+The default endpoint the plugin will query is https://roadsigns.lblod.info/sparql . This can be overwritten by setting
+`roadsignRegulationPlugin.endpoint` in your `config/environment.js`.
 
 Compatibility
 ------------------------------------------------------------------------------
