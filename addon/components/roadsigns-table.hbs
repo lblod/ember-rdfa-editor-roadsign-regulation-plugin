@@ -1,5 +1,5 @@
 <AuDataTable @isLoading={{@isLoading}} @noDataMessage="No data" @class="container-flex--contain" as |table|>
-  <table.content as |c dataTable|>
+  <table.content as |c|>
     <c.header>
       <th class="u-c-data-table__header-title">Code</th>
       <th class="u-c-data-table__header-title">Afbeelding</th>
@@ -10,8 +10,7 @@
       {{#if @isLoading}}
         <tr><td colspan="100%" class="is-loading-data">Loading...</td></tr>
       {{else}}
-        {{#if @content}}
-          {{#each @content as |row|}}
+        {{#each @content as |row|}}
             <tr role="button" {{on "click" (fn this.selectRow row.uri)}}>
               <td>
                 {{row.label}}
@@ -19,7 +18,7 @@
               <td>
                 <div style='display: flex; align-items: center'>
                   {{#each row.images as |image|}}
-                    <img src={{image}} style="height: 40px; margin: 10px"/>
+                    <img src={{image}} alt="verkeersteken {{row.label}}" style="height: 40px; margin: 10px" />
                   {{/each}}
                 </div>
               </td>
@@ -28,11 +27,11 @@
               </td>
               <td>
                 {{#each row.clasiffications as |clasiffication|}}
-                  {{clasiffication}} 
+                  {{clasiffication}}
                 {{/each}}
               </td>
             </tr>
-            {{#if (eq this.selected row.uri)}}
+          {{#if (eq this.selected row.uri)}}
               <tr display=''>
                 <td colspan="4">
                   <p style="margin: 20px">{{row.templateValue}}</p>
@@ -46,11 +45,12 @@
                   </AuButtonGroup>
                 </td>
               </tr>
-            {{/if}}
-          {{/each}}
+          {{/if}}
         {{else}}
-          <tr><td colspan="100%" class="no-data-message"><p>{{noDataMessage}}</p></td></tr>
-        {{/if}}
+            <tr>
+              <td colspan="100%" class="no-data-message"><p>Er werden geen verkeerstekens gevonden.</p></td>
+            </tr>
+        {{/each}}
       {{/if}}
     {{/if}}
     <RoadsignsPagination

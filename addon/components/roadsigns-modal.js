@@ -68,7 +68,9 @@ export default class RoadsignRegulationCard extends Component {
 
   @task
   *fetchData() {
-    const { signs, classifications, count } = yield fetchRoadsignsData(this.endpoint);
+    const { signs, classifications, count } = yield fetchRoadsignsData(
+      this.endpoint
+    );
     this.tableData = signs;
     this.categoryOptions = classifications;
     this.count = count;

@@ -3,7 +3,7 @@
 module.exports = function (/* environment, appConfig */) {
   return {
     roadsignRegulationPlugin: {
-      endpoint: 'https://roadsigns.lblod.info/sparql'
-    }
+      endpoint: 'https://roadsigns.lblod.info/sparql',
+    },
   };
 };

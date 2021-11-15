@@ -54,12 +54,22 @@ const classificationsQuery = `
 
 export default async function fetchData(endpoint) {
   const { signs, count } = await fetchSigns(endpoint);
-  const classificationsQueryResult = await executeQuery(endpoint, classificationsQuery);
+  const classificationsQueryResult = await executeQuery(
+    endpoint,
+    classificationsQuery
+  );
   const classifications = parseClassificationsData(classificationsQueryResult);
   return { signs, classifications, count };
 }
 
-export async function fetchSigns(endpoint, type, code, betekenis, category, pageStart) {
+export async function fetchSigns(
+  endpoint,
+  type,
+  code,
+  betekenis,
+  category,
+  pageStart
+) {
   const { selectQuery, countQuery } = generateSignsQuery(
     type,
     code,
@@ -123,7 +133,7 @@ function parseClassificationsData(queryResult) {
   }));
 }
 
-async  function executeQuery(endpoint, query) {
+async function executeQuery(endpoint, query) {
   const encodedQuery = encodeURIComponent(query.trim());
   const response = await fetch(endpoint, {
     method: 'POST',
