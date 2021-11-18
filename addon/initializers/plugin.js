@@ -16,7 +16,6 @@ export function initialize(application) {
     pluginFactory(RoadSignRegulationPlugin),
     { singleton: false }
   );
-
 }
 
 export default {
