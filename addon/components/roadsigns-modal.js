@@ -2,9 +2,14 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { task, restartableTask } from 'ember-concurrency-decorators';
-import fetchRoadsignsData, { fetchSigns } from '../utils/fetchData';
 import { getOwner } from '@ember/application';
 import { v4 as uuid } from 'uuid';
+
+import fetchRoadsignsData, {
+  fetchSigns,
+  fetchMappings,
+} from '../utils/fetchData';
+import includeMappings from '../utils/includeMappings';
 
 const PAGE_SIZE = 10;
 
