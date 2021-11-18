@@ -73,6 +73,7 @@ export default class RoadsignRegulationCard extends Component {
       this.endpoint
     );
     this.tableData = signs;
+    console.log(signs)
     this.categoryOptions = classifications;
     this.count = count;
     if (count < this.pageEnd) {
@@ -99,8 +100,10 @@ export default class RoadsignRegulationCard extends Component {
     }
   }
 
-  @action
-  insertHtml(html) {
+  @task
+  *insertHtml(row) {
+    const mappings = yield fetchMappings(row.uri);
+    const html = includeMappings(row.templateValue, mappings);
     const wrappedHtml = `
       <div property="eli:has_part" typeof="besluit:Artikel" resource="http://data.lblod.info/artikels/${uuid()}">
         <div property="eli:number" datatype="xsd:string">Artikel <span class="mark-highlight-manual">nummer</span></div>

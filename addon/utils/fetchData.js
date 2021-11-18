@@ -152,3 +152,22 @@ async function executeQuery(endpoint, query) {
     );
   }
 }
+
+export async function fetchMappings(uri) {
+  const query = `
+    PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
+    SELECT * WHERE {
+      <${uri}> a ext:Template;
+        ext:mapping ?mapping.
+      ?mapping ext:variableType ?type;
+        ext:variable ?name.
+    }
+  `;
+  const result = executeQuery(query);
+  const bindings = result.results.bindings;
+  return bindings.map((binding) => ({
+    uri: binding.mapping.value,
+    type: binding.type.value,
+    name: binding.name.value,
+  }));
+}

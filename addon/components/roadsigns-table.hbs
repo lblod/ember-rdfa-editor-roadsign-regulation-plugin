@@ -36,7 +36,7 @@
                 <td colspan="4">
                   <p style="margin: 20px">{{row.templateValue}}</p>
                   <AuButtonGroup>
-                    <AuButton {{on 'click' (fn @insert row.templateValue)}}>
+                    <AuButton {{on 'click' (fn @insert row)}}>
                       Voeg in
                     </AuButton>
                     <AuButton @skin="secondary">
