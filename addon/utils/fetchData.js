@@ -19,8 +19,9 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
     ?relationUri a ext:MustUseRelation ;
     ext:concept ?signUri.
     ?signUri a ${type ? `<${type}>` : '?signType'};
-      skos:definition ?definition;
-      org:classification ${category ? `<${category}>` : '?classification'};
+      lblodMobilitiet:heeftGerelateerdVerkeersbordconcept ${
+        category ? `<${category}>` : '?classification'
+      };
       mobiliteit:grafischeWeergave ?image.
     ${
       category ? `<${category}>` : '?classification'
@@ -108,12 +109,7 @@ function parseSignsData(queryResult) {
     if (!data[uri].images.includes(image)) {
       data[uri].images.push(image);
     }
-    const definition = binding.definition.value;
-    if (!data[uri].definitions.includes(definition)) {
-      data[uri].definitions.push(definition);
-    }
     data[uri].signs.push({
-      definition: definition,
       clasiffication: classification,
       image: image,
     });
@@ -153,7 +149,7 @@ async function executeQuery(endpoint, query) {
   }
 }
 
-export async function fetchMappings(uri) {
+export async function fetchMappings(endpoint, uri) {
   const query = `
     PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
     SELECT * WHERE {
@@ -163,7 +159,7 @@ export async function fetchMappings(uri) {
         ext:variable ?name.
     }
   `;
-  const result = executeQuery(query);
+  const result = await executeQuery(endpoint, query);
   const bindings = result.results.bindings;
   return bindings.map((binding) => ({
     uri: binding.mapping.value,

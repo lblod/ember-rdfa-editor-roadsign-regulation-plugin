@@ -44,4 +44,5 @@ export default function includeMappings(html, mappings) {
       );
     }
   }
+  return finalHtml;
 }
