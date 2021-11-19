@@ -18,7 +18,7 @@
               <td>
                 <div style='display: flex; align-items: center'>
                   {{#each row.images as |image|}}
-                    <img src={{image}} alt="verkeersteken {{row.label}}" style="height: 40px; margin: 10px" />
+                    <img src={{concat this.imageBaseUrl image}} alt="verkeersteken {{row.label}}" style="height: 40px; margin: 10px" />
                   {{/each}}
                 </div>
               </td>
