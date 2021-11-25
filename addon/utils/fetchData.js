@@ -12,16 +12,20 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
   const insideQuery = `
     ?uri a ext:Template;
     ext:value ?templateValue.
-    ?conceptUri a lblodMobilitiet:TrafficMeasureConcept;
-    skos:prefLabel ?label;
-    ext:template ?uri;
-    ext:relation ?relationUri.
-    ?relationUri a ext:MustUseRelation ;
-    ext:concept ?signUri.
-    ?signUri a ${type ? `<${type}>` : '?signType'};
-      skos:definition ?definition;
-      org:classification ${category ? `<${category}>` : '?classification'};
-      mobiliteit:grafischeWeergave ?image.
+    {
+      SELECT * WHERE {
+        ?conceptUri a lblodMobilitiet:TrafficMeasureConcept;
+        skos:prefLabel ?label;
+        ext:template ?uri;
+        ext:relation ?relationUri.
+        ?relationUri a ext:MustUseRelation ;
+        ext:concept ?signUri.
+        ?signUri a ${type ? `<${type}>` : '?signType'};
+          skos:definition ?definition;
+          org:classification ${category ? `<${category}>` : '?classification'};
+          mobiliteit:grafischeWeergave ?image.
+      }
+    }
     ${
       category ? `<${category}>` : '?classification'
     } skos:prefLabel ?classificationLabel.
