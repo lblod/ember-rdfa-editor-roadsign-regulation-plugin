@@ -12,6 +12,7 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
   const insideQuery = `
     ?uri a ext:Template;
     ext:value ?templateValue.
+    ext:annotated ?templateAnnotated.
     {
       SELECT * WHERE {
         ?conceptUri a lblodMobilitiet:TrafficMeasureConcept;
@@ -26,6 +27,7 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
           mobiliteit:grafischeWeergave ?image.
       }
     }
+      
     ${
       category ? `<${category}>` : '?classification'
     } skos:prefLabel ?classificationLabel.
@@ -98,6 +100,7 @@ function parseSignsData(queryResult) {
         uri: uri,
         label: binding.label.value,
         templateValue: binding.templateValue.value,
+        templateAnnotated: binding.templateAnnotated.value,
         signs: [],
         clasiffications: [],
         images: [],
@@ -152,21 +155,23 @@ async function executeQuery(endpoint, query) {
   }
 }
 
-export async function fetchMappings(endpoint, uri) {
+export async function fetchInstructions(endpoint, uri) {
   const query = `
     PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
     SELECT * WHERE {
       <${uri}> a ext:Template;
         ext:mapping ?mapping.
-      ?mapping ext:variableType ?type;
-        ext:variable ?name.
+      ?mapping ext:variableType 'instruction';
+        ext:variable ?name;
+        ext:instructionVariable ?instruction.
+      ?instruction ext:annotated ?annotated.
     }
   `;
   const result = await executeQuery(endpoint, query);
   const bindings = result.results.bindings;
   return bindings.map((binding) => ({
     uri: binding.mapping.value,
-    type: binding.type.value,
     name: binding.name.value,
+    annotated: binding.annotated.value,
   }));
 }
