@@ -105,11 +105,11 @@ export default class RoadsignRegulationCard extends Component {
     }
   }
 
-  @task
-  *insertHtml(row) {
-    const instructions = yield fetchInstructions(this.endpoint, row.uri);
+  @action
+  insertHtml(row) {
+    const instructions = row.instructions;
     console.log(instructions)
-    const html = includeInstructions(row.templateAnnotated, instructions);
+    const html = includeInstructions(row.templateAnnotated, instructions, true);
     console.log(html)
     const wrappedHtml = `
       <div property="eli:has_part" prefix="mobiliteit: https://data.vlaanderen.be/ns/mobiliteit#" typeof="besluit:Artikel" resource="http://data.lblod.info/artikels/${uuid()}">

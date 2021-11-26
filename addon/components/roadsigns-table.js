@@ -21,8 +21,4 @@ export default class RoadsignsTable extends Component {
       this.selected = id;
     }
   }
-  @action
-  insert(row) {
-    this.args.insert.perform(row);
-  }
 }
