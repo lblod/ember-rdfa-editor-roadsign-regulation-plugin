@@ -52,7 +52,7 @@
                   <AuButton {{on 'click' (fn @insert row.templateValue)}}>
                     Voeg in
                   </AuButton>
-                  <AuButton @skin="secondary">
+                  <AuButton @skin="secondary" {{on "click" (fn this.selectRow row.uri)}}>
                     Annuleer
                   </AuButton>
                 </AuButtonGroup>
