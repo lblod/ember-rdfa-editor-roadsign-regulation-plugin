@@ -1,30 +1,23 @@
+@import "g-reset";
+@import "appuniversum/g-font";
+@import "appuniversum/e-page";
 @import "ember-rdfa-editor";
+
+// Appuniversum theme
 @import "appuniversum/s-colors.scss";
 @import "appuniversum/s-global";
 @import "appuniversum/s-utilities";
-@import "ember-appuniversum";
-@import "g-reset";
+@import "appuniversum/s-root";
+// End appuniversum theme
 
-$say-primary-200                 : $au-blue-200;
-$say-primary-300                 : $au-blue-300;
-$say-primary-600                 : $au-blue-600;
-$say-primary-700                 : $au-blue-700;
-$say-primary-800                 : $au-blue-800;
-$say-primary-900                 : $au-blue-900;
-
-.au-c-rdfa-editor {
-  width: 50%;
-}
 /* ==========================================================================
    #DUMMY STYLES
    ========================================================================== */
-
-
 .c-dummy {
   display: flex; /* [3] */
   flex-direction: column;
   justify-content: stretch;
-  height: 97vh;
+  height: 100vh;
   overflow: hidden;
 }
 
