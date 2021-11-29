@@ -8,7 +8,7 @@ class="au-c-modal--flush"
     <div class="au-c-body-container">
       <div class="au-o-box au-u-background-gray-100">
         <div class="au-o-grid au-o-grid--tiny au-o-grid--bottom">
-          <div class="au-o-grid__item au-u-1-6">
+          <div class="au-o-grid__item au-u-1-5">
             <AuLabel>
               Filter op type
             </AuLabel>
@@ -24,11 +24,11 @@ class="au-c-modal--flush"
               {{option.label}}
             </PowerSelect>
           </div>
-          <div class="au-o-grid__item au-u-2-6">
+          <div class="au-o-grid__item au-u-1-5">
             <AuLabel for="input-block">Filter op code</AuLabel>
             <AuInput id="input-block" @width="block" @icon="search" {{on 'keydown' this.changeCode}}/>
           </div>
-          <div class="au-o-grid__item au-u-2-6">
+          <div class="au-o-grid__item au-u-2-5">
             <AuLabel>
               Filter op categorie
             </AuLabel>
@@ -44,7 +44,7 @@ class="au-c-modal--flush"
               {{option.label}}
             </PowerSelect>
           </div>
-          <div class="au-o-grid__item au-u-1-6">
+          <div class="au-o-grid__item au-u-1-5">
             <AuButton @icon="search" @iconAlignment="left" {{on 'click' this.search}} @width="block">
               Zoeken
             </AuButton>

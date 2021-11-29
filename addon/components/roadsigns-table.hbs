@@ -20,7 +20,7 @@
         {{#each @content as |row|}}
             <tr role="button" class="au-c-data-table__clickable-row" {{on "click" (fn this.selectRow row.uri)}}>
               <td>
-                <AuHeading @level="4" @skin="6">{{row.label}}</AuHeading>
+                <p>{{row.label}}</p>
               </td>
               <td>
                 {{#each row.images as |image|}}
