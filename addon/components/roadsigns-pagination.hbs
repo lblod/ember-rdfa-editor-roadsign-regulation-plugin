@@ -1,4 +1,4 @@
-<div class="au-c-pagination au-u-margin-top">
+<div class="au-o-box au-c-pagination">
   {{#if @hasPreviousPage}}
     <div class="au-c-pagination__list-item">
       <AuButton @skin="link" {{on 'click' @goToPreviousPage}} @iconAlignment="left" @icon="nav-left">Vorige pagina</AuButton>
@@ -14,7 +14,7 @@
   </p>
   {{#if @hasNextPage}}
     <div class="au-c-pagination__list-item">
-      <AuButton @skin="link" {{on 'click' @goToNextPage}}  @icon="nav-right" @alignment="right">Volgende pagina</AuButton>
+      <AuButton @skin="link" {{on 'click' @goToNextPage}}  @icon="nav-right" @iconAlignment="right">Volgende pagina</AuButton>
     </div>
   {{/if}}
 </div>

@@ -53,14 +53,16 @@
         {{/each}}
       {{/if}}
     {{/if}}
-    <RoadsignsPagination
-      @hasPreviousPage={{@hasPreviousPage}}
-      @goToPreviousPage={{@goToPreviousPage}}
-      @hasNextPage={{@hasNextPage}}
-      @goToNextPage={{@goToNextPage}}
-      @pageStart={{@pageStart}}
-      @pageEnd={{@pageEnd}}
-      @count={{@count}}
-    />
+
   </table.content>
 </AuDataTable>
+
+<RoadsignsPagination
+  @hasPreviousPage={{@hasPreviousPage}}
+  @goToPreviousPage={{@goToPreviousPage}}
+  @hasNextPage={{@hasNextPage}}
+  @goToNextPage={{@goToNextPage}}
+  @pageStart={{@pageStart}}
+  @pageEnd={{@pageEnd}}
+  @count={{@count}}
+/>
