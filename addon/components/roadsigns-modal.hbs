@@ -1,62 +1,70 @@
 <AuModal
+class="au-c-modal--flush"
+@size="large"
 @modalTitle="Mobiliteitsmaatregel toevoegen"
 @modalOpen={{@modalOpen}}
 @closeModal={{@closeModal}} as |Modal| >
   <Modal.Body>
-    <div style='display: flex; width: 100%; justify-content: space-between; margin-bottom: 10px; align-items: flex-end'>
-      <div>
-        <AuLabel>
-          Filter op type
-        </AuLabel>
-        <PowerSelect
-          @renderInPlace={{true}}
-          @options={{this.typeOptions}}
-          @verticalPosition="below"
-          @searchEnabled={{true}}
-          @selected={{this.typeSelected}}
-          @allowClear={{true}}
-          @onChange={{this.selectType}}
-          as |option|>
-          {{option.label}}
-        </PowerSelect>
+    <div class="au-c-body-container">
+      <div class="au-o-box au-u-background-gray-100">
+        <div class="au-o-grid au-o-grid--tiny au-o-grid--bottom">
+          <div class="au-o-grid__item au-u-1-5">
+            <AuLabel>
+              Filter op type
+            </AuLabel>
+            <PowerSelect
+              @renderInPlace={{true}}
+              @options={{this.typeOptions}}
+              @verticalPosition="below"
+              @searchEnabled={{true}}
+              @selected={{this.typeSelected}}
+              @allowClear={{true}}
+              @onChange={{this.selectType}}
+              as |option|>
+              {{option.label}}
+            </PowerSelect>
+          </div>
+          <div class="au-o-grid__item au-u-1-5">
+            <AuLabel for="input-block">Filter op code</AuLabel>
+            <AuInput id="input-block" @width="block" @icon="search" {{on 'keydown' this.changeCode}}/>
+          </div>
+          <div class="au-o-grid__item au-u-2-5">
+            <AuLabel>
+              Filter op categorie
+            </AuLabel>
+            <PowerSelect
+              @renderInPlace={{true}}
+              @options={{this.categoryOptions}}
+              @verticalPosition="below"
+              @searchEnabled={{true}}
+              @selected={{this.categorySelected}}
+              @allowClear={{true}}
+              @onChange={{this.selectCategory}}
+              as |option|>
+              {{option.label}}
+            </PowerSelect>
+          </div>
+          <div class="au-o-grid__item au-u-1-5">
+            <AuButton @icon="search" @iconAlignment="left" {{on 'click' this.search}} @width="block">
+              Zoeken
+            </AuButton>
+          </div>
+        </div>
       </div>
-      <div>
-        <AuLabel for="input-block">Filter op code</AuLabel>
-        <AuInput id="input-block" @width="block" @icon="search" {{on 'keydown' this.changeCode}}/>
-      </div>
-      <div>
-        <AuLabel>
-          Filter op category
-        </AuLabel>
-        <PowerSelect
-          @renderInPlace={{true}}
-          @options={{this.categoryOptions}}
-          @verticalPosition="below"
-          @searchEnabled={{true}}
-          @selected={{this.categorySelected}}
-          @allowClear={{true}}
-          @onChange={{this.selectCategory}}
-          as |option|>
-          {{option.label}}
-        </PowerSelect>
-      </div>
-      <div>
-        <AuButton {{on 'click' this.search}}>
-          Search
-        </AuButton>
+      <div class="au-c-body-container">
+        <RoadsignsTable
+          @content={{this.tableData}}
+          @isLoading={{or this.fetchData.isRunning this.refetchSigns.isRunning}}
+          @insert={{this.insertHtml}}
+          @count={{this.count}}
+          @pageStart={{this.pageStart}}
+          @pageEnd={{this.pageEnd}}
+          @hasPreviousPage={{this.hasPreviousPage}}
+          @hasNextPage={{this.hasNextPage}}
+          @goToPreviousPage={{this.goToPreviousPage}}
+          @goToNextPage={{this.goToNextPage}}
+        />
       </div>
     </div>
-    <RoadsignsTable
-      @content={{this.tableData}}
-      @isLoading={{or this.fetchData.isRunning this.refetchSigns.isRunning}}
-      @insert={{this.insertHtml}}
-      @count={{this.count}}
-      @pageStart={{this.pageStart}}
-      @pageEnd={{this.pageEnd}}
-      @hasPreviousPage={{this.hasPreviousPage}}
-      @hasNextPage={{this.hasNextPage}}
-      @goToPreviousPage={{this.goToPreviousPage}}
-      @goToNextPage={{this.goToNextPage}}
-    />
   </Modal.Body>
 </AuModal>
