@@ -101,6 +101,7 @@ export default class RoadsignRegulationCard extends Component {
   @action
   insertHtml(html) {
     this.args.controller.executeCommand('insert-html', html);
+    this.args.closeModal();
   }
 
   @action
