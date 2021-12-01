@@ -1,3 +1,4 @@
+{{#if this.showCard}}
 <AuCard @flex={{true}} @divided={{true}} @expandable={{false}} @shadow={{true}} @size="small" as |c|>
   <c.header>
     <AuHeading @level="3" @skin="6">
@@ -11,4 +12,5 @@
   </c.content>
 </AuCard>
 
-<RoadsignsModal @modalOpen={{this.modalOpen}} @closeModal={{this.toggleModal}} @controller={{@controller}}/>
+<RoadsignsModal @modalOpen={{this.modalOpen}} @closeModal={{this.toggleModal}} @controller={{@controller}} @insert={{this.insert}}/>
+{{/if}}

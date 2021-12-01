@@ -108,9 +108,7 @@ export default class RoadsignRegulationCard extends Component {
   @action
   insertHtml(row) {
     const instructions = row.instructions;
-    console.log(instructions)
     const html = includeInstructions(row.templateAnnotated, instructions, true);
-    console.log(html)
     const wrappedHtml = `
       <div property="eli:has_part" prefix="mobiliteit: https://data.vlaanderen.be/ns/mobiliteit#" typeof="besluit:Artikel" resource="http://data.lblod.info/artikels/${uuid()}">
         <div property="eli:number" datatype="xsd:string">Artikel <span class="mark-highlight-manual">nummer</span></div>
@@ -125,7 +123,7 @@ export default class RoadsignRegulationCard extends Component {
         </div>
       </div>
     `;
-    this.args.controller.executeCommand('insert-html', wrappedHtml);
+    this.args.insert(wrappedHtml);
     this.args.closeModal();
   }
 
