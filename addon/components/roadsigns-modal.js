@@ -5,10 +5,7 @@ import { task, restartableTask } from 'ember-concurrency-decorators';
 import { getOwner } from '@ember/application';
 import { v4 as uuid } from 'uuid';
 
-import fetchRoadsignsData, {
-  fetchSigns,
-  fetchInstructions,
-} from '../utils/fetchData';
+import fetchRoadsignsData, { fetchSigns } from '../utils/fetchData';
 import includeInstructions from '../utils/includeInstructions';
 
 const PAGE_SIZE = 10;

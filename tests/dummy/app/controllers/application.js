@@ -167,7 +167,7 @@ export default class ApplicationController extends Controller {
       <div class="mark-highlight-manual"><span data-editor-highlight="true">Voeg nieuw artikel in</span></div>
       <br>
     </div>
-   </div>`
+   </div>`;
     this._editorController = controller;
     this.setHtmlContent(presetContent);
     const editorDone = new CustomEvent('editor-done');
