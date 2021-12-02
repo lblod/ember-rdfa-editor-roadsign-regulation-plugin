@@ -90,7 +90,6 @@ export async function fetchSigns(
     category,
     pageStart
   );
-  console.log(selectQuery);
   const queryResult = await executeQuery(endpoint, selectQuery);
   const signs = parseSignsData(queryResult);
   const signsWithInstructionsValue = signs.map((sign) => {
