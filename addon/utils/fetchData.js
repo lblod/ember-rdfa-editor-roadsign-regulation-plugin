@@ -95,7 +95,6 @@ export async function fetchSigns(
   );
   const queryResult = await executeQuery(endpoint, selectQuery);
   const signs = parseSignsData(queryResult);
-  console.log(signs)
   const signsWithInstructionsValue = signs.map((sign) => {
     if (sign.instructions) {
       sign.templateValue = includeInstructions(
