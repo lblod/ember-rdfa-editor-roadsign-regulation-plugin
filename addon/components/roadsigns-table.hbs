@@ -49,7 +49,7 @@
                 <AuHeading @level="6" @skin="6">Voeg maatregel in:</AuHeading>
                 <p><AuPill>{{row.templateValue}}</AuPill></p>
                 <AuButtonGroup>
-                  <AuButton {{on 'click' (fn @insert row.templateValue)}}>
+                  <AuButton {{on 'click' (fn @insert row)}}>
                     Voeg in
                   </AuButton>
                   <AuButton @skin="secondary" {{on "click" (fn this.selectRow row.uri)}}>
