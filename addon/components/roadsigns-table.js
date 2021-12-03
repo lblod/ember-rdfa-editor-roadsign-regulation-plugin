@@ -1,9 +1,17 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { getOwner } from '@ember/application';
 
 export default class RoadsignsTable extends Component {
   @tracked selected;
+  imageBaseUrl;
+
+  constructor() {
+    super(...arguments);
+    const config = getOwner(this).resolveRegistration('config:environment');
+    this.imageBaseUrl = config.roadsignRegulationPlugin.imageBaseUrl;
+  }
 
   @action
   selectRow(id) {

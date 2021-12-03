@@ -1,3 +1,4 @@
+import includeInstructions from './includeInstructions';
 function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
   const prefixes = `
     PREFIX ex: <http://example.org#>
@@ -11,9 +12,16 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
   `;
   const insideQuery = `
     ?uri a ext:Template;
-    ext:value ?templateValue.
+      ext:value ?templateValue;
+      ext:annotated ?templateAnnotated.
     {
       SELECT * WHERE {
+        ?uri ext:mapping ?mapping.
+        ?mapping ext:variableType 'instruction';
+          ext:variable ?instructionName;
+          ext:instructionVariable ?instructionVariable.
+        ?instruction ext:annotated ?instructionAnnotated;
+          ext:value ?instructionValue.
         ?conceptUri a lblodMobilitiet:TrafficMeasureConcept;
         skos:prefLabel ?label;
         ext:template ?uri;
@@ -26,6 +34,7 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
           mobiliteit:grafischeWeergave ?image.
       }
     }
+      
     ${
       category ? `<${category}>` : '?classification'
     } skos:prefLabel ?classificationLabel.
@@ -83,9 +92,17 @@ export async function fetchSigns(
   );
   const queryResult = await executeQuery(endpoint, selectQuery);
   const signs = parseSignsData(queryResult);
+  const signsWithInstructionsValue = signs.map((sign) => {
+    sign.templateValue = includeInstructions(
+      sign.templateValue,
+      sign.instructions,
+      false
+    );
+    return sign;
+  });
   const countResult = await executeQuery(endpoint, countQuery);
   const count = Number(countResult.results.bindings[0].count.value);
-  return { signs, count };
+  return { signs: signsWithInstructionsValue, count };
 }
 
 function parseSignsData(queryResult) {
@@ -98,10 +115,12 @@ function parseSignsData(queryResult) {
         uri: uri,
         label: binding.label.value,
         templateValue: binding.templateValue.value,
+        templateAnnotated: binding.templateAnnotated.value,
         signs: [],
         clasiffications: [],
         images: [],
         definitions: [],
+        instructions: [],
       };
     }
     const classification = binding.classificationLabel.value;
@@ -112,14 +131,21 @@ function parseSignsData(queryResult) {
     if (!data[uri].images.includes(image)) {
       data[uri].images.push(image);
     }
-    const definition = binding.definition.value;
-    if (!data[uri].definitions.includes(definition)) {
-      data[uri].definitions.push(definition);
-    }
     data[uri].signs.push({
-      definition: definition,
       clasiffication: classification,
       image: image,
+    });
+    const mapping = binding.mapping.value;
+    const instructionName = binding.instructionName.value;
+    const instructionVariable = binding.instructionVariable.value;
+    const instructionValue = binding.instructionValue.value;
+    const instructionAnnotated = binding.instructionAnnotated.value;
+    data[uri].instructions.push({
+      uri: mapping,
+      name: instructionName,
+      variable: instructionVariable,
+      value: instructionValue,
+      annotated: instructionAnnotated,
     });
   }
   const dataArray = [];
@@ -155,4 +181,25 @@ async function executeQuery(endpoint, query) {
       `Request to MOW backend was unsuccessful: [${response.status}] ${response.statusText}`
     );
   }
+}
+
+export async function fetchInstructions(endpoint, uri) {
+  const query = `
+    PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
+    SELECT * WHERE {
+      <${uri}> a ext:Template;
+        ext:mapping ?mapping.
+      ?mapping ext:variableType 'instruction';
+        ext:variable ?name;
+        ext:instructionVariable ?instruction.
+      ?instruction ext:annotated ?annotated.
+    }
+  `;
+  const result = await executeQuery(endpoint, query);
+  const bindings = result.results.bindings;
+  return bindings.map((binding) => ({
+    uri: binding.mapping.value,
+    name: binding.name.value,
+    annotated: binding.annotated.value,
+  }));
 }
