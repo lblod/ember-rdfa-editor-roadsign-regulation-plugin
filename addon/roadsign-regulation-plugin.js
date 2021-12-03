@@ -24,7 +24,7 @@ export default class RoadSignRegulationPlugin {
   controller;
 
   get name() {
-    return 'roadsign-regulation-plugin';
+    return 'roadsign-regulation';
   }
 
   initialize(controller) {
