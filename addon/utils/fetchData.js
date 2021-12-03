@@ -16,12 +16,6 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
       ext:annotated ?templateAnnotated.
     {
       SELECT * WHERE {
-        ?uri ext:mapping ?mapping.
-        ?mapping ext:variableType 'instruction';
-          ext:variable ?instructionName;
-          ext:instructionVariable ?instructionVariable.
-        ?instruction ext:annotated ?instructionAnnotated;
-          ext:value ?instructionValue.
         ?conceptUri a lblodMobilitiet:TrafficMeasureConcept;
         skos:prefLabel ?label;
         ext:template ?uri;
@@ -32,6 +26,14 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
           skos:definition ?definition;
           org:classification ${category ? `<${category}>` : '?classification'};
           mobiliteit:grafischeWeergave ?image.
+        OPTIONAL {
+          ?uri ext:mapping ?mapping.
+          ?mapping ext:variableType 'instruction';
+            ext:variable ?instructionName;
+            ext:instructionVariable ?instructionVariable.
+          ?instruction ext:annotated ?instructionAnnotated;
+            ext:value ?instructionValue.
+        }
       }
     }
       
@@ -92,12 +94,15 @@ export async function fetchSigns(
   );
   const queryResult = await executeQuery(endpoint, selectQuery);
   const signs = parseSignsData(queryResult);
+  console.log(signs)
   const signsWithInstructionsValue = signs.map((sign) => {
-    sign.templateValue = includeInstructions(
-      sign.templateValue,
-      sign.instructions,
-      false
-    );
+    if (sign.instructions) {
+      sign.templateValue = includeInstructions(
+        sign.templateValue,
+        sign.instructions,
+        false
+      );
+    }
     return sign;
   });
   const countResult = await executeQuery(endpoint, countQuery);
@@ -121,6 +126,7 @@ function parseSignsData(queryResult) {
         images: [],
         definitions: [],
         instructions: [],
+        instructionsUris: [],
       };
     }
     const classification = binding.classificationLabel.value;
@@ -131,22 +137,32 @@ function parseSignsData(queryResult) {
     if (!data[uri].images.includes(image)) {
       data[uri].images.push(image);
     }
-    data[uri].signs.push({
-      clasiffication: classification,
-      image: image,
-    });
-    const mapping = binding.mapping.value;
-    const instructionName = binding.instructionName.value;
-    const instructionVariable = binding.instructionVariable.value;
-    const instructionValue = binding.instructionValue.value;
-    const instructionAnnotated = binding.instructionAnnotated.value;
-    data[uri].instructions.push({
-      uri: mapping,
-      name: instructionName,
-      variable: instructionVariable,
-      value: instructionValue,
-      annotated: instructionAnnotated,
-    });
+    const signPresent = data[uri].signs.find(
+      (sign) => sign.clasiffication === classification && sign.image === image
+    );
+    if (!signPresent) {
+      data[uri].signs.push({
+        clasiffication: classification,
+        image: image,
+      });
+    }
+    if (binding.mapping) {
+      const mapping = binding.mapping.value;
+      const instructionName = binding.instructionName.value;
+      const instructionVariable = binding.instructionVariable.value;
+      const instructionValue = binding.instructionValue.value;
+      const instructionAnnotated = binding.instructionAnnotated.value;
+      if (!data[uri].instructionsUris.includes(mapping)) {
+        data[uri].instructionsUris.push(mapping);
+        data[uri].instructions.push({
+          uri: mapping,
+          name: instructionName,
+          variable: instructionVariable,
+          value: instructionValue,
+          annotated: instructionAnnotated,
+        });
+      }
+    }
   }
   const dataArray = [];
   for (let key in data) {
