@@ -31,7 +31,7 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
           ?mapping ext:variableType 'instruction';
             ext:variable ?instructionName;
             ext:instructionVariable ?instructionVariable.
-          ?instruction ext:annotated ?instructionAnnotated;
+          ?instructionVariable ext:annotated ?instructionAnnotated;
             ext:value ?instructionValue.
         }
       }
@@ -43,6 +43,7 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
     ${code ? `FILTER( REGEX(?label, "${code}"))` : ''}
     ${betekenis ? `FILTER( REGEX(?definition, "${betekenis}"))` : ''}
   `;
+
   const selectQuery = `
     ${prefixes}
     SELECT * WHERE {
