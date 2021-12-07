@@ -155,7 +155,7 @@ function parseSignsData(arrayOfUris) {
   const data = [];
   for (let uriInfo of arrayOfUris) {
     const bindings = uriInfo.results.bindings;
-    const uri = bindings[0].uri.value;
+    const uri = bindings[0].templateUri.value;
     const dataElement = {
       uri: uri,
       label: bindings[0].label.value,
