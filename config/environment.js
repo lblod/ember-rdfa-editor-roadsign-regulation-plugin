@@ -3,7 +3,7 @@
 module.exports = function (/* environment, appConfig */) {
   return {
     roadsignRegulationPlugin: {
-      endpoint: 'http://localhost:8890/sparql',
+      endpoint: 'https://dev.gelinkt-notuleren.lblod.info/sparql',
       imageBaseUrl: 'https://dev.roadsigns.lblod.info',
     },
   };
