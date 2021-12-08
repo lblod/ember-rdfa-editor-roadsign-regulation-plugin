@@ -79,8 +79,8 @@ export default class RoadsignRegulationCard extends Component {
     this.tableData = signs;
     this.categoryOptions = classifications;
     this.count = count;
-    if (count < this.pageEnd) {
-      this.pageEnd = count;
+    if (count <= this.pageEnd) {
+      this.pageEnd = count - 1;
       this.hasNextPage = false;
     }
   }
@@ -97,8 +97,8 @@ export default class RoadsignRegulationCard extends Component {
     );
     this.tableData = signs;
     this.count = count;
-    if (count < this.pageEnd) {
-      this.pageEnd = count;
+    if (count <= this.pageEnd) {
+      this.pageEnd = count - 1;
       this.hasNextPage = false;
     }
   }
@@ -157,7 +157,7 @@ export default class RoadsignRegulationCard extends Component {
     this.pageStart = this.pageStart + PAGE_SIZE;
     if (this.pageStart + (PAGE_SIZE - 1) >= this.count) {
       this.hasNextPage = false;
-      this.pageEnd = this.count;
+      this.pageEnd = this.count - 1;
     } else {
       this.pageEnd = this.pageStart + (PAGE_SIZE - 1);
       this.hasNextPage = true;
