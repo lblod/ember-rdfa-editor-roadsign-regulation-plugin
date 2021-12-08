@@ -1,13 +1,14 @@
 {
   "name": "@lblod/ember-rdfa-editor-roadsign-regulation-plugin",
   "version": "0.0.1",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "roadsign plugin for ember-rdfa-editor",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "ember-rdfa-editor"
   ],
-  "repository": "",
+  "repository": "https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin",
   "license": "MIT",
-  "author": "",
+  "author": "redpencil.io",
   "directories": {
     "doc": "doc",
     "test": "tests"
