@@ -46,12 +46,12 @@ export default class RoadsignRegulationCard extends Component {
     super(...arguments);
     const config = getOwner(this).resolveRegistration('config:environment');
     this.endpoint = config.roadsignRegulationPlugin.endpoint;
-    this.fetchData.perform();
   }
 
   @action
   selectType(value) {
     this.typeSelected = value;
+    this.search();
   }
 
   @restartableTask
