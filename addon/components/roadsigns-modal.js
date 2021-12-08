@@ -107,6 +107,15 @@ export default class RoadsignRegulationCard extends Component {
   insertHtml(row) {
     const instructions = row.instructions;
     const html = includeInstructions(row.templateAnnotated, instructions, true);
+    const signsHTML = row.signs.map((sign) => {
+      const roadSignUri = 'http://data.lblod.info/verkeerstekens/' + uuid();
+      return `<li><span property="mobiliteit:wordtAangeduidDoor" resource=${roadSignUri} typeof="mobiliteit:Verkeersbord-Verkeersteken">
+        <span property="mobiliteit:heeftVerkeersbordconcept" resource="${sign.uri}" typeof="mobiliteit:Verkeersbordconcept">
+        <img property="mobiliteit:grafischeWeergave" src="${sign.image}" />
+        <span property="skos:prefLabel">${sign.code}</span>
+        </span></span>
+      </li>`;
+    }).join("\n");
     const wrappedHtml = `
       <div property="eli:has_part" prefix="mobiliteit: https://data.vlaanderen.be/ns/mobiliteit#" typeof="besluit:Artikel" resource="http://data.lblod.info/artikels/${uuid()}">
         <div property="eli:number" datatype="xsd:string">Artikel <span class="mark-highlight-manual">nummer</span></div>
@@ -115,6 +124,10 @@ export default class RoadsignRegulationCard extends Component {
           <div property="mobiliteit:heeftVerkeersmaatregel" typeof="mobiliteit:Mobiliteitsmaatregel" resource="http://data.lblod.info/mobiliteitsmaatregel/${uuid()}">
             <div property="dct:description">
               ${html}
+              <p>Dit wordt aangeduid door verkeerstekens:</p>
+              <ul>
+                ${signsHTML}
+              </ul>
             </div>
           </div>
         </div>

@@ -20,6 +20,7 @@ function generateExpandQuery(uri) {
         ?templateUri ext:value ?templateValue;
           ext:annotated ?templateAnnotated.
         ?signUri skos:definition ?definition;
+          skos:prefLabel ?signCode;
           org:classification ?classification;
           mobiliteit:grafischeWeergave ?image.
         ?classification skos:prefLabel ?classificationLabel.
@@ -60,6 +61,7 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
         ext:concept ?signUri.
         ?signUri a ${type ? `<${type}>` : '?signType'};
           skos:definition ?definition;
+          skos:prefLabel ?signCode;
           org:classification ${category ? `<${category}>` : '?classification'};
           mobiliteit:grafischeWeergave ?image.
         OPTIONAL {
@@ -183,6 +185,8 @@ function parseSignsData(arrayOfUris) {
         dataElement.signs.push({
           clasiffication: classification,
           image: image,
+          uri: binding.signUri.value,
+          code: binding.signCode.value,
         });
       }
       if (binding.mapping) {
