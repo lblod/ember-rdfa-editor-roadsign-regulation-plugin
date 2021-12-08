@@ -1,9 +1,10 @@
 <AuModal
-class="au-c-modal--flush"
-@size="large"
-@modalTitle="Mobiliteitsmaatregel toevoegen"
-@modalOpen={{@modalOpen}}
-@closeModal={{@closeModal}} as |Modal| >
+  {{did-insert (perform this.fetchData)}}
+  class="au-c-modal--flush"
+  @size="large"
+  @modalTitle="Mobiliteitsmaatregel toevoegen"
+  @modalOpen={{@modalOpen}}
+  @closeModal={{@closeModal}} as |Modal| >
   <Modal.Body>
     <div class="au-c-body-container">
       <div class="au-o-box au-u-background-gray-100">
@@ -26,7 +27,7 @@ class="au-c-modal--flush"
           </div>
           <div class="au-o-grid__item au-u-1-5">
             <AuLabel for="input-block">Filter op code</AuLabel>
-            <AuInput id="input-block" @width="block" @icon="search" {{on 'keydown' this.changeCode}}/>
+            <AuInput id="input-block" @width="block" @icon="search" {{on 'input' (perform this.changeCode)}}/>
           </div>
           <div class="au-o-grid__item au-u-2-5">
             <AuLabel>
