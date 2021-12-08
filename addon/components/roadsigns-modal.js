@@ -1,7 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { task, restartableTask } from 'ember-concurrency-decorators';
+import { task, restartableTask, timeout } from 'ember-concurrency';
 import { getOwner } from '@ember/application';
 import { v4 as uuid } from 'uuid';
 
@@ -9,7 +9,7 @@ import fetchRoadsignsData, { fetchSigns } from '../utils/fetchData';
 import includeInstructions from '../utils/includeInstructions';
 
 const PAGE_SIZE = 10;
-
+const DEBOUNCE_MS = 100;
 export default class RoadsignRegulationCard extends Component {
   endpoint;
 
@@ -54,9 +54,11 @@ export default class RoadsignRegulationCard extends Component {
     this.typeSelected = value;
   }
 
-  @action
-  changeCode(e) {
+  @restartableTask
+  *changeCode(e) {
     this.codeFilter = e.target.value;
+    yield timeout(DEBOUNCE_MS);
+    this.search();
   }
 
   @action

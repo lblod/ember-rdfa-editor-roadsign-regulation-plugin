@@ -26,7 +26,7 @@ class="au-c-modal--flush"
           </div>
           <div class="au-o-grid__item au-u-1-5">
             <AuLabel for="input-block">Filter op code</AuLabel>
-            <AuInput id="input-block" @width="block" @icon="search" {{on 'change' this.changeCode}}/>
+            <AuInput id="input-block" @width="block" @icon="search" {{on 'input' (perform this.changeCode)}}/>
           </div>
           <div class="au-o-grid__item au-u-2-5">
             <AuLabel>
