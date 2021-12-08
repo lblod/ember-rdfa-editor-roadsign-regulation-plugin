@@ -1,9 +1,10 @@
 <AuModal
-class="au-c-modal--flush"
-@size="large"
-@modalTitle="Mobiliteitsmaatregel toevoegen"
-@modalOpen={{@modalOpen}}
-@closeModal={{@closeModal}} as |Modal| >
+  {{did-insert (perform this.fetchData)}}
+  class="au-c-modal--flush"
+  @size="large"
+  @modalTitle="Mobiliteitsmaatregel toevoegen"
+  @modalOpen={{@modalOpen}}
+  @closeModal={{@closeModal}} as |Modal| >
   <Modal.Body>
     <div class="au-c-body-container">
       <div class="au-o-box au-u-background-gray-100">
