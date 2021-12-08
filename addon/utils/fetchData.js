@@ -72,12 +72,11 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
         }
       }
     }
-      
     ${
       category ? `<${category}>` : '?classification'
     } skos:prefLabel ?classificationLabel.
-    ${code ? `FILTER( REGEX(?label, "${code}"))` : ''}
-    ${betekenis ? `FILTER( REGEX(?definition, "${betekenis}"))` : ''}
+    ${code ? `FILTER( CONTAINS(LCASE(?label), "${code.toLowerCase()}"))` : ''}
+    ${betekenis ? `FILTER( CONTAINS(LCASE(?definition), "${betekenis.toLowerCase()}"))` : ''}
   `;
 
   const selectQuery = `
