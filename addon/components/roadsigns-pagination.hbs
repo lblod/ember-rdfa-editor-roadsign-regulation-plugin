@@ -8,10 +8,10 @@
     <p>
       <span class="au-u-hidden-visually">Publicaties</span>
       <strong>
-        {{@pageStart}} - {{@pageEnd}}
+        {{this.pageStart}} - {{this.pageEnd}}
       </strong>
       van
-      {{@count}}
+      {{inc this.count}}
     </p>
     {{#if @hasNextPage}}
       <div class="au-c-pagination__list-item">
