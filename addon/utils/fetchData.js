@@ -159,6 +159,7 @@ function parseSignsData(arrayOfUris) {
     const uri = bindings[0].templateUri.value;
     const dataElement = {
       uri: uri,
+      measureUri: bindings[0].uri.value,
       label: bindings[0].label.value,
       templateValue: bindings[0].templateValue.value,
       templateAnnotated: bindings[0].templateAnnotated.value,
