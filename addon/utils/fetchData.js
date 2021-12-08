@@ -78,7 +78,11 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
       category ? `<${category}>` : '?classification'
     } skos:prefLabel ?classificationLabel.
     ${code ? `FILTER( CONTAINS(LCASE(?label), "${code.toLowerCase()}"))` : ''}
-    ${betekenis ? `FILTER( CONTAINS(LCASE(?definition), "${betekenis.toLowerCase()}"))` : ''}
+    ${
+      betekenis
+        ? `FILTER( CONTAINS(LCASE(?definition), "${betekenis.toLowerCase()}"))`
+        : ''
+    }
   `;
 
   const selectQuery = `

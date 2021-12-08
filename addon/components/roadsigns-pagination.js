@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 
 export default class RoadsignsPagination extends Component {
-
   get pageStart() {
     return this.args.pageStart + 1;
   }
