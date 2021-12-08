@@ -121,7 +121,9 @@ export default class RoadsignRegulationCard extends Component {
         <div property="eli:number" datatype="xsd:string">Artikel <span class="mark-highlight-manual">nummer</span></div>
         <span style="display:none;" property="eli:language" resource="http://publications.europa.eu/resource/authority/language/NLD" typeof="skos:Concept">&nbsp;</span>
         <div propert="prov:value" datatype="xsd:string">
-          <div property="mobiliteit:heeftVerkeersmaatregel" typeof="mobiliteit:Mobiliteitsmaatregel" resource="http://data.lblod.info/mobiliteitsmaatregel/${uuid()}">
+          <div property="mobiliteit:heeftVerkeersmaatregel" typeof="mobiliteit:Mobiliteitsmaatregel" resource="http://data.lblod.info/mobiliteitsmaatregels/${uuid()}">
+          <span style="display:none;" property="prov:wasDerivedFrom" resource="row.uri">&nbsp;</span>
+
             <div property="dct:description">
               ${html}
               <p>Dit wordt aangeduid door verkeerstekens:</p>
