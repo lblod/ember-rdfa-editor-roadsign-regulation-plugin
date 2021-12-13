@@ -110,11 +110,12 @@ export default class RoadsignRegulationCard extends Component {
     const signsHTML = row.signs
       .map((sign) => {
         const roadSignUri = 'http://data.lblod.info/verkeerstekens/' + uuid();
-        return `<li><span property="mobiliteit:wordtAangeduidDoor" resource=${roadSignUri} typeof="mobiliteit:Verkeersbord-Verkeersteken">
-        <span property="mobiliteit:heeftVerkeersbordconcept" resource="${sign.uri}" typeof="mobiliteit:Verkeersbordconcept">
-        <img property="mobiliteit:grafischeWeergave" src="${sign.image}" />
-        <span property="skos:prefLabel">${sign.code}</span>
-        </span></span>
+        return `<li style="margin-bottom:1rem;"><span property="mobiliteit:wordtAangeduidDoor" resource=${roadSignUri} typeof="mobiliteit:Verkeersbord-Verkeersteken">
+        <span property="mobiliteit:heeftVerkeersbordconcept" resource="${sign.uri}" typeof="mobiliteit:Verkeersbordconcept" style="display:flex;align-items:center;">
+          <img property="mobiliteit:grafischeWeergave" src="${sign.image}"  style="width:5rem;margin-right:1rem;margin-left:0;" />
+          <span property="skos:prefLabel" style="margin-left:0;">${sign.code}</span>
+          </span>
+        </span>
       </li>`;
       })
       .join('\n');
@@ -131,7 +132,7 @@ export default class RoadsignRegulationCard extends Component {
             <div property="dct:description">
               ${html}
               <p>Dit wordt aangeduid door verkeerstekens:</p>
-              <ul>
+              <ul style="list-style:none;">
                 ${signsHTML}
               </ul>
             </div>
