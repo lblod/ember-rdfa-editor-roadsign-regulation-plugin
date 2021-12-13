@@ -1,4 +1,6 @@
 import includeInstructions from './includeInstructions';
+import { ZONAL_URI, POTENTIALLY_ZONAL_URI, NON_ZONAL_URI } from './constants';
+
 function generateExpandQuery(uri) {
   return `
     PREFIX ex: <http://example.org#>
@@ -36,7 +38,15 @@ function generateExpandQuery(uri) {
   `;
 }
 
-function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
+function generateSignsQuery(
+  isZonal,
+  type,
+  code,
+  betekenis,
+  category,
+  pageStart = 0
+) {
+  const zonalityUri = isZonal ? ZONAL_URI : NON_ZONAL_URI;
   const prefixes = `
     PREFIX ex: <http://example.org#>
     PREFIX lblodMobilitiet: <http://data.lblod.info/vocabularies/mobiliteit/>
@@ -56,6 +66,7 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
         ?uri a lblodMobilitiet:TrafficMeasureConcept;
         skos:prefLabel ?label;
         ext:template ?templateUri;
+        ext:zonality ?zonality;
         ext:relation ?relationUri.
         ?relationUri a ext:MustUseRelation ;
         ext:concept ?signUri.
@@ -74,6 +85,7 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
         }
       }
     }
+    FILTER(?zonality IN (<${zonalityUri}>, <${POTENTIALLY_ZONAL_URI}>))
     ${
       category ? `<${category}>` : '?classification'
     } skos:prefLabel ?classificationLabel.
@@ -109,8 +121,8 @@ const classificationsQuery = `
     }
 `;
 
-export default async function fetchData(endpoint) {
-  const { signs, count } = await fetchSigns(endpoint);
+export default async function fetchData(endpoint, isZonal) {
+  const { signs, count } = await fetchSigns(endpoint, isZonal);
   const classificationsQueryResult = await executeQuery(
     endpoint,
     classificationsQuery
@@ -121,6 +133,7 @@ export default async function fetchData(endpoint) {
 
 export async function fetchSigns(
   endpoint,
+  isZonal,
   type,
   code,
   betekenis,
@@ -128,6 +141,7 @@ export async function fetchSigns(
   pageStart
 ) {
   const { selectQuery, countQuery } = generateSignsQuery(
+    isZonal,
     type,
     code,
     betekenis,
@@ -140,7 +154,7 @@ export async function fetchSigns(
       executeQuery(endpoint, generateExpandQuery(binding.uri.value))
     )
   );
-  const signs = parseSignsData(signsResult);
+  const signs = parseSignsData(signsResult, isZonal);
   const signsWithInstructionsValue = signs.map((sign) => {
     if (sign.instructions) {
       sign.templateValue = includeInstructions(
@@ -156,13 +170,14 @@ export async function fetchSigns(
   return { signs: signsWithInstructionsValue, count };
 }
 
-function parseSignsData(arrayOfUris) {
+function parseSignsData(arrayOfUris, isZonal) {
   const data = [];
   for (let uriInfo of arrayOfUris) {
     const bindings = uriInfo.results.bindings;
     const uri = bindings[0].templateUri.value;
     const dataElement = {
       uri: uri,
+      isZonal,
       measureUri: bindings[0].uri.value,
       label: bindings[0].label.value,
       templateValue: bindings[0].templateValue.value,

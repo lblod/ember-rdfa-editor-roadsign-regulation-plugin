@@ -46,6 +46,7 @@ export default class RoadsignRegulationCard extends Component {
     super(...arguments);
     const config = getOwner(this).resolveRegistration('config:environment');
     this.endpoint = config.roadsignRegulationPlugin.endpoint;
+    this.fetchData.perform();
   }
 
   @action
@@ -74,7 +75,8 @@ export default class RoadsignRegulationCard extends Component {
   @task
   *fetchData() {
     const { signs, classifications, count } = yield fetchRoadsignsData(
-      this.endpoint
+      this.endpoint,
+      this.args.isZonal
     );
     this.tableData = signs;
     this.categoryOptions = classifications;
@@ -89,6 +91,7 @@ export default class RoadsignRegulationCard extends Component {
   *refetchSigns() {
     const { signs, count } = yield fetchSigns(
       this.endpoint,
+      this.args.isZonal,
       this.typeSelected ? this.typeSelected.value : undefined,
       this.codeFilter,
       this.descriptionFilter,
