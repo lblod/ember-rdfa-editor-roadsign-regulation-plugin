@@ -22,17 +22,14 @@ const acceptedTypes = [
 export default class RoadsignRegulationCard extends Component {
   @tracked modalOpen;
   @tracked showCard = false;
-  @tracked isZonal;
 
   constructor() {
     super(...arguments);
     this.args.controller.onEvent('contentChanged', this.modelWrittenHandler);
-    this.isZonal = true;
   }
 
   @action
-  toggleModal(isZonal) {
-    this.isZonal = isZonal;
+  toggleModal() {
     this.modalOpen = !this.modalOpen;
   }
   @action

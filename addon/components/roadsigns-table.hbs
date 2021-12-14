@@ -44,20 +44,7 @@
               </td>
             </tr>
           {{#if (eq this.selected row.uri)}}
-            <tr class="au-c-data-table__detail">
-              <td colspan="5" class="au-o-flow au-o-flow--small">
-                <AuHeading @level="6" @skin="6">Voeg maatregel in:</AuHeading>
-                <p><AuPill>{{row.templateValue}}</AuPill></p>
-                <AuButtonGroup>
-                  <AuButton {{on 'click' (fn @insert row)}}>
-                    Voeg in
-                  </AuButton>
-                  <AuButton @skin="secondary" {{on "click" (fn this.selectRow row.uri)}}>
-                    Annuleer
-                  </AuButton>
-                </AuButtonGroup>
-              </td>
-            </tr>
+            <ExpandedMeasure @measure={{row}} @insert={{@insert}} @selectRow={{this.selectRow}} />
           {{/if}}
         {{else}}
           <tr>

@@ -29,7 +29,7 @@
             <AuLabel for="input-block">Filter op code</AuLabel>
             <AuInput id="input-block" @width="block" @icon="search" {{on 'input' (perform this.changeCode)}}/>
           </div>
-          <div class="au-o-grid__item au-u-2-5">
+          <div class="au-o-grid__item au-u-1-5">
             <AuLabel>
               Filter op categorie
             </AuLabel>
@@ -41,6 +41,22 @@
               @selected={{this.categorySelected}}
               @allowClear={{true}}
               @onChange={{this.selectCategory}}
+              as |option|>
+              {{option.label}}
+            </PowerSelect>
+          </div>
+          <div class="au-o-grid__item au-u-1-5">
+            <AuLabel>
+              Filter op zonality
+            </AuLabel>
+            <PowerSelect
+              @renderInPlace={{true}}
+              @options={{this.zonalityOptions}}
+              @verticalPosition="below"
+              @searchEnabled={{false}}
+              @selected={{this.zonalitySelected}}
+              @allowClear={{true}}
+              @onChange={{this.selectZonality}}
               as |option|>
               {{option.label}}
             </PowerSelect>

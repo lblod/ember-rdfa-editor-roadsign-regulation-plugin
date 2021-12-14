@@ -1,0 +1,26 @@
+<tr class="au-c-data-table__detail">
+  <td colspan="5" class="au-o-flow au-o-flow--small">
+    <AuHeading @level="6" @skin="6">Voeg maatregel in:</AuHeading>
+    <p><AuPill>{{@measure.templateValue}}</AuPill></p>
+    {{#if this.isPotentiallyZonal}}
+      <div class="au-c-form">
+        <ul>
+          <li>
+            <AuControlRadio @label="Zonal" @name="zonal" @value={{this.ZONAL_URI}} @identifier="zonal" {{on 'change' this.changeZonality}} />
+          </li>
+          <li>
+            <AuControlRadio @label="Non Zonal" @name="zonal" @value={{this.NON_ZONAL_URI}} @identifier="non-zonal" {{on 'change' this.changeZonality}} />
+          </li>
+        </ul>
+      </div>
+    {{/if}}
+    <AuButtonGroup>
+      <AuButton {{on 'click' this.insert}} @disabled={{this.insertButtonDisabled}}>
+        Voeg in
+      </AuButton>
+      <AuButton @skin="secondary" {{on "click" this.unselectRow }}>
+        Annuleer
+      </AuButton>
+    </AuButtonGroup>
+  </td>
+</tr>

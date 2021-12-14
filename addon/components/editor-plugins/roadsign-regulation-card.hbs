@@ -6,15 +6,11 @@
     </AuHeading>
   </c.header>
   <c.content>
-    <AuButton {{on "click" (fn this.toggleModal true)}} @icon="plus-text" @iconAlignment="left" @skin="link-secondary">
-      Voeg zonaal mobiliteitsmaatregel in
-    </AuButton>
-
-    <AuButton {{on "click" (fn this.toggleModal false)}} @icon="plus-text" @iconAlignment="left" @skin="link-secondary">
-      Voeg niet zonaal mobiliteitsmaatregel in
+    <AuButton {{on "click" this.toggleModal}} @icon="plus-text" @iconAlignment="left" @skin="link-secondary">
+      Voeg mobiliteitsmaatregel in
     </AuButton>
   </c.content>
 </AuCard>
 
-<RoadsignsModal @modalOpen={{this.modalOpen}} @isZonal={{this.isZonal}} @closeModal={{this.toggleModal}} @controller={{@controller}} @insert={{this.insert}}/>
+<RoadsignsModal @modalOpen={{this.modalOpen}} @closeModal={{this.toggleModal}} @controller={{@controller}} @insert={{this.insert}}/>
 {{/if}}
