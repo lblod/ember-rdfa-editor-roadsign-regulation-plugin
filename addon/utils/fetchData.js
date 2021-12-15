@@ -23,6 +23,7 @@ function generateExpandQuery(uri) {
         ?templateUri ext:value ?templateValue;
           ext:annotated ?templateAnnotated.
         ?signUri skos:definition ?definition;
+          ext:zonality ?signZonality;
           skos:prefLabel ?signCode;
           org:classification ?classification;
           mobiliteit:grafischeWeergave ?image.
@@ -71,6 +72,7 @@ function generateSignsQuery(
         ?relationUri a ext:MustUseRelation ;
         ext:concept ?signUri.
         ?signUri a ${type ? `<${type}>` : '?signType'};
+          ext:zonality ?signZonality;
           skos:definition ?definition;
           skos:prefLabel ?signCode;
           org:classification ${category ? `<${category}>` : '?classification'};
@@ -211,6 +213,7 @@ function parseSignsData(arrayOfUris) {
           image: image,
           uri: binding.signUri.value,
           code: binding.signCode.value,
+          zonality: binding.signZonality.value,
         });
       }
       if (binding.mapping) {

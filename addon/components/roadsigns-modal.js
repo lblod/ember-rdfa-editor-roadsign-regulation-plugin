@@ -7,7 +7,11 @@ import { v4 as uuid } from 'uuid';
 
 import fetchRoadsignsData, { fetchSigns } from '../utils/fetchData';
 import includeInstructions from '../utils/includeInstructions';
-import { ZONAL_URI, NON_ZONAL_URI } from '../utils/constants';
+import {
+  ZONAL_URI,
+  NON_ZONAL_URI,
+  POTENTIALLY_ZONAL_URI,
+} from '../utils/constants';
 
 const PAGE_SIZE = 10;
 const DEBOUNCE_MS = 100;
@@ -125,16 +129,25 @@ export default class RoadsignRegulationCard extends Component {
 
   @action
   insertHtml(row) {
-    console.log(row);
     const instructions = row.instructions;
     const html = includeInstructions(row.templateAnnotated, instructions, true);
     const signsHTML = row.signs
       .map((sign) => {
         const roadSignUri = 'http://data.lblod.info/verkeerstekens/' + uuid();
         return `<li style="margin-bottom:1rem;"><span property="mobiliteit:wordtAangeduidDoor" resource=${roadSignUri} typeof="mobiliteit:Verkeersbord-Verkeersteken">
-        <span property="mobiliteit:heeftVerkeersbordconcept" resource="${sign.uri}" typeof="mobiliteit:Verkeersbordconcept" style="display:flex;align-items:center;">
-          <img property="mobiliteit:grafischeWeergave" src="${sign.image}"  style="width:5rem;margin-right:1rem;margin-left:0;" />
-          <span property="skos:prefLabel" style="margin-left:0;">${sign.code}</span> ${row.zonality === ZONAL_URI ? 'met zonale geldigheid' : ''}
+        <span property="mobiliteit:heeftVerkeersbordconcept" resource="${
+          sign.uri
+        }" typeof="mobiliteit:Verkeersbordconcept" style="display:flex;align-items:center;">
+          <img property="mobiliteit:grafischeWeergave" src="${
+            sign.image
+          }"  style="width:5rem;margin-right:1rem;margin-left:0;" />
+          <span property="skos:prefLabel" style="margin-left:0;">${
+            sign.code
+          }</span> ${
+          sign.zonality === POTENTIALLY_ZONAL_URI && row.zonality === ZONAL_URI
+            ? 'met zonale geldigheid'
+            : ''
+        }
           </span>
         </span>
       </li>`;
@@ -149,7 +162,9 @@ export default class RoadsignRegulationCard extends Component {
           <span style="display:none;" property="prov:wasDerivedFrom" resource="${
             row.measureUri
           }">&nbsp;</span>
-
+          <span style="display:none;" property="ext:zonality" resource="${
+            row.zonality
+          }"></span>
             <div property="dct:description">
               ${html}
               <p>Dit wordt aangeduid door verkeerstekens:</p>
