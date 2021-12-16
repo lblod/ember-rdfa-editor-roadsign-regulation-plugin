@@ -20,7 +20,7 @@ export default class RoadsignRegulationCard extends Component {
 
   @tracked typeOptions = [
     {
-      label: 'Road Sign',
+      label: 'Road Marking',
       value: 'https://data.vlaanderen.be/ns/mobiliteit#Wegmarkeringconcept',
     },
     {
@@ -28,7 +28,7 @@ export default class RoadsignRegulationCard extends Component {
       value: 'https://data.vlaanderen.be/ns/mobiliteit#Verkeerslichtconcept',
     },
     {
-      label: 'Traffic Sign',
+      label: 'Road Sign',
       value: 'https://data.vlaanderen.be/ns/mobiliteit#Verkeersbordconcept',
     },
   ];
