@@ -3,13 +3,14 @@
     <AuHeading @level="6" @skin="6">Voeg maatregel in:</AuHeading>
     <p><AuPill>{{@measure.templateValue}}</AuPill></p>
     {{#if this.isPotentiallyZonal}}
+      <AuHeading @level="6" @skin="6">Selecteer zonale geldigheid:</AuHeading>
       <div class="au-c-form">
         <ul>
           <li>
-            <AuControlRadio @label="Zonal" @name="zonal" @value={{this.ZONAL_URI}} @identifier="zonal" {{on 'change' this.changeZonality}} />
+            <AuControlRadio @label="Zonaal" @name="zonal" @value={{this.ZONAL_URI}} @identifier="zonal" {{on 'change' this.changeZonality}} />
           </li>
           <li>
-            <AuControlRadio @label="Non Zonal" @name="zonal" @value={{this.NON_ZONAL_URI}} @identifier="non-zonal" {{on 'change' this.changeZonality}} />
+            <AuControlRadio @label="Niet zonaal" @name="zonal" @value={{this.NON_ZONAL_URI}} @identifier="non-zonal" {{on 'change' this.changeZonality}} />
           </li>
         </ul>
       </div>

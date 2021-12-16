@@ -20,17 +20,17 @@ export default class RoadsignRegulationCard extends Component {
 
   @tracked typeOptions = [
     {
-      label: 'Road Sign',
+      label: 'Verkeersborden',
+      value: 'https://data.vlaanderen.be/ns/mobiliteit#Verkeersbordconcept',
+    },
+    {
+      label: 'Wegmarkeringen',
       value: 'https://data.vlaanderen.be/ns/mobiliteit#Wegmarkeringconcept',
     },
     {
-      label: 'Traffic Ligth',
+      label: 'Verkeerslichten',
       value: 'https://data.vlaanderen.be/ns/mobiliteit#Verkeerslichtconcept',
-    },
-    {
-      label: 'Traffic Sign',
-      value: 'https://data.vlaanderen.be/ns/mobiliteit#Verkeersbordconcept',
-    },
+    }
   ];
   @tracked typeSelected;
 
@@ -39,11 +39,11 @@ export default class RoadsignRegulationCard extends Component {
 
   @tracked zonalityOptions = [
     {
-      label: 'Zonal',
+      label: 'Zonaal',
       value: ZONAL_URI,
     },
     {
-      label: 'Non Zonal',
+      label: 'Niet zonaal',
       value: NON_ZONAL_URI,
     },
   ];
@@ -141,13 +141,15 @@ export default class RoadsignRegulationCard extends Component {
           <img property="mobiliteit:grafischeWeergave" src="${
             sign.image
           }"  style="width:5rem;margin-right:1rem;margin-left:0;" />
-          <span property="skos:prefLabel" style="margin-left:0;">${
+          <span property="skos:prefLabel" style="padding-bottom:0;margin-left:0;margin-right:.4rem;">${
             sign.code
-          }</span> ${
-          sign.zonality === POTENTIALLY_ZONAL_URI && row.zonality === ZONAL_URI
-            ? 'met zonale geldigheid'
-            : ''
-        }
+          }</span>
+          <span style="margin-left:0;margin-top:0;">${
+            sign.zonality === POTENTIALLY_ZONAL_URI && row.zonality === ZONAL_URI
+              ? 'met zonale geldigheid'
+              : ''
+            }
+          </span>
           </span>
         </span>
       </li>`;
