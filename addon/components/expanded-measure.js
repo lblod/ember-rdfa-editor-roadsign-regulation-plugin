@@ -2,7 +2,11 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
-import { ZONAL_URI, POTENTIALLY_ZONAL_URI, NON_ZONAL_URI } from '../utils/constants';
+import {
+  ZONAL_URI,
+  POTENTIALLY_ZONAL_URI,
+  NON_ZONAL_URI,
+} from '../utils/constants';
 
 export default class ExpandedMeasureComponent extends Component {
   @tracked zonalityValue;

@@ -30,7 +30,7 @@ export default class RoadsignRegulationCard extends Component {
     {
       label: 'Verkeerslichten',
       value: 'https://data.vlaanderen.be/ns/mobiliteit#Verkeerslichtconcept',
-    }
+    },
   ];
   @tracked typeSelected;
 
@@ -145,10 +145,11 @@ export default class RoadsignRegulationCard extends Component {
             sign.code
           }</span>
           <span style="margin-left:0;margin-top:0;">${
-            sign.zonality === POTENTIALLY_ZONAL_URI && row.zonality === ZONAL_URI
+            sign.zonality === POTENTIALLY_ZONAL_URI &&
+            row.zonality === ZONAL_URI
               ? 'met zonale geldigheid'
               : ''
-            }
+          }
           </span>
           </span>
         </span>

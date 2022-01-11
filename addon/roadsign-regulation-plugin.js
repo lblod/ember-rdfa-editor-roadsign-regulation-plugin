@@ -34,7 +34,7 @@ export default class RoadSignRegulationPlugin {
       identifier: 'roadsign-regulation-plugin/card',
       desiredLocation: 'sidebar',
     });
-    controller.onEvent('modelWritten', this.modelWrittenHandler);
+    controller.onEvent('modelWritten', this.modelWrittenHandler.bind(this));
   }
 
   modelWrittenHandler(event) {
