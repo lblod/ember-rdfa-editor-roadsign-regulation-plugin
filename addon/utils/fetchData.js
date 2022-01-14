@@ -1,4 +1,6 @@
 import includeInstructions from './includeInstructions';
+import { POTENTIALLY_ZONAL_URI } from './constants';
+
 function generateExpandQuery(uri) {
   return `
     PREFIX ex: <http://example.org#>
@@ -14,12 +16,14 @@ function generateExpandQuery(uri) {
       <${uri}> a lblodMobilitiet:TrafficMeasureConcept;
       skos:prefLabel ?label;
         ext:template ?templateUri;
+        ext:zonality ?zonality;
         ext:relation ?relationUri.
         ?relationUri a ext:MustUseRelation ;
         ext:concept ?signUri.
         ?templateUri ext:value ?templateValue;
           ext:annotated ?templateAnnotated.
         ?signUri skos:definition ?definition;
+          ext:zonality ?signZonality;
           skos:prefLabel ?signCode;
           org:classification ?classification;
           mobiliteit:grafischeWeergave ?image.
@@ -36,7 +40,14 @@ function generateExpandQuery(uri) {
   `;
 }
 
-function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
+function generateSignsQuery(
+  zonality,
+  type,
+  code,
+  betekenis,
+  category,
+  pageStart = 0
+) {
   const prefixes = `
     PREFIX ex: <http://example.org#>
     PREFIX lblodMobilitiet: <http://data.lblod.info/vocabularies/mobiliteit/>
@@ -56,10 +67,12 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
         ?uri a lblodMobilitiet:TrafficMeasureConcept;
         skos:prefLabel ?label;
         ext:template ?templateUri;
+        ext:zonality ?zonality;
         ext:relation ?relationUri.
         ?relationUri a ext:MustUseRelation ;
         ext:concept ?signUri.
         ?signUri a ${type ? `<${type}>` : '?signType'};
+          ext:zonality ?signZonality;
           skos:definition ?definition;
           skos:prefLabel ?signCode;
           org:classification ${category ? `<${category}>` : '?classification'};
@@ -73,6 +86,11 @@ function generateSignsQuery(type, code, betekenis, category, pageStart = 0) {
             ext:value ?instructionValue.
         }
       }
+    }
+    ${
+      zonality
+        ? `FILTER(?zonality IN (<${zonality}>, <${POTENTIALLY_ZONAL_URI}>))`
+        : ''
     }
     ${
       category ? `<${category}>` : '?classification'
@@ -121,6 +139,7 @@ export default async function fetchData(endpoint) {
 
 export async function fetchSigns(
   endpoint,
+  zonality,
   type,
   code,
   betekenis,
@@ -128,6 +147,7 @@ export async function fetchSigns(
   pageStart
 ) {
   const { selectQuery, countQuery } = generateSignsQuery(
+    zonality,
     type,
     code,
     betekenis,
@@ -163,6 +183,7 @@ function parseSignsData(arrayOfUris) {
     const uri = bindings[0].templateUri.value;
     const dataElement = {
       uri: uri,
+      zonality: bindings[0].zonality.value,
       measureUri: bindings[0].uri.value,
       label: bindings[0].label.value,
       templateValue: bindings[0].templateValue.value,
@@ -192,6 +213,7 @@ function parseSignsData(arrayOfUris) {
           image: image,
           uri: binding.signUri.value,
           code: binding.signCode.value,
+          zonality: binding.signZonality.value,
         });
       }
       if (binding.mapping) {
