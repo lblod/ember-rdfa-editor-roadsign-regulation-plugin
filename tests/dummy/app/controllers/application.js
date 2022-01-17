@@ -14,7 +14,7 @@ export default class ApplicationController extends Controller {
   unloadListener;
   xmlEditor;
   htmlEditor;
-  plugins = ['roadsign-regulation'];
+  plugins = ['roadsign-regulation', 'besluit'];
   controller;
 
   @tracked _editorController;
