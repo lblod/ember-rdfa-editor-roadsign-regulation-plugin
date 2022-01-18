@@ -91,7 +91,7 @@
     "sass": "^1.39.0",
     "webpack": "^5.58.2",
     "xml-formatter": "^2.5.0",
-    "@lblod/ember-rdfa-editor-besluit-plugin": "0.0.2"
+    "@lblod/ember-rdfa-editor-besluit-plugin": "~0.1.0"
   },
   "engines": {
     "node": "10.* || >= 12"
