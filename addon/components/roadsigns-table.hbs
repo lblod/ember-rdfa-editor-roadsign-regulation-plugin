@@ -24,19 +24,19 @@
               </td>
               <td>
                 <div class="au-o-grid au-o-grid--tiny">
-                {{#each row.images as |image|}}
+                {{#each row.signs as |sign|}}
                   <div class="au-o-grid__item au-u-1-3">
-                    <img src={{image}} alt="verkeersteken {{row.label}}" class="au-c-data-table__image" />
+                    <img src={{sign.image}} alt="verkeersteken {{sign.code}}" class="au-c-data-table__image" />
                   </div>
                 {{/each}}
                 </div>
               </td>
               <td>
-                <AuHelpText skin="secondary" class="au-u-margin-none">{{limit-text row.templateValue}}</AuHelpText>
+                <AuHelpText skin="secondary" class="au-u-margin-none"><MeasureTemplate @measure={{row.uri}} @template={{row.template}}/></AuHelpText>
               </td>
               <td>
-                {{#each row.clasiffications as |clasiffication|}}
-                  <AuPill @skin="border">{{clasiffication}}</AuPill>
+                {{#each row.classifications as |classification|}}
+                  <AuPill @skin="border">{{classification}}</AuPill>
                 {{/each}}
               </td>
               <td>

@@ -26,10 +26,9 @@ export default class ExpandedMeasureComponent extends Component {
   @action
   insert() {
     if (this.zonalityValue) {
-      this.args.insert({ ...this.args.measure, zonality: this.zonalityValue });
-    } else {
-      this.args.insert(this.args.measure);
+      this.args.insert(this.args.measure, this.zonalityValue);
     }
+    this.args.insert(this.args.measure);
   }
   @action
   unselectRow() {

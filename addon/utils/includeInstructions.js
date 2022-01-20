@@ -3,7 +3,7 @@ export default function includeInstructions(html, instructions, annotated) {
   for (let instruction of instructions) {
     finalHtml = finalHtml.replaceAll(
       `\${${instruction.name}}`,
-      annotated ? instruction.annotated : instruction.value
+      annotated ? instruction.annotatedTemplate : instruction.template
     );
   }
   return finalHtml;

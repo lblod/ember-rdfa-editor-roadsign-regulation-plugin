@@ -4,8 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { task, restartableTask, timeout } from 'ember-concurrency';
 import { getOwner } from '@ember/application';
 import { v4 as uuid } from 'uuid';
-
-import fetchRoadsignsData, { fetchSigns } from '../utils/fetchData';
+import { inject as service } from '@ember/service';
 import includeInstructions from '../utils/includeInstructions';
 import {
   ZONAL_URI,
@@ -17,6 +16,8 @@ const PAGE_SIZE = 10;
 const DEBOUNCE_MS = 100;
 export default class RoadsignRegulationCard extends Component {
   endpoint;
+
+  @service roadsignRegistry;
 
   @tracked typeOptions = [
     {
@@ -34,7 +35,6 @@ export default class RoadsignRegulationCard extends Component {
   ];
   @tracked typeSelected;
 
-  @tracked categoryOptions = [];
   @tracked categorySelected;
 
   @tracked zonalityOptions = [
@@ -94,13 +94,14 @@ export default class RoadsignRegulationCard extends Component {
     this.zonalitySelected = value;
   }
 
+  get categoryOptions() {
+    this.roadsignRegistry.classifications;
+  }
+
   @task
-  *fetchData() {
-    const { signs, classifications, count } = yield fetchRoadsignsData(
-      this.endpoint
-    );
-    this.tableData = signs;
-    this.categoryOptions = classifications;
+  * fetchData() {
+    const { measures, count } = yield this.roadsignRegistry.fetchMeasures.perform();
+    this.tableData = measures;
     this.count = count;
     if (count <= this.pageEnd) {
       this.pageEnd = count - 1;
@@ -110,16 +111,14 @@ export default class RoadsignRegulationCard extends Component {
 
   @restartableTask
   *refetchSigns() {
-    const { signs, count } = yield fetchSigns(
-      this.endpoint,
-      this.zonalitySelected ? this.zonalitySelected.value : undefined,
-      this.typeSelected ? this.typeSelected.value : undefined,
-      this.codeFilter,
-      this.descriptionFilter,
-      this.categorySelected ? this.categorySelected.value : undefined,
-      this.pageStart
-    );
-    this.tableData = signs;
+    const { measures, count } = yield this.roadsignRegistry.fetchMeasures.perform( {
+      zonality: this.zonalitySelected ? this.zonalitySelected.value : undefined,
+      type: this.typeSelected ? this.typeSelected.value : undefined,
+      code: this.codeFilter,
+      category: this.categorySelected ? this.categorySelected.value : undefined,
+      pageStart: this.pageStart
+    });
+    this.tableData = measures;
     this.count = count;
     if (count <= this.pageEnd) {
       this.pageEnd = count - 1;
@@ -128,10 +127,11 @@ export default class RoadsignRegulationCard extends Component {
   }
 
   @action
-  insertHtml(row) {
-    const instructions = row.instructions;
-    const html = includeInstructions(row.templateAnnotated, instructions, true);
-    const signsHTML = row.signs
+  async insertHtml(measure, zonalityValue = null) {
+    const instructions = await this.roadsignRegistry.fetchInstructionsForMeasure.perform(measure.uri);
+    const zonality = zonalityValue ? zonalityValue : measure.zonality;
+    const html = includeInstructions(measure.annotatedTemplate, instructions, true);
+    const signsHTML = measure.signs
       .map((sign) => {
         const roadSignUri = 'http://data.lblod.info/verkeerstekens/' + uuid();
         return `<li style="margin-bottom:1rem;"><span property="mobiliteit:wordtAangeduidDoor" resource=${roadSignUri} typeof="mobiliteit:Verkeersbord-Verkeersteken">
@@ -146,7 +146,7 @@ export default class RoadsignRegulationCard extends Component {
           }</span>
           <span style="margin-left:0;margin-top:0;">${
             sign.zonality === POTENTIALLY_ZONAL_URI &&
-            row.zonality === ZONAL_URI
+            zonality === ZONAL_URI
               ? 'met zonale geldigheid'
               : ''
           }
@@ -162,10 +162,10 @@ export default class RoadsignRegulationCard extends Component {
       this.args.controller,
       `<div property="mobiliteit:heeftVerkeersmaatregel" typeof="mobiliteit:Mobiliteitsmaatregel" resource="http://data.lblod.info/mobiliteitsmaatregels/${uuid()}">
         <span style="display:none;" property="prov:wasDerivedFrom" resource="${
-          row.measureUri
+          measure.uri
         }">&nbsp;</span>
         <span style="display:none;" property="ext:zonality" resource="${
-          row.zonality
+          measure.zonality
         }"></span>
           <div property="dct:description">
             ${html}
