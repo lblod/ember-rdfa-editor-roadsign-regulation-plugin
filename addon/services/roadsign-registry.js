@@ -1,8 +1,8 @@
 import Service from '@ember/service';
-import {task, restartableTask, waitForProperty} from 'ember-concurrency';
+import { task, restartableTask } from 'ember-concurrency';
 import { tracked } from '@glimmer/tracking';
 import { getOwner } from '@ember/application';
-import {generateMeasuresQuery} from '@lblod/ember-rdfa-editor-roadsign-regulation-plugin/utils/fetchData';
+import { generateMeasuresQuery } from '@lblod/ember-rdfa-editor-roadsign-regulation-plugin/utils/fetchData';
 import Measure from '@lblod/ember-rdfa-editor-roadsign-regulation-plugin/models/measure';
 import Instruction from '@lblod/ember-rdfa-editor-roadsign-regulation-plugin/models/instruction';
 import Sign from '@lblod/ember-rdfa-editor-roadsign-regulation-plugin/models/sign';
@@ -18,7 +18,6 @@ PREFIX org: <http://www.w3.org/ns/org#>
 PREFIX mobiliteit: <https://data.vlaanderen.be/ns/mobiliteit#>
 `;
 
-
 export default class RoadsignRegistryService extends Service {
   @tracked classifications = [];
   instructions = new Map();
@@ -31,7 +30,7 @@ export default class RoadsignRegistryService extends Service {
   }
 
   @task
-  * loadClassifications() {
+  *loadClassifications() {
     const result = yield this.executeQuery.perform(`
     SELECT * WHERE {
       ?classificationUri a mobiliteit:Verkeersbordcategorie;
@@ -46,12 +45,11 @@ export default class RoadsignRegistryService extends Service {
   }
 
   @task
-  * getInstructionsForMeasure(uri) {
+  *getInstructionsForMeasure(uri) {
     if (this.instructions.has(uri)) {
-      console.log("has uri", uri);
+      console.log('has uri', uri);
       return this.instructions.get(uri);
-    }
-    else {
+    } else {
       const instructions = yield this.fetchInstructionsForMeasure.perform(uri);
       console.log('fetched instructions', instructions);
       this.instructions.set(uri, instructions);
@@ -60,7 +58,7 @@ export default class RoadsignRegistryService extends Service {
   }
 
   @task
-  * executeQuery(query) {
+  *executeQuery(query) {
     const encodedQuery = encodeURIComponent(`${PREFIXES}\n${query.trim()}`);
     const response = yield fetch(this.endpoint, {
       method: 'POST',
@@ -81,8 +79,8 @@ export default class RoadsignRegistryService extends Service {
   }
 
   @task
-    * fetchInstructionsForMeasure(uri) {
-      const query = `SELECT ?name ?template ?annotatedTemplate
+  *fetchInstructionsForMeasure(uri) {
+    const query = `SELECT ?name ?template ?annotatedTemplate
            WHERE {
             <${uri}> ext:template/ext:mapping ?mapping.
           ?mapping ext:variableType 'instruction';
@@ -92,22 +90,33 @@ export default class RoadsignRegistryService extends Service {
             ext:value ?template.
 }
 `;
-      const result = yield this.executeQuery.perform(query);
-      const instructions = result.results.bindings.map((binding) => Instruction.fromBinding(binding));
-      return instructions;
+    const result = yield this.executeQuery.perform(query);
+    const instructions = result.results.bindings.map((binding) =>
+      Instruction.fromBinding(binding)
+    );
+    return instructions;
   }
   @restartableTask
-  * fetchMeasures({zonality, type, code, category, pageStart} = {}) {
+  *fetchMeasures({ zonality, type, code, category, pageStart } = {}) {
     const selectQuery = generateMeasuresQuery({
       zonality,
       type,
       code,
       category,
-      pageStart
+      pageStart,
     });
-    const countQuery = generateMeasuresQuery({ zonality, type, code, category, count: true});
+    const countQuery = generateMeasuresQuery({
+      zonality,
+      type,
+      code,
+      category,
+      count: true,
+    });
     const countResult = yield this.executeQuery.perform(countQuery);
-    const count = countResult.results.bindings.length == 1 ? Number(countResult.results.bindings[0].count.value) : 0;
+    const count =
+      countResult.results.bindings.length == 1
+        ? Number(countResult.results.bindings[0].count.value)
+        : 0;
     const measures = [];
     const result = yield this.executeQuery.perform(selectQuery);
     for (const binding of result.results.bindings) {
@@ -120,7 +129,7 @@ export default class RoadsignRegistryService extends Service {
   }
 
   @task
-  * fetchSignsForMeasure(uri) {
+  *fetchSignsForMeasure(uri) {
     const query = `
 SELECT ?uri ?code ?image ?zonality ?order (GROUP_CONCAT(?classification; SEPARATOR="|") AS ?classifications)
 WHERE {
@@ -166,4 +175,4 @@ function sortSet(set) {
     set.add(entry);
   }
   return set;
-};
+}

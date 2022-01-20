@@ -12,7 +12,7 @@ export default class Sign {
     const order = binding.order.value;
     const classifications = binding.classifications.value.split('|');
     const zonality = binding.zonality.value;
-    return new Sign(code, image, classifications, uri, order);
+    return new Sign(code, image, classifications, uri, order, zonality);
   }
 
   constructor(code, image, classifications, uri, order, zonality) {

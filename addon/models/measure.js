@@ -1,6 +1,4 @@
-import {executeQuery} from '@lblod/ember-rdfa-editor-roadsign-regulation-plugin/utils/fetchData';
-import Sign from './sign';
-import {tracked} from '@glimmer/tracking';
+import { tracked } from '@glimmer/tracking';
 
 export default class Measure {
   label;
@@ -16,10 +14,10 @@ export default class Measure {
     const template = binding.basicTemplate.value;
     const annotatedTemplate = binding.annotatedTemplate.value;
     const zonality = binding.zonality.value;
-    return new Measure(uri,label,template, annotatedTemplate, zonality);
+    return new Measure(uri, label, template, annotatedTemplate, zonality);
   }
 
-  constructor(uri,label, template, annotatedTemplate, zonality, signs = null) {
+  constructor(uri, label, template, annotatedTemplate, zonality, signs = null) {
     this.label = label;
     this.uri = uri;
     this.template = template;

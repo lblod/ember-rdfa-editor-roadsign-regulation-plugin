@@ -15,9 +15,16 @@ export default class MeasureTemplateComponent extends Component {
   }
 
   @task
-  * fetchData() {
-    const instructions = yield this.roadsignRegistry.getInstructionsForMeasure.perform(this.args.measure);
-    let template = includeInstructions(this.args.template, instructions, this.args.annotated);
+  *fetchData() {
+    const instructions =
+      yield this.roadsignRegistry.getInstructionsForMeasure.perform(
+        this.args.measure
+      );
+    let template = includeInstructions(
+      this.args.template,
+      instructions,
+      this.args.annotated
+    );
     this.template = template;
   }
 }

@@ -95,12 +95,13 @@ export default class RoadsignRegulationCard extends Component {
   }
 
   get categoryOptions() {
-    this.roadsignRegistry.classifications;
+    return this.roadsignRegistry.classifications;
   }
 
   @task
-  * fetchData() {
-    const { measures, count } = yield this.roadsignRegistry.fetchMeasures.perform();
+  *fetchData() {
+    const { measures, count } =
+      yield this.roadsignRegistry.fetchMeasures.perform();
     this.tableData = measures;
     this.count = count;
     if (count <= this.pageEnd) {
@@ -111,13 +112,18 @@ export default class RoadsignRegulationCard extends Component {
 
   @restartableTask
   *refetchSigns() {
-    const { measures, count } = yield this.roadsignRegistry.fetchMeasures.perform( {
-      zonality: this.zonalitySelected ? this.zonalitySelected.value : undefined,
-      type: this.typeSelected ? this.typeSelected.value : undefined,
-      code: this.codeFilter,
-      category: this.categorySelected ? this.categorySelected.value : undefined,
-      pageStart: this.pageStart
-    });
+    const { measures, count } =
+      yield this.roadsignRegistry.fetchMeasures.perform({
+        zonality: this.zonalitySelected
+          ? this.zonalitySelected.value
+          : undefined,
+        type: this.typeSelected ? this.typeSelected.value : undefined,
+        code: this.codeFilter,
+        category: this.categorySelected
+          ? this.categorySelected.value
+          : undefined,
+        pageStart: this.pageStart,
+      });
     this.tableData = measures;
     this.count = count;
     if (count <= this.pageEnd) {
@@ -128,9 +134,16 @@ export default class RoadsignRegulationCard extends Component {
 
   @action
   async insertHtml(measure, zonalityValue = null) {
-    const instructions = await this.roadsignRegistry.fetchInstructionsForMeasure.perform(measure.uri);
+    const instructions =
+      await this.roadsignRegistry.fetchInstructionsForMeasure.perform(
+        measure.uri
+      );
     const zonality = zonalityValue ? zonalityValue : measure.zonality;
-    const html = includeInstructions(measure.annotatedTemplate, instructions, true);
+    const html = includeInstructions(
+      measure.annotatedTemplate,
+      instructions,
+      true
+    );
     const signsHTML = measure.signs
       .map((sign) => {
         const roadSignUri = 'http://data.lblod.info/verkeerstekens/' + uuid();
@@ -145,8 +158,7 @@ export default class RoadsignRegulationCard extends Component {
             sign.code
           }</span>
           <span style="margin-left:0;margin-top:0;">${
-            sign.zonality === POTENTIALLY_ZONAL_URI &&
-            zonality === ZONAL_URI
+            sign.zonality === POTENTIALLY_ZONAL_URI && zonality === ZONAL_URI
               ? 'met zonale geldigheid'
               : ''
           }
