@@ -1,7 +1,11 @@
 <tr class="au-c-data-table__detail">
   <td colspan="5" class="au-o-flow au-o-flow--small">
     <AuHeading @level="6" @skin="6">Voeg maatregel in:</AuHeading>
-    <p><AuPill>{{@measure.templateValue}}</AuPill></p>
+    <p>
+      <AuPill>
+        <MeasureTemplate @measure={{@measure.uri}} @template={{@measure.template}} />
+      </AuPill>
+    </p>
     {{#if this.isPotentiallyZonal}}
       <AuHeading @level="6" @skin="6">Selecteer zonale geldigheid:</AuHeading>
       <div class="au-c-form">
