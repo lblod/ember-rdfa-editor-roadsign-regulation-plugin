@@ -1,3 +1,7 @@
+## 0.2.2 (2022-01-21)
+performance optimizations
+
+
 ## 0.2.1 (2022-01-18)
 
 #### :rocket: Enhancement
