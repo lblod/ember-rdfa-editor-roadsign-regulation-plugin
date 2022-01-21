@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
-import {tracked} from '@glimmer/tracking';
-import {action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
 export default class RoadsignsPagination extends Component {
   @tracked actualPageStart = 0;
@@ -25,8 +25,7 @@ export default class RoadsignsPagination extends Component {
   get pageEnd() {
     if (this.actualPageEnd > this.args.count) {
       return this.args.count;
-    }
-    else {
+    } else {
       return this.actualPageEnd;
     }
   }
@@ -52,5 +51,4 @@ export default class RoadsignsPagination extends Component {
     this.actualPageEnd = newPageStart + this.args.pageSize;
     this.args.goToPage(newPageStart);
   }
-
 }
