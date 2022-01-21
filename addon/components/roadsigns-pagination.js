@@ -31,9 +31,10 @@ export default class RoadsignsPagination extends Component {
   }
 
   @action
-  onUpdateCount() {
-    this.actualPageStart = 0;
-    this.actualPageEnd = this.args.pageSize;
+  onUpdateCount(_element, params) {
+    const pageStart = params[1];
+    this.actualPageStart = pageStart;
+    this.actualPageEnd = pageStart + this.args.pageSize;
   }
 
   @action
