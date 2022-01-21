@@ -47,11 +47,9 @@ export default class RoadsignRegistryService extends Service {
   @task
   *getInstructionsForMeasure(uri) {
     if (this.instructions.has(uri)) {
-      console.log('has uri', uri);
       return this.instructions.get(uri);
     } else {
       const instructions = yield this.fetchInstructionsForMeasure.perform(uri);
-      console.log('fetched instructions', instructions);
       this.instructions.set(uri, instructions);
       return instructions;
     }

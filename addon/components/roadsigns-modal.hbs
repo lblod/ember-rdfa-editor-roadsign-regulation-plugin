@@ -4,7 +4,7 @@
   @size="large"
   @modalTitle="Mobiliteitsmaatregel toevoegen"
   @modalOpen={{@modalOpen}}
-  @closeModal={{@closeModal}} as |Modal| >
+  @closeModal={{this.closeModal}} as |Modal| >
   <Modal.Body>
     <div class="au-c-body-container">
       <div class="au-o-box au-u-background-gray-100">
@@ -74,12 +74,8 @@
           @isLoading={{or this.fetchData.isRunning this.refetchSigns.isRunning}}
           @insert={{this.insertHtml}}
           @count={{this.count}}
-          @pageStart={{this.pageStart}}
-          @pageEnd={{this.pageEnd}}
-          @hasPreviousPage={{this.hasPreviousPage}}
-          @hasNextPage={{this.hasNextPage}}
-          @goToPreviousPage={{this.goToPreviousPage}}
-          @goToNextPage={{this.goToNextPage}}
+          @goToPage={{this.goToPage}}
+          @pageSize={{this.pageSize}}
         />
       </div>
     </div>

@@ -17,6 +17,7 @@ const DEBOUNCE_MS = 100;
 export default class RoadsignRegulationCard extends Component {
   endpoint;
 
+  pageSize = PAGE_SIZE;
   @service roadsignRegistry;
 
   @tracked typeOptions = [
@@ -55,9 +56,6 @@ export default class RoadsignRegulationCard extends Component {
   @tracked tableData = [];
   @tracked count;
   @tracked pageStart = 0;
-  @tracked pageEnd = PAGE_SIZE - 1;
-  @tracked hasNextPage = true;
-  @tracked hasPreviousPage = false;
 
   constructor() {
     super(...arguments);
@@ -94,6 +92,13 @@ export default class RoadsignRegulationCard extends Component {
     this.zonalitySelected = value;
   }
 
+  @action
+  closeModal() {
+    this.count = null;
+    this.tableData = [];
+    this.args.closeModal();
+  }
+
   get categoryOptions() {
     return this.roadsignRegistry.classifications;
   }
@@ -104,10 +109,6 @@ export default class RoadsignRegulationCard extends Component {
       yield this.roadsignRegistry.fetchMeasures.perform();
     this.tableData = measures;
     this.count = count;
-    if (count <= this.pageEnd) {
-      this.pageEnd = count - 1;
-      this.hasNextPage = false;
-    }
   }
 
   @restartableTask
@@ -126,10 +127,6 @@ export default class RoadsignRegulationCard extends Component {
       });
     this.tableData = measures;
     this.count = count;
-    if (count <= this.pageEnd) {
-      this.pageEnd = count - 1;
-      this.hasNextPage = false;
-    }
   }
 
   @action
@@ -193,37 +190,13 @@ export default class RoadsignRegulationCard extends Component {
   }
 
   @action
-  goToPreviousPage() {
-    this.pageStart = this.pageStart - PAGE_SIZE;
-    this.pageEnd = this.pageStart + (PAGE_SIZE - 1);
-    if (this.pageStart === 0) {
-      this.hasPreviousPage = false;
-    } else {
-      this.hasPreviousPage = true;
-    }
-    this.hasNextPage = true;
-    this.refetchSigns.perform();
-  }
-
-  @action
-  goToNextPage() {
-    this.pageStart = this.pageStart + PAGE_SIZE;
-    if (this.pageStart + (PAGE_SIZE - 1) >= this.count) {
-      this.hasNextPage = false;
-      this.pageEnd = this.count - 1;
-    } else {
-      this.pageEnd = this.pageStart + (PAGE_SIZE - 1);
-      this.hasNextPage = true;
-    }
-    this.hasPreviousPage = true;
+  goToPage(pageStart) {
+    this.pageStart = pageStart;
     this.refetchSigns.perform();
   }
   @action
   search() {
     this.pageStart = 0;
-    this.pageEnd = PAGE_SIZE - 1;
-    this.hasNextPage = true;
-    this.hasPreviousPage = false;
     this.refetchSigns.perform();
   }
 }

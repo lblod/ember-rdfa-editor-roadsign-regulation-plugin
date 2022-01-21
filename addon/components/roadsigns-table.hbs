@@ -60,13 +60,12 @@
     {{/if}}
   </table.content>
 </AuDataTable>
-
+{{log @pageSize}}
+{{#if @count}}
 <RoadsignsPagination
-  @hasPreviousPage={{@hasPreviousPage}}
-  @goToPreviousPage={{@goToPreviousPage}}
-  @hasNextPage={{@hasNextPage}}
-  @goToNextPage={{@goToNextPage}}
-  @pageStart={{@pageStart}}
-  @pageEnd={{@pageEnd}}
+  @goToPage={{@goToPage}}
+  @pageSize={{@pageSize}}
   @count={{@count}}
 />
+{{/if}}
+
