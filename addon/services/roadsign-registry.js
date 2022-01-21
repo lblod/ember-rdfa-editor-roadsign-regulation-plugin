@@ -38,7 +38,7 @@ export default class RoadsignRegistryService extends Service {
     }
 `);
     const bindings = result.results.bindings;
-    return bindings.map((binding) => ({
+    this.classifications = bindings.map((binding) => ({
       value: binding.classificationUri.value,
       label: binding.classificationLabel.value,
     }));
