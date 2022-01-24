@@ -36,7 +36,7 @@ export function generateMeasuresQuery({
 SELECT ${
     count
       ? '(COUNT(DISTINCT(?template)) AS ?count)'
-      : '?uri ?label ?basicTemplate ?annotatedTemplate ?zonality'
+      : '?uri ?label ?basicTemplate ?annotatedTemplate ?zonality ?temporal'
   }
 WHERE {
     ?uri a lblodMobiliteit:TrafficMeasureConcept;
@@ -52,6 +52,9 @@ WHERE {
              skos:prefLabel ?signCode;
              org:classification ?signClassification.
     ${filters.join('\n')}
+  OPTIONAL {
+    ?uri ext:temporal ?temporal.
+  }
 }
 ${count ? '' : `GROUP BY ?uri ?label ?template ?zonality\n ORDER BY ?label`}
 ${pagination}

@@ -19,6 +19,19 @@
         </ul>
       </div>
     {{/if}}
+    {{#if @measure.temporal}}
+      <AuHeading @level="6" @skin="6">Selecteer temporal:</AuHeading>
+      <div class="au-c-form">
+        <ul>
+          <li>
+            <AuControlRadio @label="Temporal" @name="temporal" @value={{true}} @identifier="true" {{on 'change' this.changeTemporality}} />
+          </li>
+          <li>
+            <AuControlRadio @label="Niet temporal" @name="temporal" @value={{false}} @identifier="false" {{on 'change' this.changeTemporality}} />
+          </li>
+        </ul>
+      </div>
+    {{/if}}
     <AuButtonGroup>
       <AuButton {{on 'click' this.insert}} @disabled={{this.insertButtonDisabled}}>
         Voeg in
