@@ -25,6 +25,7 @@ export default class RoadsignRegistryService extends Service {
   constructor() {
     super(...arguments);
     const config = getOwner(this).resolveRegistration('config:environment');
+    this.imageBaseUrl = config.roadsignRegulationPlugin.imageBaseUrl;
     this.endpoint = config.roadsignRegulationPlugin.endpoint;
     this.loadClassifications.perform();
   }
@@ -145,7 +146,10 @@ WHERE {
     const result = yield this.executeQuery.perform(query);
     const signs = [];
     for (const binding of result.results.bindings) {
-      const sign = Sign.fromBinding(binding);
+      const sign = Sign.fromBinding({
+        ...binding,
+        imageBaseUrl: this.imageBaseUrl,
+      });
       signs.push(sign);
     }
     return signs;

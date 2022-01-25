@@ -7,7 +7,8 @@ export default class Sign {
   zonality;
   static fromBinding(binding) {
     const code = binding.code.value;
-    const image = binding.image.value;
+    const image = Sign.processImage(binding.image.value, binding.imageBaseUrl);
+
     const uri = binding.uri.value;
     const order = binding.order.value;
     const classifications = binding.classifications.value.split('|');
@@ -22,5 +23,13 @@ export default class Sign {
     this.uri = uri;
     this.order = order;
     this.zonality = zonality;
+  }
+  static processImage(url, imageBaseUrl) {
+    const isAbsoluteRegex = new RegExp('^(?:[a-z]+:)?//', 'i');
+    if (isAbsoluteRegex.test(url)) {
+      return url;
+    } else {
+      return `${imageBaseUrl}${url}`;
+    }
   }
 }
