@@ -17,7 +17,7 @@ module.exports = function (environment) {
       },
     },
     roadsignRegulationPlugin: {
-      endpoint: 'https://roadsigns.lblod.info/sparql',
+      endpoint: 'https://dev.roadsigns.lblod.info/sparql',
     },
     APP: {
       // Here you can pass flags/options to your application instance

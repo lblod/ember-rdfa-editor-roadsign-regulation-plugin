@@ -130,7 +130,7 @@ export default class RoadsignRegulationCard extends Component {
   }
 
   @action
-  async insertHtml(measure, zonalityValue = null) {
+  async insertHtml(measure, zonalityValue, temporalValue) {
     const instructions =
       await this.roadsignRegistry.fetchInstructionsForMeasure.perform(
         measure.uri
@@ -176,12 +176,16 @@ export default class RoadsignRegulationCard extends Component {
         <span style="display:none;" property="ext:zonality" resource="${
           measure.zonality
         }"></span>
+        <span style="display:none;" property="ext:temporal" value="${
+          measure.temporal
+        }"></span>
           <div property="dct:description">
             ${html}
             <p>Dit wordt aangeduid door verkeerstekens:</p>
             <ul style="list-style:none;">
               ${signsHTML}
             </ul>
+            ${temporalValue === 'true' ? 'Deze signalisatie is dynamisch.' : ''}
           </div>
         </div>
       `
