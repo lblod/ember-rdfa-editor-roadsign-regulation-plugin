@@ -1,4 +1,13 @@
 
+## 0.3.0 (2022-01-25)
+
+#### :rocket: Enhancement
+* [#17](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/17) differentiate between absolute and relative urls and add path accordingly ([@lagartoverde](https://github.com/lagartoverde))
+* [#18](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/18) Added temporal measures to the modal ([@lagartoverde](https://github.com/lagartoverde))
+
+#### Committers: 1
+- Oscar Rodriguez Villalobos ([@lagartoverde](https://github.com/lagartoverde))
+
 ## 0.2.3 (2022-01-21)
 
 #### :bug: Bug Fix
