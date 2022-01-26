@@ -1,10 +1,6 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import xmlFormat from 'xml-formatter';
-import { basicSetup, EditorState, EditorView } from '@codemirror/basic-setup';
-import { xml } from '@codemirror/lang-xml';
-import { html } from '@codemirror/lang-html';
 
 export default class ApplicationController extends Controller {
   plugins = ['roadsign-regulation', 'besluit'];
