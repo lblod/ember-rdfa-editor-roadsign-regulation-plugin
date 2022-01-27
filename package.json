@@ -39,7 +39,7 @@
     "ember-concurrency": "2.x",
     "@appuniversum/appuniversum": "^0.2.1",
     "@appuniversum/ember-appuniversum": "^0.7.0",
-    "@lblod/ember-rdfa-editor": "^0.50.0-beta.5"
+    "@lblod/ember-rdfa-editor": "^0.50.0-beta.6"
   },
   "devDependencies": {
     "@appuniversum/appuniversum": "^0.2.1",
@@ -52,7 +52,7 @@
     "@glimmer/component": "^1.0.3",
     "@glimmer/tracking": "^1.0.3",
     "@lblod/ember-rdfa-editor-besluit-plugin": "~0.1.0",
-    "@lblod/ember-rdfa-editor": "^0.50.0-beta.5",
+    "@lblod/ember-rdfa-editor": "^0.50.0-beta.6",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "ember-cli": "~3.24.0",

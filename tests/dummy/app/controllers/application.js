@@ -1,11 +1,8 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
 
 export default class ApplicationController extends Controller {
   plugins = ['roadsign-regulation', 'besluit'];
-
-  @tracked rdfaEditor;
 
   @action
   rdfaEditorInit(controller) {
@@ -54,8 +51,7 @@ export default class ApplicationController extends Controller {
       <br>
     </div>
    </div>`;
-    this.rdfaEditor = controller;
-    this.rdfaEditor.setHtmlContent(presetContent);
+    controller.setHtmlContent(presetContent);
     const editorDone = new CustomEvent('editor-done');
     window.dispatchEvent(editorDone);
   }
