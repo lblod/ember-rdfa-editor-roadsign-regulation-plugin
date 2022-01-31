@@ -36,7 +36,9 @@
               </td>
               <td>
                 {{#each row.classifications as |classification|}}
-                  <AuPill @skin="border">{{classification}}</AuPill>
+                  {{#if classification}}
+                    <AuPill @skin="border">{{classification}}</AuPill>
+                  {{/if}}
                 {{/each}}
               </td>
               <td>

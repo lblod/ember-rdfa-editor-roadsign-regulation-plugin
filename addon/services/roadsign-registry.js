@@ -138,9 +138,11 @@ WHERE {
             ext:concept ?uri.
   ?uri a ?type;
         skos:prefLabel ?code;
-        org:classification/skos:prefLabel ?classification;
         ext:zonality ?zonality;
         mobiliteit:grafischeWeergave ?image.
+  OPTIONAL {
+    ?uri org:classification/skos:prefLabel ?classification.
+  }
   } ORDER BY ASC(?order)
 `;
     const result = yield this.executeQuery.perform(query);
