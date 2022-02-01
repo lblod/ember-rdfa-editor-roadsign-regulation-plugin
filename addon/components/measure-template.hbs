@@ -1,1 +1,5 @@
-{{limit-text this.template}}
+{{#if @limitText}}
+  {{limit-text this.template}}
+{{else}}
+  {{this.template}}
+{{/if}}

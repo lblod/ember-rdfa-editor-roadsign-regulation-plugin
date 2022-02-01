@@ -32,7 +32,7 @@
                 </div>
               </td>
               <td>
-                <AuHelpText skin="secondary" class="au-u-margin-none"><MeasureTemplate @measure={{row.uri}} @template={{row.template}}/></AuHelpText>
+                <AuHelpText skin="secondary" class="au-u-margin-none"><MeasureTemplate @measure={{row.uri}} @template={{row.template}} @limitText={{true}}/></AuHelpText>
               </td>
               <td>
                 {{#each row.classifications as |classification|}}
