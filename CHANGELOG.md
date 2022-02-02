@@ -1,4 +1,17 @@
 
+## 0.3.1 (2022-02-02)
+
+#### :rocket: Enhancement
+* [#19](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/19) Use editor debug component instead of duplicated code (see GN-3152) ([@benjay10](https://github.com/benjay10))
+
+#### :bug: Bug Fix
+* [#20](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/20) make classification optional ([@lagartoverde](https://github.com/lagartoverde))
+* [#21](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/21) The template text in the expanded measure should not be limited ([@lagartoverde](https://github.com/lagartoverde))
+
+#### Committers: 2
+- Ben ([@benjay10](https://github.com/benjay10))
+- Oscar Rodriguez Villalobos ([@lagartoverde](https://github.com/lagartoverde))
+
 ## 0.3.0 (2022-01-25)
 
 #### :rocket: Enhancement

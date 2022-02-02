@@ -1,6 +1,6 @@
 {
   "name": "@lblod/ember-rdfa-editor-roadsign-regulation-plugin",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "roadsign plugin for ember-rdfa-editor",
   "keywords": [
     "ember-addon",
