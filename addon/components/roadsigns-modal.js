@@ -173,9 +173,7 @@ export default class RoadsignRegulationCard extends Component {
         <span style="display:none;" property="prov:wasDerivedFrom" resource="${
           measure.uri
         }">&nbsp;</span>
-        <span style="display:none;" property="ext:zonality" resource="${
-          measure.zonality
-        }"></span>
+        <span style="display:none;" property="ext:zonality" resource="${zonality}"></span>
         <span style="display:none;" property="ext:temporal" value="${
           measure.temporal
         }"></span>
