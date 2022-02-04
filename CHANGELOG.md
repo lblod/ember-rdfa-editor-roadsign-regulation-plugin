@@ -1,4 +1,14 @@
 
+
+## 0.3.2 (2022-02-04)
+
+#### :bug: Bug Fix
+* [#23](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/23) fix query for traffic lights ([@lagartoverde](https://github.com/lagartoverde))
+* [#22](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/22) Insert selected zonality for potentially zonal measures ([@lagartoverde](https://github.com/lagartoverde))
+
+#### Committers: 1
+- Oscar Rodriguez Villalobos ([@lagartoverde](https://github.com/lagartoverde))
+
 ## 0.3.1 (2022-02-02)
 
 #### :rocket: Enhancement
