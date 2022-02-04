@@ -49,11 +49,12 @@ WHERE {
     ?relationUri a ext:MustUseRelation ;
                  ext:concept ?signUri.
     ?signUri a ?signType;
-             skos:prefLabel ?signCode;
-             org:classification ?signClassification.
+             skos:prefLabel ?signCode.
+            
     ${filters.join('\n')}
   OPTIONAL {
     ?uri ext:temporal ?temporal.
+    ?signUri org:classification ?signClassification.
   }
 }
 ${count ? '' : `GROUP BY ?uri ?label ?template ?zonality\n ORDER BY ?label`}
