@@ -54,6 +54,8 @@ WHERE {
     ${filters.join('\n')}
   OPTIONAL {
     ?uri ext:temporal ?temporal.
+  }
+  OPTIONAL {
     ?signUri org:classification ?signClassification.
   }
 }
