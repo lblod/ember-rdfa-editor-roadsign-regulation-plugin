@@ -1,7 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { task, restartableTask, timeout } from 'ember-concurrency';
+import { task, restartableTask } from 'ember-concurrency';
 import { getOwner } from '@ember/application';
 import { v4 as uuid } from 'uuid';
 import { inject as service } from '@ember/service';
@@ -13,7 +13,6 @@ import {
 } from '../utils/constants';
 
 const PAGE_SIZE = 10;
-const DEBOUNCE_MS = 100;
 export default class RoadsignRegulationCard extends Component {
   endpoint;
 
@@ -50,7 +49,7 @@ export default class RoadsignRegulationCard extends Component {
   ];
   @tracked zonalitySelected;
 
-  @tracked codeFilter = '';
+  @tracked codeFilter;
   @tracked descriptionFilter = '';
 
   @tracked tableData = [];
@@ -70,11 +69,9 @@ export default class RoadsignRegulationCard extends Component {
     this.search();
   }
 
-  @restartableTask
-  *changeCode(e) {
-    this.codeFilter = e.target.value;
-    yield timeout(DEBOUNCE_MS);
-    this.search();
+  @action
+  changeCode(value) {
+    this.codeFilter = value;
   }
 
   @action
@@ -99,6 +96,11 @@ export default class RoadsignRegulationCard extends Component {
     this.args.closeModal();
   }
 
+  @action
+  searchCodes(term) {
+    return this.roadsignRegistry.searchCode.perform(term);
+  }
+
   get categoryOptions() {
     return this.roadsignRegistry.classifications;
   }
@@ -119,7 +121,9 @@ export default class RoadsignRegulationCard extends Component {
           ? this.zonalitySelected.value
           : undefined,
         type: this.typeSelected ? this.typeSelected.value : undefined,
-        code: this.codeFilter,
+        code: this.codeFilter
+          ? this.codeFilter.map((code) => code.value)
+          : undefined,
         category: this.categorySelected
           ? this.categorySelected.value
           : undefined,

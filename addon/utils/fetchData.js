@@ -11,7 +11,15 @@ function buildFilters({ zonality, type, code, category }) {
     filters.push(`FILTER(?signType = <${type}>)`);
   }
   if (code) {
-    filters.push(`FILTER(CONTAINS(LCASE(?label), "${code.toLowerCase()}"))`);
+    filters.push(`
+        ${code
+          .map(
+            (uri) => `
+              ?uri ext:relation/ext:concept <${uri}>.
+            `
+          )
+          .join(' ')}
+    `);
   }
   if (category) {
     filters.push(`FILTER(?signClassification = <${category}>)`);
