@@ -1,6 +1,6 @@
 import { POTENTIALLY_ZONAL_URI } from './constants';
 
-function buildFilters({ zonality, type, code, category }) {
+function buildFilters({ zonality, type, codes, category }) {
   const filters = [];
   if (zonality) {
     filters.push(
@@ -10,9 +10,9 @@ function buildFilters({ zonality, type, code, category }) {
   if (type) {
     filters.push(`FILTER(?signType = <${type}>)`);
   }
-  if (code) {
+  if (codes) {
     filters.push(`
-        ${code
+        ${codes
           .map(
             (uri) => `
               ?uri ext:relation/ext:concept <${uri}>.
@@ -30,12 +30,12 @@ function buildFilters({ zonality, type, code, category }) {
 export function generateMeasuresQuery({
   zonality,
   type,
-  code,
+  codes,
   category,
   pageStart = 0,
   count,
 }) {
-  const filters = buildFilters({ zonality, type, code, category });
+  const filters = buildFilters({ zonality, type, codes, category });
   let pagination = '';
   if (!count) {
     pagination = `LIMIT 10 OFFSET ${pageStart}`;

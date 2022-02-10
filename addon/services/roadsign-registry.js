@@ -1,5 +1,5 @@
 import Service from '@ember/service';
-import { task, restartableTask } from 'ember-concurrency';
+import { task, restartableTask, timeout } from 'ember-concurrency';
 import { tracked } from '@glimmer/tracking';
 import { getOwner } from '@ember/application';
 import { generateMeasuresQuery } from '@lblod/ember-rdfa-editor-roadsign-regulation-plugin/utils/fetchData';
@@ -17,6 +17,8 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX org: <http://www.w3.org/ns/org#>
 PREFIX mobiliteit: <https://data.vlaanderen.be/ns/mobiliteit#>
 `;
+
+const DEBOUNCE_MS = 100;
 
 export default class RoadsignRegistryService extends Service {
   @tracked classifications = [];
@@ -56,8 +58,9 @@ export default class RoadsignRegistryService extends Service {
     }
   }
 
-  @task
+  @restartableTask
   *searchCode(codeString) {
+    yield timeout(DEBOUNCE_MS);
     const query = `
       SELECT ?signUri ?signCode WHERE {
         ?signUri a ?signType;
@@ -118,18 +121,18 @@ export default class RoadsignRegistryService extends Service {
     return instructions;
   }
   @restartableTask
-  *fetchMeasures({ zonality, type, code, category, pageStart } = {}) {
+  *fetchMeasures({ zonality, type, codes, category, pageStart } = {}) {
     const selectQuery = generateMeasuresQuery({
       zonality,
       type,
-      code,
+      codes,
       category,
       pageStart,
     });
     const countQuery = generateMeasuresQuery({
       zonality,
       type,
-      code,
+      codes,
       category,
       count: true,
     });

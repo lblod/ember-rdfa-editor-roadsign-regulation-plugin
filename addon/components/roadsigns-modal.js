@@ -49,7 +49,7 @@ export default class RoadsignRegulationCard extends Component {
   ];
   @tracked zonalitySelected;
 
-  @tracked codeFilter;
+  @tracked codesFilter;
   @tracked descriptionFilter = '';
 
   @tracked tableData = [];
@@ -70,8 +70,8 @@ export default class RoadsignRegulationCard extends Component {
   }
 
   @action
-  changeCode(value) {
-    this.codeFilter = value;
+  changeCodes(value) {
+    this.codesFilter = value;
   }
 
   @action
@@ -121,8 +121,8 @@ export default class RoadsignRegulationCard extends Component {
           ? this.zonalitySelected.value
           : undefined,
         type: this.typeSelected ? this.typeSelected.value : undefined,
-        code: this.codeFilter
-          ? this.codeFilter.map((code) => code.value)
+        codes: this.codesFilter
+          ? this.codesFilter.map((code) => code.value)
           : undefined,
         category: this.categorySelected
           ? this.categorySelected.value
