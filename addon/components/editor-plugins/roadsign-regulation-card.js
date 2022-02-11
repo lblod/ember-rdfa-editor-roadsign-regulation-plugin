@@ -25,7 +25,7 @@ export default class RoadsignRegulationCard extends Component {
 
   constructor() {
     super(...arguments);
-    this.args.controller.onEvent('contentChanged', this.modelWrittenHandler);
+    this.args.controller.onEvent('selectionChanged', this.selectionChanged);
   }
 
   @action
@@ -66,7 +66,7 @@ export default class RoadsignRegulationCard extends Component {
   }
 
   @action
-  modelWrittenHandler() {
+  selectionChanged() {
     const limitedDatastore = this.args.controller.datastore.limitToRange(
       this.args.controller.selection.lastRange,
       'rangeIsInside'
