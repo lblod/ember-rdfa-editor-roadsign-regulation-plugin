@@ -26,8 +26,20 @@
             </PowerSelect>
           </div>
           <div class="au-o-grid__item au-u-1-5">
-            <AuLabel for="input-block">Filter op code</AuLabel>
-            <AuInput id="input-block" @width="block" @icon="search" {{on 'input' (perform this.changeCode)}}/>
+            <AuLabel>
+              Filter op code
+            </AuLabel>
+            <PowerSelectMultiple
+              @renderInPlace={{true}}
+              @verticalPosition="below"
+              @searchEnabled={{true}}
+              @search={{this.searchCodes}}
+              @selected={{this.codesFilter}}
+              @allowClear={{true}}
+              @onChange={{this.changeCodes}}
+              as |option|>
+              {{option.label}}
+            </PowerSelectMultiple>
           </div>
           <div class="au-o-grid__item au-u-1-5">
             <AuLabel>
