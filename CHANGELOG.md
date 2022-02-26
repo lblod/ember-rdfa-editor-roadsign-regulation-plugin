@@ -1,6 +1,23 @@
 
 
 
+
+## 0.4.0 (2022-02-26)
+
+#### :rocket: Enhancement
+* [#26](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/26) Ember upgrade v3.28 ([@benjay10](https://github.com/benjay10))
+
+#### :bug: Bug Fix
+* [#25](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/25) Explicit import debug component ([@benjay10](https://github.com/benjay10))
+
+#### :house: Internal
+* [#27](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/27) Bump editor to 0.50.0 ([@abeforgit](https://github.com/abeforgit))
+
+#### Committers: 2
+- Arne Bertrand ([@abeforgit](https://github.com/abeforgit))
+- Ben ([@benjay10](https://github.com/benjay10))
+
+
 ## 0.3.3 (2022-02-11)
 
 #### :rocket: Enhancement
