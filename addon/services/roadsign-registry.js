@@ -62,9 +62,11 @@ export default class RoadsignRegistryService extends Service {
   *searchCode(codeString) {
     yield timeout(DEBOUNCE_MS);
     const query = `
-      SELECT ?signUri ?signCode WHERE {
+      SELECT DISTINCT ?signUri ?signCode WHERE {
+        ?measure ext:relation/ext:concept ?signUri.
         ?signUri a ?signType;
-          skos:prefLabel ?signCode.
+          skos:prefLabel ?signCode;
+          ext:valid "true"^^<http://mu.semte.ch/vocabularies/typed-literals/boolean>.
         VALUES ?signType {
           <https://data.vlaanderen.be/ns/mobiliteit#Verkeersbordconcept>
           <https://data.vlaanderen.be/ns/mobiliteit#Wegmarkeringconcept>
