@@ -71,7 +71,8 @@ export default class RoadsignRegistryService extends Service {
           <https://data.vlaanderen.be/ns/mobiliteit#Verkeerslichtconcept>
         }
         FILTER(CONTAINS(LCASE(?signCode), "${codeString.toLowerCase()}"))
-      }
+
+      }ORDER BY ASC(?signCode)
     `;
     const result = yield this.executeQuery.perform(query);
     const codes = result.results.bindings.map((binding) => ({
