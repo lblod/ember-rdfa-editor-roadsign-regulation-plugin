@@ -13,7 +13,8 @@ import {
 } from '../utils/constants';
 
 const PAGE_SIZE = 10;
-const SIGN_TYPE_URI = 'https://data.vlaanderen.be/ns/mobiliteit#Verkeersbordconcept'
+const SIGN_TYPE_URI =
+  'https://data.vlaanderen.be/ns/mobiliteit#Verkeersbordconcept';
 export default class RoadsignRegulationCard extends Component {
   endpoint;
 
@@ -59,10 +60,7 @@ export default class RoadsignRegulationCard extends Component {
 
   get isNotTypeSign() {
     if (!this.typeSelected) return true;
-    return (
-      this.typeSelected.value !==
-      'https://data.vlaanderen.be/ns/mobiliteit#Verkeersbordconcept'
-    );
+    return this.typeSelected.value !== SIGN_TYPE_URI;
   }
 
   constructor() {
