@@ -59,18 +59,25 @@ export default class RoadsignRegistryService extends Service {
   }
 
   @restartableTask
-  *searchCode(codeString) {
+  *searchCode(codeString, category, type) {
     yield timeout(DEBOUNCE_MS);
     const query = `
       SELECT DISTINCT ?signUri ?signCode WHERE {
         ?measure ext:relation/ext:concept ?signUri.
-        ?signUri a ?signType;
+        ?signUri a ${type ? `<${type}>` : '?signType'};
           skos:prefLabel ?signCode;
           ext:valid "true"^^<http://mu.semte.ch/vocabularies/typed-literals/boolean>.
-        VALUES ?signType {
-          <https://data.vlaanderen.be/ns/mobiliteit#Verkeersbordconcept>
-          <https://data.vlaanderen.be/ns/mobiliteit#Wegmarkeringconcept>
-          <https://data.vlaanderen.be/ns/mobiliteit#Verkeerslichtconcept>
+        ${category ? `?signUri org:classification <${category}>` : ''}
+        ${
+          type
+            ? ''
+            : `
+          VALUES ?signType {
+            <https://data.vlaanderen.be/ns/mobiliteit#Verkeersbordconcept>
+            <https://data.vlaanderen.be/ns/mobiliteit#Wegmarkeringconcept>
+            <https://data.vlaanderen.be/ns/mobiliteit#Verkeerslichtconcept>
+          }
+        `
         }
         FILTER(CONTAINS(LCASE(?signCode), "${codeString.toLowerCase()}"))
       }
