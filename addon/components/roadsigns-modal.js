@@ -13,6 +13,7 @@ import {
 } from '../utils/constants';
 
 const PAGE_SIZE = 10;
+const SIGN_TYPE_URI = 'https://data.vlaanderen.be/ns/mobiliteit#Verkeersbordconcept'
 export default class RoadsignRegulationCard extends Component {
   endpoint;
 
@@ -22,7 +23,7 @@ export default class RoadsignRegulationCard extends Component {
   @tracked typeOptions = [
     {
       label: 'Verkeersborden',
-      value: 'https://data.vlaanderen.be/ns/mobiliteit#Verkeersbordconcept',
+      value: SIGN_TYPE_URI,
     },
     {
       label: 'Wegmarkeringen',
