@@ -56,6 +56,14 @@ export default class RoadsignRegulationCard extends Component {
   @tracked count;
   @tracked pageStart = 0;
 
+  get isNotTypeSign() {
+    if (!this.typeSelected) return true;
+    return (
+      this.typeSelected.value !==
+      'https://data.vlaanderen.be/ns/mobiliteit#Verkeersbordconcept'
+    );
+  }
+
   constructor() {
     super(...arguments);
     const config = getOwner(this).resolveRegistration('config:environment');
@@ -98,13 +106,11 @@ export default class RoadsignRegulationCard extends Component {
 
   @action
   searchCodes(term) {
-    const category = this.categorySelected ? this.categorySelected.value : undefined;
+    const category = this.categorySelected
+      ? this.categorySelected.value
+      : undefined;
     const type = this.typeSelected ? this.typeSelected.value : undefined;
-    return this.roadsignRegistry.searchCode.perform(
-      term,
-      category,
-      type
-    );
+    return this.roadsignRegistry.searchCode.perform(term, category, type);
   }
 
   get categoryOptions() {

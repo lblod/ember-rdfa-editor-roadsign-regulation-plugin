@@ -43,13 +43,14 @@
           </div>
           <div class="au-o-grid__item au-u-1-5">
             <AuLabel>
-              Filter op categorie
+              Filter op categorie {{this.isTypeSign}}
             </AuLabel>
             <PowerSelect
               @renderInPlace={{true}}
               @options={{this.categoryOptions}}
               @verticalPosition="below"
               @searchEnabled={{true}}
+              @disabled={{this.isNotTypeSign}}
               @selected={{this.categorySelected}}
               @allowClear={{true}}
               @onChange={{this.selectCategory}}
