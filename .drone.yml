@@ -38,3 +38,12 @@ steps:
 trigger:
   event:
     - tag
+---
+kind: secret
+name: npm_access_token
+data: d7368bba-01b6-4fc8-aa34-a4856cb16e28
+---
+kind: signature
+hmac: 382333a475daa4a26b3cab2315b46d2cdf5bfa0bdfbc292dc9eedfe209ddbe65
+
+...
