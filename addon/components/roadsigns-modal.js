@@ -72,21 +72,25 @@ export default class RoadsignRegulationCard extends Component {
   @action
   changeCodes(value) {
     this.codesFilter = value;
+    this.search();
   }
 
   @action
   changeDescription(e) {
     this.descriptionFilter = e.target.value;
+    this.search();
   }
 
   @action
   selectCategory(value) {
     this.categorySelected = value;
+    this.search();
   }
 
   @action
   selectZonality(value) {
     this.zonalitySelected = value;
+    this.search();
   }
 
   @action
