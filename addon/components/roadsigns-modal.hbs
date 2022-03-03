@@ -27,6 +27,23 @@
           </div>
           <div class="au-o-grid__item au-u-1-4">
             <AuLabel>
+              Filter op categorie
+            </AuLabel>
+            <PowerSelect
+              @renderInPlace={{true}}
+                             @options={{this.categoryOptions}}
+              @verticalPosition="below"
+              @searchEnabled={{true}}
+                             @disabled={{this.isNotTypeSign}}
+              @selected={{this.categorySelected}}
+                             @allowClear={{true}}
+              @onChange={{this.selectCategory}}
+                             as |option|>
+              {{option.label}}
+            </PowerSelect>
+          </div>
+          <div class="au-o-grid__item au-u-1-4">
+            <AuLabel>
               Filter op code
             </AuLabel>
             <PowerSelectMultiple
@@ -40,22 +57,6 @@
               as |option|>
               {{option.label}}
             </PowerSelectMultiple>
-          </div>
-          <div class="au-o-grid__item au-u-1-4">
-            <AuLabel>
-              Filter op categorie
-            </AuLabel>
-            <PowerSelect
-              @renderInPlace={{true}}
-              @options={{this.categoryOptions}}
-              @verticalPosition="below"
-              @searchEnabled={{true}}
-              @selected={{this.categorySelected}}
-              @allowClear={{true}}
-              @onChange={{this.selectCategory}}
-              as |option|>
-              {{option.label}}
-            </PowerSelect>
           </div>
           <div class="au-o-grid__item au-u-1-4">
             <AuLabel>
