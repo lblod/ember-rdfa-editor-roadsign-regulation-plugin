@@ -2,6 +2,18 @@
 
 
 
+## 0.5.0 (2022-03-03)
+
+#### :rocket: Enhancement
+* [#30](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/30) Feature/better filters ([@lagartoverde](https://github.com/lagartoverde))
+* [#29](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/29) Feature/automatic search ([@lagartoverde](https://github.com/lagartoverde))
+
+#### :bug: Bug Fix
+* [#28](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/28) Fixed problem where it was requesting the sparql endpoint on each change ([@lagartoverde](https://github.com/lagartoverde))
+
+#### Committers: 1
+- Oscar Rodriguez Villalobos ([@lagartoverde](https://github.com/lagartoverde))
+
 ## 0.4.0 (2022-02-26)
 
 #### :rocket: Enhancement
