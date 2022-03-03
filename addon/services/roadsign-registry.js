@@ -72,7 +72,8 @@ export default class RoadsignRegistryService extends Service {
         }
         FILTER(CONTAINS(LCASE(?signCode), "${codeString.toLowerCase()}"))
 
-      }ORDER BY ASC(?signCode)
+      }
+      ORDER BY ASC(?signCode)
     `;
     const result = yield this.executeQuery.perform(query);
     const codes = result.results.bindings.map((binding) => ({
