@@ -2,6 +2,14 @@
 
 
 
+## 0.5.1 (2022-03-07)
+
+#### :rocket: Enhancement
+* [#31](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/31) filter out classifications that are not linked to a sign with a measure ([@lagartoverde](https://github.com/lagartoverde))
+
+#### Committers: 1
+- Oscar Rodriguez Villalobos ([@lagartoverde](https://github.com/lagartoverde))
+
 ## 0.5.0 (2022-03-03)
 
 #### :rocket: Enhancement
