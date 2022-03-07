@@ -35,7 +35,9 @@ export default class RoadsignRegistryService extends Service {
   @task
   *loadClassifications() {
     const result = yield this.executeQuery.perform(`
-    SELECT * WHERE {
+    SELECT DISTINCT ?classificationUri ?classificationLabel  WHERE {
+      ?measure ext:relation/ext:concept ?signUri.
+      ?signUri org:classification ?classificationUri.
       ?classificationUri a mobiliteit:Verkeersbordcategorie;
         skos:prefLabel ?classificationLabel.
     }
