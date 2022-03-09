@@ -73,6 +73,7 @@ export default class RoadsignRegulationCard extends Component {
   @action
   selectType(value) {
     this.typeSelected = value;
+    this.categorySelected = undefined;
     this.search();
   }
 
