@@ -70,7 +70,7 @@ WHERE {
 ${
   count
     ? ''
-    : `GROUP BY ?uri ?label ?template ?zonality\n ORDER BY strlen(str(?label)) ?label`
+    : `GROUP BY ?uri ?label ?template ?zonality\n ORDER BY ASC(strlen(str(?label))) ASC(?label)`
 }
 ${pagination}
 `;
