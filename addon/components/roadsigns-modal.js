@@ -167,9 +167,6 @@ export default class RoadsignRegulationCard extends Component {
         <span property="mobiliteit:heeftVerkeersbordconcept" resource="${
           sign.uri
         }" typeof="mobiliteit:Verkeersbordconcept" style="display:flex;align-items:center;">
-          <img property="mobiliteit:grafischeWeergave" src="${
-            sign.image
-          }"  style="width:5rem;margin-right:1rem;margin-left:0;" />
           <span property="skos:prefLabel" style="padding-bottom:0;margin-left:0;margin-right:.4rem;">${
             sign.code
           }</span>
