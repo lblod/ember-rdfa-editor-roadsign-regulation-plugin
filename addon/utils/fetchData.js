@@ -67,7 +67,11 @@ WHERE {
     ?signUri org:classification ?signClassification.
   }
 }
-${count ? '' : `GROUP BY ?uri ?label ?template ?zonality\n ORDER BY ?label`}
+${
+  count
+    ? ''
+    : `GROUP BY ?uri ?label ?template ?zonality\n ORDER BY ASC(strlen(str(?label))) ASC(?label)`
+}
 ${pagination}
 `;
   return query;
