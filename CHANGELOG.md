@@ -2,6 +2,18 @@
 
 
 
+## 0.6.0 (2022-03-14)
+
+#### :rocket: Enhancement
+* [#34](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/34) sort on length of label ([@lagartoverde](https://github.com/lagartoverde))
+* [#33](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/33) remove sign images from the inserted html ([@lagartoverde](https://github.com/lagartoverde))
+
+#### :bug: Bug Fix
+* [#32](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/32) reset category filter when the type changes ([@lagartoverde](https://github.com/lagartoverde))
+
+#### Committers: 1
+- Oscar Rodriguez Villalobos ([@lagartoverde](https://github.com/lagartoverde))
+
 ## 0.5.1 (2022-03-07)
 
 #### :rocket: Enhancement
