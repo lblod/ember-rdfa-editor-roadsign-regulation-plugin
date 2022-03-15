@@ -76,6 +76,7 @@ export default class RoadsignRegulationCard extends Component {
   @action
   changeCode(value) {
     this.selectedCode = value;
+    this.selectedCodeCombination = undefined;
     this.search();
   }
 

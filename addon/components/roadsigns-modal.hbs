@@ -53,6 +53,7 @@
               @selected={{this.selectedCodeCombination}}
               @allowClear={{true}}
               @onChange={{this.changeCodeCombination}}
+              @disabled={{(not this.selectedCode)}}
               as |option|>
               {{option.label}}
             </PowerSelectMultiple>
