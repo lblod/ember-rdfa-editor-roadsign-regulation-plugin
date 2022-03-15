@@ -18,7 +18,7 @@
               @options={{this.typeOptions}}
               @verticalPosition="below"
               @searchEnabled={{true}}
-              @selected={{(or this.typeSelected this.categorySelected)}}
+              @selected={{or this.typeSelected this.categorySelected}}
               @allowClear={{true}}
               @onChange={{this.selectTypeOrCategory}}
               as |option|>
@@ -53,7 +53,7 @@
               @selected={{this.selectedCodeCombination}}
               @allowClear={{true}}
               @onChange={{this.changeCodeCombination}}
-              @disabled={{(not this.selectedCode)}}
+              @disabled={{not this.selectedCode}}
               as |option|>
               {{option.label}}
             </PowerSelectMultiple>
