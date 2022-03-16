@@ -63,12 +63,17 @@ export default class RoadsignRegulationCard extends Component {
 
   @action
   selectTypeOrCategory(option) {
-    if (measureTypes.includes(option.value)) {
-      this.typeSelected = option;
+    if (!option) {
+      this.typeSelected = undefined;
       this.categorySelected = undefined;
     } else {
-      this.typeSelected = undefined;
-      this.categorySelected = option;
+      if (measureTypes.includes(option.value)) {
+        this.typeSelected = option;
+        this.categorySelected = undefined;
+      } else {
+        this.typeSelected = undefined;
+        this.categorySelected = option;
+      }
     }
     this.search();
   }
