@@ -75,6 +75,8 @@ export default class RoadsignRegulationCard extends Component {
         this.categorySelected = option;
       }
     }
+    this.selectedCode = undefined;
+    this.selectedCodeCombination = undefined;
     this.search();
   }
 
