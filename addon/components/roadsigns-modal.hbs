@@ -49,12 +49,12 @@
               @renderInPlace={{true}}
               @verticalPosition="below"
               @searchEnabled={{true}}
-              @search={{this.searchCombineCodes}}
               @selected={{this.selectedCodeCombination}}
               @allowClear={{true}}
               @onChange={{this.changeCodeCombination}}
+              @options={{this.codeCombinationOptions}}
               @disabled={{not this.selectedCode}}
-              as |option|>
+            as |option|>
               {{option.label}}
             </PowerSelectMultiple>
           </div>
