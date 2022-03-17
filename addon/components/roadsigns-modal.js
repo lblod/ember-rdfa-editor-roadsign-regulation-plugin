@@ -145,17 +145,6 @@ export default class RoadsignRegulationCard extends Component {
     this.codeCombinationOptions = codes;
   }
 
-  @action
-  searchCombineCodes(term) {
-    const code = this.selectedCode ? this.selectedCode.value : undefined;
-    return this.roadsignRegistry.searchCode.perform(
-      term,
-      undefined,
-      undefined,
-      code
-    );
-  }
-
   get typeOptions() {
     return [
       {
