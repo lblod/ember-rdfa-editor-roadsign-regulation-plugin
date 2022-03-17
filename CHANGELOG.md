@@ -2,6 +2,14 @@
 
 
 
+## 0.7.1 (2022-03-17)
+
+#### :rocket: Enhancement
+* [#36](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/36) list all combinable codes ([@nvdk](https://github.com/nvdk))
+
+#### Committers: 1
+- Niels V ([@nvdk](https://github.com/nvdk))
+
 ## 0.7.0 (2022-03-17)
 
 #### :rocket: Enhancement
