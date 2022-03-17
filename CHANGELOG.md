@@ -2,6 +2,14 @@
 
 
 
+## 0.7.0 (2022-03-17)
+
+#### :rocket: Enhancement
+* [#35](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/35) Feature/optimize regulation search ([@lagartoverde](https://github.com/lagartoverde))
+
+#### Committers: 1
+- Oscar Rodriguez Villalobos ([@lagartoverde](https://github.com/lagartoverde))
+
 ## 0.6.0 (2022-03-14)
 
 #### :rocket: Enhancement
