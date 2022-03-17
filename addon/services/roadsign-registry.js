@@ -61,7 +61,7 @@ export default class RoadsignRegistryService extends Service {
   }
 
   @restartableTask
-  *searchCode(codeString, category, type) {
+  *searchCode(codeString, category, type, combinedSign) {
     yield timeout(DEBOUNCE_MS);
     const query = `
       SELECT DISTINCT ?signUri ?signCode WHERE {
@@ -80,6 +80,14 @@ export default class RoadsignRegistryService extends Service {
             <https://data.vlaanderen.be/ns/mobiliteit#Verkeerslichtconcept>
           }
         `
+        }
+        ${
+          combinedSign
+            ? `
+          ?measure ext:relation/ext:concept <${combinedSign}>.
+          FILTER(?signUri != <${combinedSign}>)
+          `
+            : ''
         }
         FILTER(CONTAINS(LCASE(?signCode), "${codeString.toLowerCase()}"))
 

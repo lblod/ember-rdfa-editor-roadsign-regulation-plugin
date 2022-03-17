@@ -18,27 +18,10 @@
               @options={{this.typeOptions}}
               @verticalPosition="below"
               @searchEnabled={{true}}
-              @selected={{this.typeSelected}}
+              @selected={{or this.typeSelected this.categorySelected}}
               @allowClear={{true}}
-              @onChange={{this.selectType}}
+              @onChange={{this.selectTypeOrCategory}}
               as |option|>
-              {{option.label}}
-            </PowerSelect>
-          </div>
-          <div class="au-o-grid__item au-u-1-4">
-            <AuLabel>
-              Filter op categorie
-            </AuLabel>
-            <PowerSelect
-              @renderInPlace={{true}}
-                             @options={{this.categoryOptions}}
-              @verticalPosition="below"
-              @searchEnabled={{true}}
-                             @disabled={{this.isNotTypeSign}}
-              @selected={{this.categorySelected}}
-                             @allowClear={{true}}
-              @onChange={{this.selectCategory}}
-                             as |option|>
               {{option.label}}
             </PowerSelect>
           </div>
@@ -46,14 +29,31 @@
             <AuLabel>
               Filter op code
             </AuLabel>
-            <PowerSelectMultiple
+            <PowerSelect
               @renderInPlace={{true}}
               @verticalPosition="below"
               @searchEnabled={{true}}
               @search={{this.searchCodes}}
-              @selected={{this.codesFilter}}
+              @selected={{this.selectedCode}}
               @allowClear={{true}}
-              @onChange={{this.changeCodes}}
+              @onChange={{this.changeCode}}
+              as |option|>
+              {{option.label}}
+            </PowerSelect>
+          </div>
+            <div class="au-o-grid__item au-u-1-4">
+            <AuLabel>
+              Combineer met
+            </AuLabel>
+            <PowerSelectMultiple
+              @renderInPlace={{true}}
+              @verticalPosition="below"
+              @searchEnabled={{true}}
+              @search={{this.searchCombineCodes}}
+              @selected={{this.selectedCodeCombination}}
+              @allowClear={{true}}
+              @onChange={{this.changeCodeCombination}}
+              @disabled={{not this.selectedCode}}
               as |option|>
               {{option.label}}
             </PowerSelectMultiple>
