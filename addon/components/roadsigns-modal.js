@@ -131,9 +131,17 @@ export default class RoadsignRegulationCard extends Component {
   async fetchCodeCombinations() {
     let signs = [this.selectedCode.value];
     if (this.selectedCodeCombination) {
-      signs = [this.selectedCode.value, ...this.selectedCodeCombination.map((s) => s.value)];
+      signs = [
+        this.selectedCode.value,
+        ...this.selectedCodeCombination.map((s) => s.value),
+      ];
     }
-    const codes = await this.roadsignRegistry.searchCode.perform(undefined, undefined, undefined, signs);
+    const codes = await this.roadsignRegistry.searchCode.perform(
+      undefined,
+      undefined,
+      undefined,
+      signs
+    );
     this.codeCombinationOptions = codes;
   }
 
