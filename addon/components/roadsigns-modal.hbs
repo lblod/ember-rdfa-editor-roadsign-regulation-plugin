@@ -43,18 +43,19 @@
           </div>
             <div class="au-o-grid__item au-u-1-4">
             <AuLabel>
-              Combineer met
+              Combineer met code
             </AuLabel>
             <PowerSelectMultiple
               @renderInPlace={{true}}
               @verticalPosition="below"
               @searchEnabled={{true}}
-              @search={{this.searchCombineCodes}}
+              @searchField="label"
               @selected={{this.selectedCodeCombination}}
               @allowClear={{true}}
               @onChange={{this.changeCodeCombination}}
+              @options={{this.codeCombinationOptions}}
               @disabled={{not this.selectedCode}}
-              as |option|>
+            as |option|>
               {{option.label}}
             </PowerSelectMultiple>
           </div>

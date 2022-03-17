@@ -61,8 +61,24 @@ export default class RoadsignRegistryService extends Service {
   }
 
   @restartableTask
-  *searchCode(codeString, category, type, combinedSign) {
+  *searchCode(codeString, category, type, combinedSigns) {
     yield timeout(DEBOUNCE_MS);
+    if (!Array.isArray(combinedSigns)) {
+      if (combinedSigns) combinedSigns = [combinedSigns];
+      else combinedSigns = [];
+    }
+    let signFilter = '';
+    if (combinedSigns.length > 0) {
+      signFilter = combinedSigns
+        .map((sign) => `?measure ext:relation/ext:concept <${sign}>.`)
+        .join('\n');
+      signFilter += '\n';
+      const commaSeperatedSigns = combinedSigns
+        .map((sign) => `<${sign}>`)
+        .join(',');
+      signFilter += `FILTER (?signUri NOT IN (${commaSeperatedSigns}))`;
+    }
+
     const query = `
       SELECT DISTINCT ?signUri ?signCode WHERE {
         ?measure ext:relation/ext:concept ?signUri.
@@ -81,16 +97,12 @@ export default class RoadsignRegistryService extends Service {
           }
         `
         }
+        ${signFilter}
         ${
-          combinedSign
-            ? `
-          ?measure ext:relation/ext:concept <${combinedSign}>.
-          FILTER(?signUri != <${combinedSign}>)
-          `
+          codeString
+            ? `FILTER(CONTAINS(LCASE(?signCode), "${codeString.toLowerCase()}"))`
             : ''
         }
-        FILTER(CONTAINS(LCASE(?signCode), "${codeString.toLowerCase()}"))
-
       }
       ORDER BY ASC(?signCode)
     `;

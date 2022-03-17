@@ -44,7 +44,7 @@ export default class RoadsignRegulationCard extends Component {
 
   @tracked selectedCode;
   @tracked selectedCodeCombination;
-
+  @tracked codeCombinationOptions;
   @tracked tableData = [];
   @tracked count;
   @tracked pageStart = 0;
@@ -84,12 +84,14 @@ export default class RoadsignRegulationCard extends Component {
   changeCode(value) {
     this.selectedCode = value;
     this.selectedCodeCombination = undefined;
+    this.fetchCodeCombinations();
     this.search();
   }
 
   @action
   changeCodeCombination(value) {
     this.selectedCodeCombination = value;
+    this.fetchCodeCombinations();
     this.search();
   }
 
@@ -117,7 +119,6 @@ export default class RoadsignRegulationCard extends Component {
     this.tableData = [];
     this.args.closeModal();
   }
-
   @action
   searchCodes(term) {
     const category = this.categorySelected
@@ -127,15 +128,21 @@ export default class RoadsignRegulationCard extends Component {
     return this.roadsignRegistry.searchCode.perform(term, category, type);
   }
 
-  @action
-  searchCombineCodes(term) {
-    const code = this.selectedCode ? this.selectedCode.value : undefined;
-    return this.roadsignRegistry.searchCode.perform(
-      term,
+  async fetchCodeCombinations() {
+    let signs = [this.selectedCode.value];
+    if (this.selectedCodeCombination) {
+      signs = [
+        this.selectedCode.value,
+        ...this.selectedCodeCombination.map((s) => s.value),
+      ];
+    }
+    const codes = await this.roadsignRegistry.searchCode.perform(
       undefined,
       undefined,
-      code
+      undefined,
+      signs
     );
+    this.codeCombinationOptions = codes;
   }
 
   get typeOptions() {
@@ -160,7 +167,7 @@ export default class RoadsignRegulationCard extends Component {
         ],
       },
       {
-        groupName: 'Categories',
+        groupName: 'Categorieën',
         options: this.roadsignRegistry.classifications,
       },
     ];
