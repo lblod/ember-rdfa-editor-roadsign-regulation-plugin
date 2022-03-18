@@ -9,6 +9,12 @@
     <AuButton {{on "click" this.toggleModal}} @icon="plus-text" @iconAlignment="left" @skin="link-secondary">
       Voeg mobiliteitsmaatregel in
     </AuButton>
+    {{#if this.isInsideMeasure}}
+      <br />
+      <AuButton {{on "click" this.insertLocation}} @icon="plus-text" @iconAlignment="left" @skin="link-secondary">
+        Voeg locatie in
+      </AuButton>
+    {{/if}}
   </c.content>
 </AuCard>
 {{/if}}
