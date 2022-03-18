@@ -1,5 +1,4 @@
 <AuModal
-  {{did-insert (perform this.fetchData)}}
   class="au-c-modal--flush"
   @size="large"
   @modalTitle="Mobiliteitsmaatregel toevoegen"
@@ -80,7 +79,7 @@
       <div class="au-c-body-container">
         <RoadsignsTable
           @content={{this.tableData}}
-          @isLoading={{or this.fetchData.isRunning this.refetchSigns.isRunning}}
+          @isLoading={{this.fetchSigns.isRunning}}
           @insert={{this.insertHtml}}
           @count={{this.count}}
           @goToPage={{this.goToPage}}

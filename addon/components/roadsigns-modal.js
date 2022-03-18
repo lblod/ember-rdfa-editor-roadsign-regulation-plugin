@@ -1,7 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { task, restartableTask } from 'ember-concurrency';
+import { restartableTask } from 'ember-concurrency';
 import { getOwner } from '@ember/application';
 import { v4 as uuid } from 'uuid';
 import { inject as service } from '@ember/service';
@@ -58,7 +58,7 @@ export default class RoadsignRegulationCard extends Component {
     super(...arguments);
     const config = getOwner(this).resolveRegistration('config:environment');
     this.endpoint = config.roadsignRegulationPlugin.endpoint;
-    this.fetchData.perform();
+    this.search();
   }
 
   @action
@@ -115,8 +115,6 @@ export default class RoadsignRegulationCard extends Component {
 
   @action
   closeModal() {
-    this.count = null;
-    this.tableData = [];
     this.args.closeModal();
   }
   @action
@@ -173,16 +171,8 @@ export default class RoadsignRegulationCard extends Component {
     ];
   }
 
-  @task
-  *fetchData() {
-    const { measures, count } =
-      yield this.roadsignRegistry.fetchMeasures.perform();
-    this.tableData = measures;
-    this.count = count;
-  }
-
   @restartableTask
-  *refetchSigns() {
+  *fetchSigns() {
     let codes = [];
     if (this.selectedCodeCombination) {
       codes.push(...this.selectedCodeCombination);
@@ -268,11 +258,11 @@ export default class RoadsignRegulationCard extends Component {
   @action
   goToPage(pageStart) {
     this.pageStart = pageStart;
-    this.refetchSigns.perform();
+    this.fetchSigns.perform();
   }
   @action
   search() {
     this.pageStart = 0;
-    this.refetchSigns.perform();
+    this.fetchSigns.perform();
   }
 }
