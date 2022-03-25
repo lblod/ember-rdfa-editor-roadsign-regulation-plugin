@@ -2,6 +2,14 @@
 
 
 
+## 0.7.2 (2022-03-25)
+
+#### :bug: Bug Fix
+* [#37](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/37) Maintain measure data and don't search again on insert ([@lagartoverde](https://github.com/lagartoverde))
+
+#### Committers: 1
+- Oscar Rodriguez Villalobos ([@lagartoverde](https://github.com/lagartoverde))
+
 ## 0.7.1 (2022-03-17)
 
 #### :rocket: Enhancement
