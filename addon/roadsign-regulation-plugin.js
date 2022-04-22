@@ -32,7 +32,7 @@ export default class RoadSignRegulationPlugin {
     controller.registerWidget({
       componentName: 'editor-plugins/roadsign-regulation-card',
       identifier: 'roadsign-regulation-plugin/card',
-      desiredLocation: 'sidebar',
+      desiredLocation: 'insertSidebar',
     });
     controller.onEvent('modelWritten', this.modelWrittenHandler.bind(this));
   }
