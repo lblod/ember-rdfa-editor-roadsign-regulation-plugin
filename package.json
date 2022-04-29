@@ -35,7 +35,7 @@
   "peerDependencies": {
     "ember-concurrency": "2.x",
     "@appuniversum/ember-appuniversum": "^1.0.7",
-    "@lblod/ember-rdfa-editor": "^0.50.0"
+    "@lblod/ember-rdfa-editor": ">=0.55.0"
   },
   "devDependencies": {
     "@appuniversum/ember-appuniversum": "^1.0.7",
@@ -46,8 +46,8 @@
     "@ember/test-helpers": "^2.6.0",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
-    "@lblod/ember-rdfa-editor-besluit-plugin": "~0.2.0",
-    "@lblod/ember-rdfa-editor": "^0.50.0",
+    "@lblod/ember-rdfa-editor-besluit-plugin": "~0.3.0",
+    "@lblod/ember-rdfa-editor": ">=0.57.0",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "ember-auto-import": "^2.4.0",
@@ -67,6 +67,7 @@
     "ember-load-initializers": "^2.1.2",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-page-title": "^6.2.2",
+    "ember-power-select": "^5.0.4",
     "ember-qunit": "^5.1.5",
     "ember-resolver": "^8.0.3",
     "ember-source": "~3.28.8",
