@@ -1,15 +1,12 @@
-{{#if this.showCard}}
-<AuCard @flex={{true}} @divided={{true}} @expandable={{true}} @isOpenInitially={{true}} @shadow={{true}} @size="small" as |c|>
-  <c.header>
-    <AuHeading @level="3" @skin="6">
-      Mobiliteitsmaatregel
-    </AuHeading>
-  </c.header>
-  <c.content>
-    <AuButton {{on "click" this.toggleModal}} @icon="plus-text" @iconAlignment="left" @skin="link-secondary">
-      Voeg mobiliteitsmaatregel in
-    </AuButton>
-  </c.content>
-</AuCard>
-{{/if}}
+<AuList::Item>
+  <AuButton
+    @skin="link"
+    @icon="add"
+    @iconAlignment="left"
+    @disabled={{if this.showCard false true}}
+    {{on "click" this.toggleModal}}
+  >
+    Voeg mobiliteitsmaatregel in
+  </AuButton>
+</AuList::Item>
 <RoadsignsModal @modalOpen={{this.modalOpen}} @closeModal={{this.toggleModal}} @controller={{@controller}} @insert={{this.insert}}/>
