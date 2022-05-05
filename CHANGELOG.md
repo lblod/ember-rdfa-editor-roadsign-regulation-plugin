@@ -2,6 +2,14 @@
 
 
 
+## 0.8.0 (2022-05-05)
+
+#### :boom: Breaking Change
+* [#39](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/39) Feature/widget redesign ([@Asergey91](https://github.com/Asergey91))
+
+#### Committers: 1
+- Sergey Andreev ([@Asergey91](https://github.com/Asergey91))
+
 ## 0.7.2 (2022-03-25)
 
 #### :bug: Bug Fix
