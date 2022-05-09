@@ -9,4 +9,15 @@
     Voeg mobiliteitsmaatregel in
   </AuButton>
 </AuList::Item>
+<AuList::Item>
+  <AuButton
+    @skin="link"
+    @icon="add"
+    @iconAlignment="left"
+    @disabled={{if this.isInsideMeasure false true}}
+    {{on "click" this.insertLocation}} 
+  >
+    Voeg plaatsbepaling in
+  </AuButton>
+</AuList::Item>
 <RoadsignsModal @modalOpen={{this.modalOpen}} @closeModal={{this.toggleModal}} @controller={{@controller}} @insert={{this.insert}}/>

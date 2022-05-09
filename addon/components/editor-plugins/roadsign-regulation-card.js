@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { v4 as uuid } from 'uuid';
 
 /**
  * Card displaying a hint of the Date plugin
@@ -22,6 +23,7 @@ const acceptedTypes = [
 export default class RoadsignRegulationCard extends Component {
   @tracked modalOpen;
   @tracked showCard = false;
+  @tracked isInsideMeasure = false;
 
   constructor() {
     super(...arguments);
@@ -85,8 +87,36 @@ export default class RoadsignRegulationCard extends Component {
     if (besluit) {
       this.showCard = true;
       this.besluitUri = besluit.subject.value;
+      const measure = limitedDatastore
+        .match(
+          null,
+          'a',
+          '>https://data.vlaanderen.be/ns/mobiliteit#Mobiliteitsmaatregel'
+        )
+        .asQuads()
+        .next().value;
+      if (measure) {
+        this.isInsideMeasure = true;
+      } else {
+        this.isInsideMeasure = false;
+      }
     } else {
       this.showCard = false;
+      this.isInsideMeasure = false;
     }
+  }
+  @action
+  insertLocation() {
+    const html = `
+      <span resource="http://data.lblod.info/mappings/${uuid()}" typeof="ext:Mapping">
+        <span property="dct:type" content="location"></span>
+        <span property="ext:content">\${location}</span>
+      </span>
+    `;
+    this.args.controller.executeCommand(
+      'insert-html',
+      html,
+      this.args.controller.selection.lastRange
+    );
   }
 }
