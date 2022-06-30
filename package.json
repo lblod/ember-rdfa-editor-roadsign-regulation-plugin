@@ -90,7 +90,7 @@
     "xml-formatter": "^2.6.1"
   },
   "engines": {
-    "node": "12.* || 14.* || >= 16"
+    "node": "14.* || >= 16"
   },
   "ember": {
     "edition": "octane"
