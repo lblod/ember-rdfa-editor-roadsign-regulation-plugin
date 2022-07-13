@@ -110,7 +110,7 @@ export default class RoadsignRegulationCard extends Component {
     const html = `
       <span resource="http://data.lblod.info/mappings/${uuid()}" typeof="ext:Mapping">
         <span property="dct:type" content="location"></span>
-        <span property="ext:content">\${location}</span>
+        <span property="ext:content">\${locatie}</span>
       </span>
     `;
     this.args.controller.executeCommand(
