@@ -95,7 +95,12 @@ export default class RoadsignRegulationCard extends Component {
         )
         .asQuads()
         .next().value;
-      if (measure) {
+      const mapping = limitedDatastore
+        .match(null, 'a', '>http://mu.semte.ch/vocabularies/ext/Mapping')
+        .asQuads()
+        .next().value;
+      console.log(mapping)
+      if (measure && !mapping) {
         this.isInsideMeasure = true;
       } else {
         this.isInsideMeasure = false;
