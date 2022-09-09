@@ -2,6 +2,19 @@
 
 
 
+
+## 0.9.0 (2022-09-09)
+
+#### :boom: Breaking Change
+* [#44](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/44) chore(deps)!: bump editor to v0.63.1 ([@abeforgit](https://github.com/abeforgit))
+
+#### :house: Internal
+* [#42](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/42) chore(deps): bump editor to v0.62.0 ([@abeforgit](https://github.com/abeforgit))
+
+#### Committers: 1
+- Arne Bertrand ([@abeforgit](https://github.com/abeforgit))
+
+
 ## 0.8.0 (2022-05-05)
 
 #### :boom: Breaking Change
