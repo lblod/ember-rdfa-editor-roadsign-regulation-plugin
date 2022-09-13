@@ -3,6 +3,16 @@
 
 
 
+
+## 0.9.1 (2022-09-13)
+
+#### :house: Internal
+* [#45](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/45) chore(deps): loosen peerdep restriction of editor ([@abeforgit](https://github.com/abeforgit))
+
+#### Committers: 1
+- Arne Bertrand ([@abeforgit](https://github.com/abeforgit))
+
+
 ## 0.9.0 (2022-09-09)
 
 #### :boom: Breaking Change
