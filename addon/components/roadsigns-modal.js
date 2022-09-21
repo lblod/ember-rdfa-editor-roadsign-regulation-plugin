@@ -229,11 +229,9 @@ export default class RoadsignRegulationCard extends Component {
       </li>`;
       })
       .join('\n');
-
-    this.args.controller.executeCommand(
-      'insert-article',
-      this.args.controller,
-      `<div property="mobiliteit:heeftVerkeersmaatregel" typeof="mobiliteit:Mobiliteitsmaatregel" resource="http://data.lblod.info/mobiliteitsmaatregels/${uuid()}">
+    this.args.controller.perform((tr) => {
+      tr.commands.insertArticle({
+        articleContent: `<div property="mobiliteit:heeftVerkeersmaatregel" typeof="mobiliteit:Mobiliteitsmaatregel" resource="http://data.lblod.info/mobiliteitsmaatregels/${uuid()}">
         <span style="display:none;" property="prov:wasDerivedFrom" resource="${
           measure.uri
         }">&nbsp;</span>
@@ -250,8 +248,9 @@ export default class RoadsignRegulationCard extends Component {
             ${temporalValue === 'true' ? 'Deze signalisatie is dynamisch.' : ''}
           </div>
         </div>
-      `
-    );
+        `,
+      });
+    });
     this.args.closeModal();
   }
 

@@ -25,7 +25,9 @@ export default class RoadsignRegulationCard extends Component {
 
   constructor() {
     super(...arguments);
-    this.args.controller.onEvent('selectionChanged', this.selectionChanged);
+    this.args.controller.addTransactionStepListener(
+      this.onTransactionStepUpdate
+    );
   }
 
   @action
@@ -65,28 +67,35 @@ export default class RoadsignRegulationCard extends Component {
     this.args.controller.executeCommand('insert-html', html, range);
   }
 
-  @action
-  selectionChanged() {
-    const limitedDatastore = this.args.controller.datastore.limitToRange(
-      this.args.controller.selection.lastRange,
-      'rangeIsInside'
+  modifiesSelection(steps) {
+    return steps.some(
+      (step) => step.type === 'selection-step' || step.type === 'operation-step'
     );
-    const besluit = limitedDatastore
-      .match(null, 'a')
-      .transformDataset((dataset, termConverter) => {
-        return dataset.filter((quad) =>
-          acceptedTypes
-            .map((type) => termConverter(type).value)
-            .includes(quad.object.value)
-        );
-      })
-      .asQuads()
-      .next().value;
-    if (besluit) {
-      this.showCard = true;
-      this.besluitUri = besluit.subject.value;
-    } else {
-      this.showCard = false;
+  }
+
+  @action
+  onTransactionStepUpdate(transaction, steps) {
+    if (this.modifiesSelection(steps)) {
+      const limitedDatastore = transaction
+        .getCurrentDataStore()
+        .limitToRange(transaction.currentSelection.lastRange, 'rangeIsInside');
+      const besluit = limitedDatastore
+        .match(null, 'a')
+        .transformDataset((dataset, termConverter) => {
+          return dataset.filter((quad) =>
+            acceptedTypes
+              .map((type) => termConverter(type).value)
+              .includes(quad.object.value)
+          );
+        })
+        .asQuads()
+        .next().value;
+      if (besluit) {
+        this.showCard = true;
+        this.besluitUri = besluit.subject.value;
+      } else {
+        this.showCard = false;
+      }
     }
   }
 }
