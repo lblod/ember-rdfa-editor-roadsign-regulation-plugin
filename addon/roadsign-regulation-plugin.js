@@ -34,22 +34,5 @@ export default class RoadSignRegulationPlugin {
       identifier: 'roadsign-regulation-plugin/card',
       desiredLocation: 'insertSidebar',
     });
-    controller.onEvent('modelWritten', this.modelWrittenHandler.bind(this));
-  }
-
-  modelWrittenHandler(event) {
-    if (event.owner !== this.name) {
-      const rangesToHighlight = this.controller.executeCommand(
-        'match-text',
-        this.controller.createFullDocumentRange(),
-        /roadsign/g
-      );
-
-      for (const range of rangesToHighlight) {
-        const selection = this.controller.createSelection();
-        selection.selectRange(range);
-        this.controller.executeCommand('make-highlight', selection, false);
-      }
-    }
   }
 }
