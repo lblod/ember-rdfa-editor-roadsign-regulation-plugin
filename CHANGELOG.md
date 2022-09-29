@@ -5,6 +5,16 @@
 
 
 
+
+## 0.9.3 (2022-09-29)
+
+#### :bug: Bug Fix
+* [#48](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/48) fix(selection-handler): fix cases with empty selection ([@abeforgit](https://github.com/abeforgit))
+
+#### Committers: 1
+- Arne Bertrand ([@abeforgit](https://github.com/abeforgit))
+
+
 ## 0.9.2 (2022-09-28)
 
 #### :bug: Bug Fix
