@@ -7,6 +7,11 @@
 
 
 
+## 1.0.0-alpha.1 (2022-10-07)
+
+Initial support for the new transactional edits (TEDI) editor API.
+
+
 ## 0.9.4 (2022-10-07)
 
 #### :house: Internal
