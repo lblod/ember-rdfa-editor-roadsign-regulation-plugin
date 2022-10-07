@@ -6,6 +6,15 @@
 
 
 
+
+## 0.9.4 (2022-10-07)
+
+#### :house: Internal
+* [#49](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/49) Add release-it packages and release script ([@elpoelma](https://github.com/elpoelma))
+
+#### Committers: 1
+- Elena Poelman ([@elpoelma](https://github.com/elpoelma))
+
 ## 0.9.3 (2022-09-29)
 
 #### :bug: Bug Fix
