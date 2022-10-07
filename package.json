@@ -1,6 +1,6 @@
 {
   "name": "@lblod/ember-rdfa-editor-roadsign-regulation-plugin",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "roadsign plugin for ember-rdfa-editor",
   "keywords": [
     "ember-addon",
@@ -24,7 +24,8 @@
     "start": "ember serve",
     "test": "npm-run-all lint test:*",
     "test:ember": "ember test",
-    "test:ember-compatibility": "ember try:each"
+    "test:ember-compatibility": "ember try:each",
+    "release": "release-it"
   },
   "dependencies": {
     "ember-cli-babel": "^7.26.10",
@@ -45,6 +46,7 @@
     "@glimmer/tracking": "^1.0.4",
     "@lblod/ember-rdfa-editor": "^1.0.0-alpha.3",
     "@lblod/ember-rdfa-editor-besluit-plugin": "^1.0.0-alpha.1",
+    "@release-it-plugins/lerna-changelog": "^5.0.0",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "ember-auto-import": "^2.4.0",
@@ -82,6 +84,7 @@
     "prettier": "^2.5.1",
     "qunit": "^2.17.2",
     "qunit-dom": "^1.6.0",
+    "release-it": "^15.5.0",
     "sass": "^1.49.7",
     "webpack": "^5.69.0"
   },
