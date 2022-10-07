@@ -34,10 +34,15 @@ export default class RoadsignRegulationCard extends Component {
   toggleModal() {
     this.modalOpen = !this.modalOpen;
   }
+
   @action
   insert(html) {
+    const selectedRange = this.args.controller.selection.lastRange;
+    if (!selectedRange) {
+      return;
+    }
     const limitedDatastore = this.args.controller.datastore.limitToRange(
-      this.args.controller.selection.lastRange,
+      selectedRange,
       'rangeIsInside'
     );
     const besluit = limitedDatastore
@@ -75,7 +80,10 @@ export default class RoadsignRegulationCard extends Component {
 
   @action
   onTransactionStepUpdate(transaction, steps) {
-    if (this.modifiesSelection(steps)) {
+    if (
+      this.modifiesSelection(steps) &&
+      transaction.currentSelection.lastRange
+    ) {
       const limitedDatastore = transaction
         .getCurrentDataStore()
         .limitToRange(transaction.currentSelection.lastRange, 'rangeIsInside');
