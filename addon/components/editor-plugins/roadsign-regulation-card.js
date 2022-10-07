@@ -30,6 +30,13 @@ export default class RoadsignRegulationCard extends Component {
     );
   }
 
+  willDestroy() {
+    this.args.controller.removeTransactionStepListener(
+      this.onTransactionStepUpdate
+    );
+    super.willDestroy();
+  }
+
   @action
   toggleModal() {
     this.modalOpen = !this.modalOpen;
@@ -78,8 +85,7 @@ export default class RoadsignRegulationCard extends Component {
     );
   }
 
-  @action
-  onTransactionStepUpdate(transaction, steps) {
+  onTransactionStepUpdate = (transaction, steps) => {
     if (
       this.modifiesSelection(steps) &&
       transaction.currentSelection.lastRange
@@ -105,5 +111,5 @@ export default class RoadsignRegulationCard extends Component {
         this.showCard = false;
       }
     }
-  }
+  };
 }
