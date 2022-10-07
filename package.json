@@ -34,7 +34,7 @@
   },
   "peerDependencies": {
     "@appuniversum/ember-appuniversum": "^1.5.0",
-    "@lblod/ember-rdfa-editor": ">=1.0.0-alpha.2",
+    "@lblod/ember-rdfa-editor": ">=1.0.0-alpha.3",
     "ember-concurrency": "2.x"
   },
   "devDependencies": {
@@ -43,8 +43,8 @@
     "@ember/test-helpers": "^2.6.0",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
-    "@lblod/ember-rdfa-editor": "github:lblod/ember-rdfa-editor#transactional-edits",
-    "@lblod/ember-rdfa-editor-besluit-plugin": "github:lblod/ember-rdfa-editor-besluit-plugin#internal/TEDI_support",
+    "@lblod/ember-rdfa-editor": "^1.0.0-alpha.3",
+    "@lblod/ember-rdfa-editor-besluit-plugin": "^1.0.0-alpha.1",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "ember-auto-import": "^2.4.0",
