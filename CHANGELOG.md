@@ -7,6 +7,15 @@
 
 
 
+
+## 0.9.5 (2022-11-15)
+
+#### :house: Internal
+* [#50](https://github.com/lblod/ember-rdfa-editor-roadsign-regulation-plugin/pull/50) Change ^ to >= for editor dependency ([@elpoelma](https://github.com/elpoelma))
+
+#### Committers: 1
+- Elena Poelman ([@elpoelma](https://github.com/elpoelma))
+
 ## 0.9.4 (2022-10-07)
 
 #### :house: Internal
